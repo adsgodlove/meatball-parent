@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meatball.exuanbao.appraisal.dao.TTestQuestionsMapper">
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.appraisal.model.TTestQuestions">
+    <id column="B_ID" jdbcType="BIGINT" property="bId" />
+    <result column="V_NAME" jdbcType="VARCHAR" property="vName" />
+    <result column="I_TYPE" jdbcType="INTEGER" property="iType" />
+    <result column="V_TYPENAME" jdbcType="VARCHAR" property="vTypename" />
+    <result column="I_MODE" jdbcType="INTEGER" property="iMode" />
+    <result column="V_MODENAME" jdbcType="VARCHAR" property="vModename" />
+    <result column="I_PATTERN" jdbcType="INTEGER" property="iPattern" />
+    <result column="V_PATTERNNAME" jdbcType="VARCHAR" property="vPatternname" />
+    <result column="I_DURATION" jdbcType="INTEGER" property="iDuration" />
+    <result column="I_FREQUENCY" jdbcType="INTEGER" property="iFrequency" />
+    <result column="F_SCORE" jdbcType="REAL" property="fScore" />
+    <result column="I_COUNT" jdbcType="INTEGER" property="iCount" />
+    <result column="V_EXAM_PAPER_DES" jdbcType="VARCHAR" property="vExamPaperDes" />
+    <result column="D_CREATE_TIME" jdbcType="TIMESTAMP" property="dCreateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    B_ID, V_NAME, I_TYPE, V_TYPENAME, I_MODE, V_MODENAME, I_PATTERN, V_PATTERNNAME, I_DURATION, 
+    I_FREQUENCY, F_SCORE, I_COUNT, V_EXAM_PAPER_DES, D_CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_TEST_QUESTIONS
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.appraisal.model.TTestQuestions">
+    insert into T_TEST_QUESTIONS (B_ID, V_NAME, I_TYPE, 
+      V_TYPENAME, I_MODE, V_MODENAME, 
+      I_PATTERN, V_PATTERNNAME, I_DURATION, 
+      I_FREQUENCY, F_SCORE, I_COUNT, 
+      V_EXAM_PAPER_DES, D_CREATE_TIME)
+    values (#{bId,jdbcType=BIGINT}, #{vName,jdbcType=VARCHAR}, #{iType,jdbcType=INTEGER}, 
+      #{vTypename,jdbcType=VARCHAR}, #{iMode,jdbcType=INTEGER}, #{vModename,jdbcType=VARCHAR}, 
+      #{iPattern,jdbcType=INTEGER}, #{vPatternname,jdbcType=VARCHAR}, #{iDuration,jdbcType=INTEGER}, 
+      #{iFrequency,jdbcType=INTEGER}, #{fScore,jdbcType=REAL}, #{iCount,jdbcType=INTEGER}, 
+      #{vExamPaperDes,jdbcType=VARCHAR}, #{dCreateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.appraisal.model.TTestQuestions">
+    insert into T_TEST_QUESTIONS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        B_ID,
+      </if>
+      <if test="vName != null">
+        V_NAME,
+      </if>
+      <if test="iType != null">
+        I_TYPE,
+      </if>
+      <if test="vTypename != null">
+        V_TYPENAME,
+      </if>
+      <if test="iMode != null">
+        I_MODE,
+      </if>
+      <if test="vModename != null">
+        V_MODENAME,
+      </if>
+      <if test="iPattern != null">
+        I_PATTERN,
+      </if>
+      <if test="vPatternname != null">
+        V_PATTERNNAME,
+      </if>
+      <if test="iDuration != null">
+        I_DURATION,
+      </if>
+      <if test="iFrequency != null">
+        I_FREQUENCY,
+      </if>
+      <if test="fScore != null">
+        F_SCORE,
+      </if>
+      <if test="iCount != null">
+        I_COUNT,
+      </if>
+      <if test="vExamPaperDes != null">
+        V_EXAM_PAPER_DES,
+      </if>
+      <if test="dCreateTime != null">
+        D_CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="vName != null">
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null">
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="vTypename != null">
+        #{vTypename,jdbcType=VARCHAR},
+      </if>
+      <if test="iMode != null">
+        #{iMode,jdbcType=INTEGER},
+      </if>
+      <if test="vModename != null">
+        #{vModename,jdbcType=VARCHAR},
+      </if>
+      <if test="iPattern != null">
+        #{iPattern,jdbcType=INTEGER},
+      </if>
+      <if test="vPatternname != null">
+        #{vPatternname,jdbcType=VARCHAR},
+      </if>
+      <if test="iDuration != null">
+        #{iDuration,jdbcType=INTEGER},
+      </if>
+      <if test="iFrequency != null">
+        #{iFrequency,jdbcType=INTEGER},
+      </if>
+      <if test="fScore != null">
+        #{fScore,jdbcType=REAL},
+      </if>
+      <if test="iCount != null">
+        #{iCount,jdbcType=INTEGER},
+      </if>
+      <if test="vExamPaperDes != null">
+        #{vExamPaperDes,jdbcType=VARCHAR},
+      </if>
+      <if test="dCreateTime != null">
+        #{dCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.appraisal.model.TTestQuestions">
+    update T_TEST_QUESTIONS
+    <set>
+      <if test="vName != null">
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null">
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="vTypename != null">
+        V_TYPENAME = #{vTypename,jdbcType=VARCHAR},
+      </if>
+      <if test="iMode != null">
+        I_MODE = #{iMode,jdbcType=INTEGER},
+      </if>
+      <if test="vModename != null">
+        V_MODENAME = #{vModename,jdbcType=VARCHAR},
+      </if>
+      <if test="iPattern != null">
+        I_PATTERN = #{iPattern,jdbcType=INTEGER},
+      </if>
+      <if test="vPatternname != null">
+        V_PATTERNNAME = #{vPatternname,jdbcType=VARCHAR},
+      </if>
+      <if test="iDuration != null">
+        I_DURATION = #{iDuration,jdbcType=INTEGER},
+      </if>
+      <if test="iFrequency != null">
+        I_FREQUENCY = #{iFrequency,jdbcType=INTEGER},
+      </if>
+      <if test="fScore != null">
+        F_SCORE = #{fScore,jdbcType=REAL},
+      </if>
+      <if test="iCount != null">
+        I_COUNT = #{iCount,jdbcType=INTEGER},
+      </if>
+      <if test="vExamPaperDes != null">
+        V_EXAM_PAPER_DES = #{vExamPaperDes,jdbcType=VARCHAR},
+      </if>
+      <if test="dCreateTime != null">
+        D_CREATE_TIME = #{dCreateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.appraisal.model.TTestQuestions">
+    update T_TEST_QUESTIONS
+    set V_NAME = #{vName,jdbcType=VARCHAR},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      V_TYPENAME = #{vTypename,jdbcType=VARCHAR},
+      I_MODE = #{iMode,jdbcType=INTEGER},
+      V_MODENAME = #{vModename,jdbcType=VARCHAR},
+      I_PATTERN = #{iPattern,jdbcType=INTEGER},
+      V_PATTERNNAME = #{vPatternname,jdbcType=VARCHAR},
+      I_DURATION = #{iDuration,jdbcType=INTEGER},
+      I_FREQUENCY = #{iFrequency,jdbcType=INTEGER},
+      F_SCORE = #{fScore,jdbcType=REAL},
+      I_COUNT = #{iCount,jdbcType=INTEGER},
+      V_EXAM_PAPER_DES = #{vExamPaperDes,jdbcType=VARCHAR},
+      D_CREATE_TIME = #{dCreateTime,jdbcType=TIMESTAMP}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询分页列表 -->
+  <select id="findPageList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from T_TEST_QUESTIONS order by D_CREATE_TIME desc
+  </select>
+</mapper>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.personal.dao.AccountMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.personal.model.Account" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="NICKNAME" property="nickname" jdbcType="VARCHAR" />
+    <result column="AVATAR" property="avatar" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PROVINCECODE" property="provincecode" jdbcType="INTEGER" />
+    <result column="PROVINCENAME" property="provincename" jdbcType="VARCHAR" />
+    <result column="CITYCODE" property="citycode" jdbcType="INTEGER" />
+    <result column="CITYNAME" property="cityname" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="PLATFORMID" property="platformid" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="VERIFYCODE" property="verifycode" jdbcType="INTEGER" />
+    <result column="GRADE" property="grade" jdbcType="VARCHAR" />
+    <result column="V_TYPE" property="vType" jdbcType="VARCHAR" />
+    <result column="REGISTEREDTIME" property="registeredtime" jdbcType="TIMESTAMP" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, ACCOUNT, PASSWORD, NAME, NICKNAME, AVATAR, SEX, BIRTHDAY, TELEPHONE, PHONE, 
+    EMAIL, CITYCODE, CITYNAME,PROVINCECODE,PROVINCENAME, ADDRESS, PLATFORMID, STATUS, VERIFYCODE, GRADE, V_TYPE, 
+    REGISTEREDTIME, UPDATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_USER
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_USER
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.personal.model.Account" >
+  <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="bId">
+  		SELECT LAST_INSERT_ID() AS b_id
+  	</selectKey>
+    insert into T_USER (B_ID, ACCOUNT, PASSWORD, 
+      NAME, NICKNAME, AVATAR, 
+      SEX, BIRTHDAY, TELEPHONE, 
+      PHONE, EMAIL, CITYCODE, 
+      CITYNAME, ADDRESS, PLATFORMID, 
+      STATUS, VERIFYCODE, GRADE, 
+      V_TYPE, REGISTEREDTIME, UPDATETIME,PROVINCECODE,PROVINCENAME
+      )
+    values (#{bId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{telephone,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{citycode,jdbcType=INTEGER}, 
+      #{cityname,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{platformid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{verifycode,jdbcType=INTEGER}, #{grade,jdbcType=VARCHAR}, 
+      #{vType,jdbcType=VARCHAR}, #{registeredtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP},
+      #{provincecode,jdbcType=INTEGER}, #{provincename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.personal.model.Account" >
+  <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="bId">
+  		SELECT LAST_INSERT_ID() AS b_id
+  	</selectKey>
+    insert into T_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="account != null" >
+        ACCOUNT,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="nickname != null" >
+        NICKNAME,
+      </if>
+      <if test="avatar != null" >
+        AVATAR,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="citycode != null" >
+        CITYCODE,
+      </if>
+      <if test="cityname != null" >
+        CITYNAME,
+      </if>
+      <if test="provincecode != null" >
+        PROVINCECODE,
+      </if>
+      <if test="provincename != null" >
+        PROVINCENAME,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="platformid != null" >
+        PLATFORMID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="verifycode != null" >
+        VERIFYCODE,
+      </if>
+      <if test="grade != null" >
+        GRADE,
+      </if>
+      <if test="vType != null" >
+        V_TYPE,
+      </if>
+      <if test="registeredtime != null" >
+        REGISTEREDTIME,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        #{citycode,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        #{provincecode,jdbcType=INTEGER},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="platformid != null" >
+        #{platformid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="verifycode != null" >
+        #{verifycode,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="vType != null" >
+        #{vType,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredtime != null" >
+        #{registeredtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.personal.model.Account" >
+    update T_USER
+    <set >
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        NICKNAME = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        AVATAR = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="telephone != null" >
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        CITYCODE = #{citycode,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        CITYNAME = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        PROVINCECODE = #{provincecode,jdbcType=INTEGER},
+      </if>
+      <if test="provincename != null" >
+        PROVINCENAME = #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="platformid != null" >
+        PLATFORMID = #{platformid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="verifycode != null" >
+        VERIFYCODE = #{verifycode,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        GRADE = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="vType != null" >
+        V_TYPE = #{vType,jdbcType=VARCHAR},
+      </if>
+      <if test="registeredtime != null" >
+        REGISTEREDTIME = #{registeredtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.personal.model.Account" >
+    update T_USER
+    set ACCOUNT = #{account,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      NICKNAME = #{nickname,jdbcType=VARCHAR},
+      AVATAR = #{avatar,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      CITYCODE = #{citycode,jdbcType=INTEGER},
+      CITYNAME = #{cityname,jdbcType=VARCHAR},
+      PROVINCECODE = #{provincecode,jdbcType=INTEGER},
+      PROVINCENAME = #{provincename,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      PLATFORMID = #{platformid,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      VERIFYCODE = #{verifycode,jdbcType=INTEGER},
+      GRADE = #{grade,jdbcType=VARCHAR},
+      V_TYPE = #{vType,jdbcType=VARCHAR},
+      REGISTEREDTIME = #{registeredtime,jdbcType=TIMESTAMP},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="selectInfoByPlatformId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_USER
+    where PLATFORMID = #{platformId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectCountByMobile" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select  count(1) from T_USER
+    where PHONE = #{mobile,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.personal.model.Account" >
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_USER
+  	<where>
+  		<if test="name != null and name != ''" >
+        NAME = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null and phone != ''" >
+        and  PHONE = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="vType != null and vType != ''" >
+        and V_TYPE = #{vType,jdbcType=VARCHAR}
+      </if>
+      
+  	</where>
+  </select>
+  
+  
+</mapper>

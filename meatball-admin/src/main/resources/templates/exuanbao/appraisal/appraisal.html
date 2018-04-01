@@ -1,0 +1,438 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-md12">
+			<div class="layui-row">
+				<div class="layui-col-md1">
+					<form class="layui-form" style="float: left;">
+						<button class="layui-btn layui-btn-warm" lay-submit lay-filter="addAppraisalBtn" title="新增">
+							<i class="layui-icon">&#xe61f;</i> 新增试卷
+						</button>
+					</form>
+				</div>
+				<div class="layui-col-md11">
+					<form class="layui-form" id="queryForm" style="float: right;">
+						<div class="layui-inline">
+							<input type="text" name="account" title="名称" placeholder="请输入测评名称" autocomplete="off" class="layui-input">
+					 	</div>
+						<button class="layui-btn" lay-submit lay-filter="query">
+							<i class="layui-icon">&#xe615;</i> 查询
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="layui-md12">
+			<!-- 表格 -->
+			<table id="appraisalTable" lay-filter="appraisalTable"></table>
+		</div>
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationAppraisalBar">
+	<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="addgroup">新增试题分组</a>
+  	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">新增试题</a>
+  	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<!-- 新增试卷 -->
+<script type="text/html" id="appraisalForm">
+<form class="layui-form layui-form-pane">
+	<div class="layui-row">
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">试卷名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="vName" autocomplete="off" placeholder="请输入试卷名称" class="layui-input" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">试题描述</label>
+				<div class="layui-input-block">
+					<textarea name="vExamPaperDes" required lay-verify="required" placeholder="请输入试题描述" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="hidden-attribute">
+				<button class="layui-btn submit" lay-submit="" lay-filter="addAppraisal">新增</button>
+				<button class="layui-btn reset" type="reset">重置</button>
+			</div>
+		</div>
+	</div>
+</form>
+</script>
+<!-- 新增试题分组 -->
+<script type="text/html" id="addGroupForm">
+<form class="layui-form layui-form-pane">
+	<div class="layui-row">
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">分组名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="name" autocomplete="off" placeholder="请输入分组名称" class="layui-input" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">分组描述</label>
+				<div class="layui-input-block">
+					<textarea name="des" placeholder="请输入分组描述" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">测评解析</label>
+				<div class="layui-input-block">
+					<textarea name="appraisalAnalysis" placeholder="请输入分组描述" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">专业推荐</label>
+				<div class="layui-input-block">
+					<input type="text" name="specialtyRecommend" autocomplete="off" placeholder="请输入分组名称" class="layui-input" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">职业推荐</label>
+				<div class="layui-input-block">
+					<input type="text" name="professionRecommend" autocomplete="off" placeholder="请输入分组名称" class="layui-input" lay-verify="required">
+				</div>
+			</div>
+			<div class="hidden-attribute">
+				<input name="qId" value="{{d.bId}}">
+				<button class="layui-btn submit" lay-submit="" lay-filter="addAppraisalGroup">新增</button>
+				<button class="layui-btn reset" type="reset">重置</button>
+			</div>
+		</div>
+	</div>
+</form>
+</script>
+<!-- 新增试题 -->
+<script type="text/html" id="addSubject">
+<form class="layui-form">
+	<div class="layui-row">
+		<div class="layui-col-md12">
+<!-- 			<div class="layui-collapse" lay-accordion lay-filter="test"> -->
+<!-- 				<div class="layui-colla-item"> -->
+<!-- 					<h2 class="layui-colla-title">问题</h2> -->
+<!-- 					<div class="layui-colla-content layui-show"> -->
+						<div class="layui-form-item">
+							<label class="layui-form-label">试题分组</label>
+							<div class="layui-input-block">
+							<select name="bGid">
+								{{# layui.each(d, function(index, item){ }}
+									<option value="{{item.id}}">{{item.name}}</option>
+								{{# }) }}
+							</select>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">试题题目</label>
+							<div class="layui-input-block">
+								<input type="text" name="vQname" autocomplete="off" placeholder="请输入试题题目" class="layui-input" lay-verify="required">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">选择方式</label>
+							<div class="layui-input-block">
+								<input type="radio" name="iType" value="radio" title="单选" checked>
+      							<input type="radio" name="iType" value="checkbox" title="多选">
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">选项一</label>
+								<div class="layui-input-inline">
+									<input type="text" name="vContent" placeholder="请输入选项名称" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+								<div class="layui-input-inline">
+									<input type="text" name="fFraction" placeholder="请输入选项分值" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">选项二</label>
+								<div class="layui-input-inline">
+									<input type="text" name="vContent" placeholder="请输入选项名称" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+								<div class="layui-input-inline">
+									<input type="text" name="fFraction" placeholder="请输入选项分值" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+								<!-- <div class="layui-input-inline" style="width: 100px;">
+									<div class="layui-btn-group">
+										<button class="layui-btn layui-btn-primary layui-btn-sm add-options" style="margin-top: 4px;">
+											<i class="layui-icon">&#xe654;</i>
+										</button>
+										<button class="layui-btn layui-btn-primary layui-btn-sm del-options" style="margin-top: 4px;">
+											<i class="layui-icon">&#xe640;</i>
+										</button>
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">选项三</label>
+								<div class="layui-input-inline">
+									<input type="text" name="vContent" placeholder="请输入选项名称" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+								<div class="layui-input-inline">
+									<input type="text" name="fFraction" placeholder="请输入选项分值" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">选项四</label>
+								<div class="layui-input-inline">
+									<input type="text" name="vContent" placeholder="请输入选项名称" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+								<div class="layui-input-inline">
+									<input type="text" name="fFraction" placeholder="请输入选项分值" autocomplete="off" class="layui-input" lay-verify="required">
+								</div>
+							</div>
+						</div>
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<!-- 操作按钮 -->
+			<div class="hidden-attribute">
+				<button class="layui-btn submit" lay-submit="" lay-filter="addAppraisalTopic">新增</button>
+				<button class="layui-btn reset" type="reset">重置</button>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="layui-form-item">
+		<button class="layui-btn layui-btn-primary layui-btn-fluid" style="margin-top: 3px;width: 100%;" lay-submit lay-filter="addQuestion">
+			<i class="layui-icon">&#xe654;</i>新增问题
+		</button>
+	</div> -->
+</form>
+</script>
+<script type="text/javascript">
+layui.use(['table', 'form', 'jquery', 'laydate', 'laytpl', 'element'], function() {
+	var table = layui.table, $ = layui.jquery, form = layui.form, laytpl = layui.laytpl, layerIndex = 1,
+		element = layui.element;
+	
+	// 绘制表格
+	table.render({
+// 		id: 'userTable',
+		elem: '#appraisalTable',
+		url: '/exuanbao/appraisal/table',
+		page: true, // 开始分页
+		// cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'checkbox'},
+			{type: 'numbers', title: '序号'},
+			{field:'vName', title: '试卷名称', sort: true},
+			{field:'vExamPaperDes', title: '试卷描述'},
+			{field:'dCreateTimeVo', title: '创建时间'},
+			{field:'status', title: '状态', align:'center', templet: '#status'},
+			{fixed: 'right', align:'center', width: 350, toolbar: '#operationAppraisalBar'}
+		]]
+	});
+	//监听工具条
+	table.on('tool(appraisalTable)', function(obj) {
+		var $this = $(this), data = obj.data;
+		if(obj.event === 'addgroup') {
+			laytpl(addGroupForm.innerHTML).render(data, function(html) {
+				popupAppraisalWin($this.text(), html, true);
+			});
+			rendering();
+		}else if(obj.event === 'add') {
+			$.get('/exuanbao/appraisal/group/' + data.bId,function(res) {
+				laytpl(addSubject.innerHTML).render(res, function(html) {
+					popupAppraisalWin($this.text(), html, true);
+				});
+				rendering();
+			})
+		} else if(obj.event === 'detail') {
+			$.get('/exuanbao/appraisal/' + data.bId, function(res) {
+				if(res.code == 403) {
+					layer.msg(res.message, {icon: 4});
+				} else {
+					laytpl(getView).render(res, function(html) {
+						popupAppraisalWin($this.text(), html, false);
+					})
+				}
+			})
+		} else if(obj.event === 'del') {
+			layer.confirm('真的删除行么', {icon: 3}, function(index) {
+				popupAppraisalWin('DELETE', {'id': data.id}, false, obj);
+				layer.close(index);
+			});
+		} else if(obj.event === 'edit') {
+			$.get('/system/user/' + data.id, function(res) {
+				if(res.status == 403) {
+					layer.msg(res.message, {icon: 4});
+				} else {
+					res.allRoles = allRoles;
+					laytpl(getEdit).render(res, function(html) {
+						popupAppraisalWin($this.text(), html, true);
+					});
+					rendering();
+				}
+			})
+		}
+	})
+	
+	// 新增
+	form.on('submit(addAppraisalBtn)', function(data) {
+		var $this = $(this);
+		laytpl(appraisalForm.innerHTML).render(data, function(html) {
+			popupAppraisalWin($this.attr('title'), html, true);
+		});
+		rendering();
+		return false;
+	})
+	
+	// 新增试卷
+	form.on('submit(addAppraisal)', function(data) {
+		operateAppraisal('POST', data.field, true);
+		return false;
+	})
+	
+	// 新增分组
+	form.on('submit(addAppraisalGroup)', function(data) {
+		$.post('/exuanbao/appraisal/group/', data.field, function(res) {
+			if(res.code == 200) {
+				layer.close(layerIndex);
+				layer.msg(res.message, {icon: 1});
+			}
+		})
+		return false;
+	})
+	
+	// 添加选项
+	$('.add-options').delegate('form .add-options','click', function(data) {
+		$(this).hide();
+		console.log(111111);
+		return false;
+	})
+	
+	// 新增题目
+	form.on('submit(addQuestion)', function(data) {
+		console.log(11111);
+		return false;
+	})
+	
+	// 保存试题
+	var datas = new Array()
+	form.on('submit(addAppraisalTopic)', function(e) {
+		fabricationData(e);
+		$.post('/exuanbao/appraisal/topic/', {record: JSON.stringify(datas)}, function(res) {
+			if(res.code == 200) {
+				layer.close(layerIndex);
+				layer.msg(res.message, {icon: 1});
+			}
+		})
+		return false;
+	})
+	
+	function fabricationData(e) {
+		var data = new Object(), options = new Array();
+		// 取出form值
+		var formdata = $(e.form).serializeArray();
+		console.log(formdata);
+		var option = new Object();
+		$.each(formdata, function(i, d) {
+			if(i < 3) {
+				data[d.name] = d.value;
+			} else if(i > 2) {
+				option[d.name] = d.value;
+				if(i % 2 == 0) {
+					options.push(option);
+					option = new Object();
+				}
+			}
+		})
+		data.options = options;
+		console.log(data);
+		datas.push(data);
+	}
+	
+	// 用户操作
+	// ajaxType 请求类型
+	// data 参数
+	// refresh 是否刷新
+	// 删除操作时传入的当前行对象
+	function operateAppraisal(ajaxType, data, refresh, delRow) {
+		var url = '/exuanbao/appraisal/';
+		if(ajaxType == 'DELETE') {
+			url = '/system/user/' + data.id;
+		}
+		$.ajax({
+			url: url,
+		    type: ajaxType,
+		    async: true,
+		    data: data,
+		    success: function(res) {
+		    	if(res.code == 200) {
+					layer.close(layerIndex);
+					if(refresh) {
+		    			table.reload('appraisalTable');
+					} else if(ajaxType == 'DELETE') {
+						delRow.del();
+					}
+		    		if(data.resetPwd) {
+		    			layer.alert(res.message, {icon: 6});
+		    		} else {
+						layer.msg(res.message, {icon: 1});
+		    		}
+		    	}  else if(res.code == 403) {
+		    		layer.msg(res.message, {icon: 4});
+		    	} else {
+		    		layer.msg(res.message, {icon: 5});
+		    	}
+		    }
+		})
+	}
+	
+	//渲染弹框
+	function popupAppraisalWin(title, content, showBtn) {
+		layerIndex = layer.open({
+			id: 'meatball',
+			type: 1, //Page层类型
+			area: '700px', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			content: content,
+			btn: showBtn ? ['<i class="layui-icon">&#xe61f;</i> 提交', '<i class="layui-icon">&#x1002;</i> 重置'] : '',
+			yes: function(index, layero) {
+				layero.find('form .submit').trigger('click');
+				return false;
+			},
+			btn2: function(index, layero) {
+				layero.find('form .reset').trigger('click');
+				return false;
+			},
+			end: function() {
+				datas = [];
+			}
+		});
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		// 渲染select
+		form.render('select');
+		// 重新渲染多选框
+		form.render('radio');
+		// 初始化折叠面板
+		element.render('collapse');
+	}
+})
+</script>

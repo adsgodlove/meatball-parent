@@ -1,0 +1,367 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-md12">
+			<div class="layui-row">
+				<div class="layui-col-md1">
+					<form class="layui-form" style="float: left;">
+						<button class="layui-btn layui-btn-warm" lay-submit lay-filter="addDatadicInfo" title="新增">
+							<i class="layui-icon">&#xe61f;</i> 新增
+						</button>
+					</form>
+				</div>
+				<div class="layui-col-md11">
+					<form class="layui-form" id="datadicQueryForm" style="float: right;">
+						<div class="layui-inline">
+							<input type="text" name="vName" title="名称" placeholder="名称" autocomplete="off" class="layui-input">
+					 	</div>
+					 	
+						<button class="layui-btn" lay-submit lay-filter="datadicQuery">
+							<i class="layui-icon">&#xe615;</i> 查询
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="layui-md12">
+			<!-- 表格 -->
+			<table id="datadicTable" lay-filter="datadicTable"></table>
+		</div>
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationDatadicBar">
+<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>   
+</script>
+ 
+
+<!-- 详情 -->
+<script type="text/html" id="viewDatadic">
+<table class="layui-table" style="width: 880px; margin: 5px 10px 10px 10px;">
+	<tr>
+		<td width="20%" class="table-td-title">id</td>
+		<td width="30%" >{{d.bId}}</td>
+		<td width="20%" class="table-td-title">编号</td>
+		<td width="30%" >{{d.vCode}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">类型</td>
+		<td >{{d.vType}}</td>
+		<td class="table-td-title">名称</td>
+		<td >{{d.vName}}</td>
+	</tr>
+	<tr>
+		
+		<td class="table-td-title">排序号</td>
+		<td >{{d.iSort}}</td>
+		<td class="table-td-title">父级id</td>
+		<td >{{d.vPid}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">属性值</td>
+		<td colspan="3" >{{d.vValue}}</td>
+	</tr>
+</table>
+<br>
+</script>
+
+ <!-- 新增 -->
+<script type="text/html" id="addDatadic">
+<form class="layui-form layui-form-pane">
+<div class="layui-row">
+	<div class="layui-col-md4">
+		<div class="layui-form-item">
+			<label class="layui-form-label">编号</label>
+			<div class="layui-input-block">
+				<input type="text" name="vCode" maxlength="30" autocomplete="off" placeholder="请输入编号" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md4">
+		<div class="layui-form-item">
+			<label class="layui-form-label">类型</label>
+			<div class="layui-input-block">
+				<input type="text" name="vType" maxlength="30" autocomplete="off" placeholder="请输入类型" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+	</div>			
+	<div class="layui-col-md4">
+		<div class="layui-form-item">
+			<label class="layui-form-label">名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="vName" maxlength="30" autocomplete="off" placeholder="请输入名称" class="layui-input" lay-verify="required">
+			</div>
+		</div>
+	</div> 
+	 <div class="layui-col-md6">
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序号</label>
+			<div class="layui-input-block">
+				<input type="text" name="iSort" maxlength="30" autocomplete="off" placeholder="请输入排序号" class="layui-input">
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md6">
+		<div class="layui-form-item">
+			<label class="layui-form-label">父级id</label>
+			<div class="layui-input-block">
+				<input type="text" name="vPid" maxlength="30" autocomplete="off" placeholder="请输入父级id" class="layui-input">
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md12">
+		<div class="layui-form-item">
+			<label class="layui-form-label">属性值</label>
+			<div class="layui-input-block">
+				<textarea name="vValue"  autocomplete="off" placeholder="请输入属性值" class="layui-textarea"></textarea>
+			</div>
+		</div>
+		<div class="hidden-attribute">
+			<button class="layui-btn submit" lay-submit="" lay-filter="addDatadicBtn">新增</button>
+			<button class="layui-btn reset" type="reset">重置</button>
+		</div>
+	</div>
+	
+</div>	 
+</form>
+
+</script> 
+ 
+ <!-- 编辑 --> 
+<script type="text/html" id="modDatadic">
+<form class="layui-form layui-form-pane">
+<div class="layui-row">
+	<input class="hidden-attribute" name="bId" value="{{d.bId}}">
+	<div class="layui-col-md4">
+		<div class="layui-form-item">
+			<label class="layui-form-label">编号</label>
+			<div class="layui-input-block">
+				<input type="text" name="vCode" maxlength="30" autocomplete="off"
+						 placeholder="请输入编号" class="layui-input" lay-verify="required" value="{{d.vCode}}">
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md4">
+		<div class="layui-form-item">
+			<label class="layui-form-label">类型</label>
+			<div class="layui-input-block">
+				<input type="text" name="vType" maxlength="30" autocomplete="off" 
+						placeholder="请输入类型" class="layui-input" lay-verify="required" value="{{d.vType}}">
+			</div>
+		</div>
+	</div>			
+	<div class="layui-col-md4">
+		<div class="layui-form-item">
+			<label class="layui-form-label">名称</label>
+			<div class="layui-input-block">
+				<input type="text" name="vName" maxlength="30" autocomplete="off" 
+							placeholder="请输入名称" class="layui-input" lay-verify="required" value="{{d.vName}}">
+			</div>
+		</div>
+	</div> 
+	 <div class="layui-col-md6">
+		<div class="layui-form-item">
+			<label class="layui-form-label">排序号</label>
+			<div class="layui-input-block">
+				<input type="text" name="iSort" maxlength="30" autocomplete="off" placeholder="请输入排序号" class="layui-input" value="{{d.iSort}}">
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md6">
+		<div class="layui-form-item">
+			<label class="layui-form-label">父级id</label>
+			<div class="layui-input-block">
+				<input type="text" name="vPid" maxlength="30" autocomplete="off" placeholder="请输入父级id" class="layui-input" value="{{d.vPid}}">
+			</div>
+		</div>
+	</div>
+	<div class="layui-col-md12">
+		<div class="layui-form-item">
+			<label class="layui-form-label">属性值</label>
+			<div class="layui-input-block">
+				<textarea name="vValue"  autocomplete="off" placeholder="请输入属性值" class="layui-textarea" >{{d.vValue}}</textarea>
+			</div>
+		</div>
+		<div class="hidden-attribute">
+			<button class="layui-btn submit" lay-submit="" lay-filter="modDatadicBtn">编辑</button>
+			<button class="layui-btn reset" type="reset">重置</button>
+		</div>
+	</div>
+	
+</div>	 
+</form>
+ 
+</script>  
+  
+<!-- javascript -->
+<script type="text/javascript">
+layui.use(['form', 'layedit', 'jquery', 'table','util'], function() {
+	var form = layui.form, 
+	ajaxType = 'POST', 
+	layer = layui.layer, 
+	$ = layui.jquery, 
+	table = layui.table,
+	laytpl = layui.laytpl, 
+	layerIndex = 0,
+	$datadicQueryForm = $('#datadicQueryForm');
+ 
+	// 绘制表格
+	table.render({
+		elem: '#datadicTable',
+		url: '/exuanbao/datadic/listParams',
+		page: true, // 开始分页
+		cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'numbers', title: '序号'},
+			{field:'bId', title: 'id'},
+			{field:'vCode', title: '编号'},
+			{field:'vType', title: '类型'},
+			{field:'vName', title: '名称'},
+			{fixed: 'right', align:'left', title: '操作',  width: 250, toolbar: '#operationDatadicBar'}
+		]]
+	});
+	//监听工具条
+	table.on('tool(datadicTable)', function(obj) {
+		var data = obj.data, 
+		$this = $(this), 
+		getView = viewDatadic.innerHTML;
+		getEdit = modDatadic.innerHTML;
+		
+		if(obj.event === 'detail') {
+			$.get('/exuanbao/datadic/info?bId=' + data.bId, function(res) {
+				laytpl(getView).render(res, function(html) {
+					popupWin('详情', html, false);
+				})
+			})
+		} else if(obj.event === 'delete') {
+			layer.confirm('真的删除么', {icon: 3}, function(index) {
+				operate('delete', {'bId': data.bId}, true);
+				layer.close(index);
+			});
+		} else if(obj.event === 'edit') {
+			$.get('/exuanbao/datadic/info?bId=' + data.bId, function(res) {
+				laytpl(getEdit).render(res, function(html) {
+					popupWin('编辑', html,true);
+				});
+				//rendering();
+			})
+		}
+	});
+	
+	// 新增
+	form.on('submit(addDatadicInfo)', function(data) {
+		var $this = $(this);
+		laytpl(addDatadic.innerHTML).render(data, function(html) {
+			popupWin($this.attr('title'), html, true);
+		});
+		rendering();
+		return false;
+	});
+	
+	// 新增操作
+	form.on('submit(addDatadicBtn)', function(data) {
+		operate('add', data.field, true);
+	  	return false;
+	 });
+	
+	// 编辑操作
+	form.on('submit(modDatadicBtn)', function(data) {
+		operate('edit', data.field, true);
+	  	return false;
+	 });
+	
+	// 搜索条件提示
+	$datadicQueryForm.find('input').on('mouseover', function() {
+		if(typeof($(this).attr('title')) == 'undefined') return;
+		layer.tips($(this).attr('title'), this, {tips: 1});
+	});
+	
+	form.on('submit(datadicQuery)', function(data) {
+		table.reload('datadicTable', {
+			where: data.field 
+		});
+		return false;
+	})
+	
+	function operate(type, data, refresh) {
+		var url = '/exuanbao/datadic/add';
+		if(type == 'delete') {
+			url = '/exuanbao/datadic/delete/';
+		}
+		if(type == 'edit') {
+			url = '/exuanbao/datadic/edit';
+		}
+		$.ajax({
+			url: url,
+		    type: 'POST',
+		    async: true,
+		    data: data,
+		    success: function(res) {
+		    	if(res.code == 0) {
+					layer.close(layerIndex);
+					if(refresh) {
+		    			table.reload('datadicTable');
+					}
+					layer.msg(res.message, {icon: 1});
+		    	}else if(res.code == 1) {
+		    		layer.msg(res.message, {icon: 4});
+		    	} else {
+		    		layer.msg(res.message, {icon: 5});
+		    	}
+		    }
+		})
+	}
+	
+	
+	//渲染弹框
+	function popupWin(title, content, showBtn) {
+		layerIndex = layer.open({
+			id: 'datadic',
+			type: 1, //Page层类型
+			area: '900px',//'auto', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			// shadeClose: true, // 点击遮罩是否关闭
+			content: content,
+			btn: showBtn ? ['<i class="layui-icon">&#xe61f;</i> 提交', '<i class="layui-icon">&#x1002;</i> 重置'] : '',
+			yes: function(index, layero) {
+				layero.find('form .submit').trigger('click');
+				return false;
+			},
+			btn2: function(index, layero) {
+				layero.find('form .reset').trigger('click');
+				return false;
+			},
+			end: function() {
+				datas = [];
+			}
+		});
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		// 渲染select
+		form.render('select');
+		// 单选
+		form.render('radio');	
+		// 重新渲染多选框
+		form.render('checkbox');	
+	}
+})
+</script>
+</html>

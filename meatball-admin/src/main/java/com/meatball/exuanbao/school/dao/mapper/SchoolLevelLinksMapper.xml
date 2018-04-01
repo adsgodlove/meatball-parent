@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.school.dao.SchoolLevelLinksMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.school.model.SchoolLevelLinks" >
+    <result column="I_LEVELID" property="iLevelid" jdbcType="INTEGER" />
+    <result column="B_SCHOOLID" property="bSchoolid" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.meatball.exuanbao.school.model.SchoolLevelLinks" >
+    insert into T_SCHOOL_LEVEL_LINKS (I_LEVELID, B_SCHOOLID)
+    values (#{iLevelid,jdbcType=INTEGER}, #{bSchoolid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.school.model.SchoolLevelLinks" >
+    insert into T_SCHOOL_LEVEL_LINKS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iLevelid != null" >
+        I_LEVELID,
+      </if>
+      <if test="bSchoolid != null" >
+        B_SCHOOLID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iLevelid != null" >
+        #{iLevelid,jdbcType=INTEGER},
+      </if>
+      <if test="bSchoolid != null" >
+        #{bSchoolid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteBySchoolid" parameterType="java.lang.Long" >
+    delete from T_SCHOOL_LEVEL_LINKS
+    where B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteByiLevelid" parameterType="java.lang.Integer" >
+    delete from T_SCHOOL_LEVEL_LINKS
+    where I_LEVELID = #{iLevelid,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="selectBySchoolid" resultType="com.meatball.parameter.model.SchoolLevel" parameterType="java.lang.Long" >
+	  select 
+	  leve.I_ID iId, leve.V_NAME vName, leve.I_TYPE iType, leve.I_PID iPid
+	  from T_SCHOOL_LEVEL leve 
+	  LEFT JOIN T_SCHOOL_LEVEL_LINKS levelink 
+	  on leve.I_ID = levelink.I_LEVELID where B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT}
+  </select>
+</mapper>

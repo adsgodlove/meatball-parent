@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.pay.dao.PaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.pay.model.Payment" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="B_USERID" property="bUserid" jdbcType="BIGINT" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="V_USERNAME" property="vUsername" jdbcType="VARCHAR" />
+    <result column="V_PAYTYPE" property="vPaytype" jdbcType="VARCHAR" />
+    <result column="V_DEALID" property="vDealid" jdbcType="VARCHAR" />
+    <result column="D_MONEY" property="dMoney" jdbcType="DECIMAL" />
+    <result column="V_TEL" property="vTel" jdbcType="VARCHAR" />
+    <result column="T_TIME" property="tTime" jdbcType="TIMESTAMP" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, B_USERID, I_TYPE, V_USERNAME, V_PAYTYPE, V_DEALID, D_MONEY, V_TEL, T_TIME, 
+    I_STATUS, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PAYMENT
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_PAYMENT
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.pay.model.Payment" >
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="bId">
+  		SELECT LAST_INSERT_ID() AS B_ID
+  	</selectKey>
+    insert into T_PAYMENT (B_ID, B_USERID, I_TYPE, 
+      V_USERNAME, V_PAYTYPE, V_DEALID, 
+      D_MONEY, V_TEL, T_TIME, 
+      I_STATUS, REMARK)
+    values (#{bId,jdbcType=BIGINT}, #{bUserid,jdbcType=BIGINT}, #{iType,jdbcType=INTEGER}, 
+      #{vUsername,jdbcType=VARCHAR}, #{vPaytype,jdbcType=VARCHAR}, #{vDealid,jdbcType=VARCHAR}, 
+      #{dMoney,jdbcType=DECIMAL}, #{vTel,jdbcType=VARCHAR}, #{tTime,jdbcType=TIMESTAMP}, 
+      #{iStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.pay.model.Payment" >
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="bId">
+  		SELECT LAST_INSERT_ID() AS B_ID
+  	</selectKey>
+  
+    insert into T_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="bUserid != null" >
+        B_USERID,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+      <if test="vUsername != null" >
+        V_USERNAME,
+      </if>
+      <if test="vPaytype != null" >
+        V_PAYTYPE,
+      </if>
+      <if test="vDealid != null" >
+        V_DEALID,
+      </if>
+      <if test="dMoney != null" >
+        D_MONEY,
+      </if>
+      <if test="vTel != null" >
+        V_TEL,
+      </if>
+      <if test="tTime != null" >
+        T_TIME,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="bUserid != null" >
+        #{bUserid,jdbcType=BIGINT},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="vUsername != null" >
+        #{vUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="vPaytype != null" >
+        #{vPaytype,jdbcType=VARCHAR},
+      </if>
+      <if test="vDealid != null" >
+        #{vDealid,jdbcType=VARCHAR},
+      </if>
+      <if test="dMoney != null" >
+        #{dMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="vTel != null" >
+        #{vTel,jdbcType=VARCHAR},
+      </if>
+      <if test="tTime != null" >
+        #{tTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.pay.model.Payment" >
+    update T_PAYMENT
+    <set >
+      <if test="bUserid != null" >
+        B_USERID = #{bUserid,jdbcType=BIGINT},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="vUsername != null" >
+        V_USERNAME = #{vUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="vPaytype != null" >
+        V_PAYTYPE = #{vPaytype,jdbcType=VARCHAR},
+      </if>
+      <if test="vDealid != null" >
+        V_DEALID = #{vDealid,jdbcType=VARCHAR},
+      </if>
+      <if test="dMoney != null" >
+        D_MONEY = #{dMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="vTel != null" >
+        V_TEL = #{vTel,jdbcType=VARCHAR},
+      </if>
+      <if test="tTime != null" >
+        T_TIME = #{tTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.pay.model.Payment" >
+    update T_PAYMENT
+    set B_USERID = #{bUserid,jdbcType=BIGINT},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      V_USERNAME = #{vUsername,jdbcType=VARCHAR},
+      V_PAYTYPE = #{vPaytype,jdbcType=VARCHAR},
+      V_DEALID = #{vDealid,jdbcType=VARCHAR},
+      D_MONEY = #{dMoney,jdbcType=DECIMAL},
+      V_TEL = #{vTel,jdbcType=VARCHAR},
+      T_TIME = #{tTime,jdbcType=TIMESTAMP},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectOrderList" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_PAYMENT
+    where B_USERID = #{userid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectOrderOKList" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_PAYMENT
+    where B_USERID = #{userid,jdbcType=VARCHAR}
+    and  I_STATUS = 1
+  </select>
+  
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.pay.model.PaymentVO" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_PAYMENT
+    <where>
+    	<if test="iType != null and iType != ''" >
+        	I_TYPE = #{iType,jdbcType=INTEGER} 
+      	</if>
+    	<if test="vPaytype != null and vPaytype != ''" >
+	       and V_PAYTYPE = #{vPaytype,jdbcType=VARCHAR} 
+	      </if>
+    	<if test="vDealid != null and vDealid != ''" >
+	      and  V_DEALID = #{vDealid,jdbcType=VARCHAR} 
+	      </if>
+    	<if test="iStatus != null and iStatus != ''" >
+	      and  I_STATUS= #{iStatus,jdbcType=INTEGER} 
+	      </if>
+    	<if test="sTime != null" >
+	        and T_TIME <![CDATA[ >= ]]> #{sTime,jdbcType=TIMESTAMP}  
+		</if>
+		<if test="eTime != null" >
+	        and T_TIME <![CDATA[ <= ]]> #{eTime,jdbcType=TIMESTAMP} 
+	      </if>
+    </where>
+  </select>
+  
+  
+  
+</mapper>

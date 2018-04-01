@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.specialty.dao.SpecialtyMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.specialty.model.Specialty" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="V_NAME" property="vName" jdbcType="VARCHAR" />
+    <result column="V_CODE" property="vCode" jdbcType="VARCHAR" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="I_CATEGORY" property="iCategory" jdbcType="INTEGER" />
+    <result column="I_LEVEL" property="iLevel" jdbcType="INTEGER" />
+    <result column="I_LEVELNAME" property="iLevelname" jdbcType="VARCHAR" />
+    <result column="B_PID" property="bPid" jdbcType="BIGINT" />
+    <result column="V_DEGREE" property="vDegree" jdbcType="VARCHAR" />
+    <result column="I_YEAR" property="iYear" jdbcType="INTEGER" />
+    <result column="I_HOT" property="iHot" jdbcType="INTEGER" />
+    <result column="V_GENDER" property="vGender" jdbcType="VARCHAR" />
+    <result column="V_ANALYSIS" property="vAnalysis" jdbcType="VARCHAR" />
+    <result column="V_COURSE" property="vCourse" jdbcType="VARCHAR" />
+    <result column="V_SCHOOL" property="vSchool" jdbcType="VARCHAR" />
+    <result column="V_GRADUATE" property="vGraduate" jdbcType="VARCHAR" />
+    <result column="V_OCCUPATION" property="vOccupation" jdbcType="VARCHAR" />
+    <result column="V_EMPLOYMENT" property="vEmployment" jdbcType="VARCHAR" />
+    <result column="V_COMMENT" property="vComment" jdbcType="VARCHAR" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+    <result column="T_CREATETIME" property="tCreatetime" jdbcType="TIMESTAMP" />
+    <result column="B_CREATOR" property="bCreator" jdbcType="BIGINT" />
+    <result column="T_MODIFYTIME" property="tModifytime" jdbcType="TIMESTAMP" />
+    <result column="B_MODIFIER" property="bModifier" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="BaseResultMapTree" type="com.meatball.exuanbao.specialty.model.SpecialtyTree" >
+    <id column="B_ID" property="id" jdbcType="BIGINT" />
+    <result column="V_NAME" property="name" jdbcType="VARCHAR" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="I_CATEGORY" property="iCategory" jdbcType="INTEGER" />
+    <result column="B_PID" property="pid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, V_NAME, V_CODE, I_TYPE, I_CATEGORY, I_LEVEL, I_LEVELNAME, B_PID, V_DEGREE, 
+    I_YEAR, I_HOT, V_GENDER, V_ANALYSIS, V_COURSE, V_SCHOOL, V_GRADUATE, V_OCCUPATION, V_EMPLOYMENT, 
+    V_COMMENT, I_STATUS, T_CREATETIME, B_CREATOR, T_MODIFYTIME, B_MODIFIER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SPECIALTY
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.specialty.model.Specialty" >
+    insert into T_SPECIALTY (B_ID, V_NAME, V_CODE, 
+      I_TYPE, I_CATEGORY, I_LEVEL, 
+      I_LEVELNAME, B_PID, V_DEGREE, 
+      I_YEAR, I_HOT, V_GENDER, V_ANALYSIS, 
+      V_COURSE, V_SCHOOL, V_GRADUATE, 
+      V_OCCUPATION, V_EMPLOYMENT, V_COMMENT, 
+      I_STATUS, T_CREATETIME, B_CREATOR, 
+      T_MODIFYTIME, B_MODIFIER
+      )
+    values (#{bId,jdbcType=BIGINT}, #{vName,jdbcType=VARCHAR}, #{vCode,jdbcType=VARCHAR}, 
+      #{iType,jdbcType=INTEGER}, #{iCategory,jdbcType=INTEGER}, #{iLevel,jdbcType=INTEGER}, 
+      #{iLevelname,jdbcType=VARCHAR}, #{bPid,jdbcType=BIGINT}, #{vDegree,jdbcType=VARCHAR}, 
+      #{iYear,jdbcType=INTEGER}, #{iHot,jdbcType=INTEGER}, #{vGender,jdbcType=VARCHAR}, #{vAnalysis,jdbcType=VARCHAR}, 
+      #{vCourse,jdbcType=VARCHAR}, #{vSchool,jdbcType=VARCHAR}, #{vGraduate,jdbcType=VARCHAR}, 
+      #{vOccupation,jdbcType=VARCHAR}, #{vEmployment,jdbcType=VARCHAR}, #{vComment,jdbcType=VARCHAR}, 
+      #{iStatus,jdbcType=INTEGER}, #{tCreatetime,jdbcType=TIMESTAMP}, #{bCreator,jdbcType=BIGINT}, 
+      #{tModifytime,jdbcType=TIMESTAMP}, #{bModifier,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.specialty.model.Specialty" >
+    insert into T_SPECIALTY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="vName != null" >
+        V_NAME,
+      </if>
+      <if test="vCode != null" >
+        V_CODE,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+      <if test="iCategory != null" >
+        I_CATEGORY,
+      </if>
+      <if test="iLevel != null" >
+        I_LEVEL,
+      </if>
+      <if test="iLevelname != null" >
+        I_LEVELNAME,
+      </if>
+      <if test="bPid != null" >
+        B_PID,
+      </if>
+      <if test="vDegree != null" >
+        V_DEGREE,
+      </if>
+      <if test="iYear != null" >
+        I_YEAR,
+      </if>
+      <if test="iHot != null" >
+        I_HOT,
+      </if>
+      <if test="vGender != null" >
+        V_GENDER,
+      </if>
+      <if test="vAnalysis != null" >
+        V_ANALYSIS,
+      </if>
+      <if test="vCourse != null" >
+        V_COURSE,
+      </if>
+      <if test="vSchool != null" >
+        V_SCHOOL,
+      </if>
+      <if test="vGraduate != null" >
+        V_GRADUATE,
+      </if>
+      <if test="vOccupation != null" >
+        V_OCCUPATION,
+      </if>
+      <if test="vEmployment != null" >
+        V_EMPLOYMENT,
+      </if>
+      <if test="vComment != null" >
+        V_COMMENT,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME,
+      </if>
+      <if test="bCreator != null" >
+        B_CREATOR,
+      </if>
+      <if test="tModifytime != null" >
+        T_MODIFYTIME,
+      </if>
+      <if test="bModifier != null" >
+        B_MODIFIER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vCode != null" >
+        #{vCode,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iCategory != null" >
+        #{iCategory,jdbcType=INTEGER},
+      </if>
+      <if test="iLevel != null" >
+        #{iLevel,jdbcType=INTEGER},
+      </if>
+      <if test="iLevelname != null" >
+        #{iLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="bPid != null" >
+        #{bPid,jdbcType=BIGINT},
+      </if>
+      <if test="vDegree != null" >
+        #{vDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="iYear != null" >
+        #{iYear,jdbcType=INTEGER},
+      </if>
+      <if test="iHot != null" >
+        #{iHot,jdbcType=INTEGER},
+      </if>
+      <if test="vGender != null" >
+        #{vGender,jdbcType=VARCHAR},
+      </if>
+      <if test="vAnalysis != null" >
+        #{vAnalysis,jdbcType=VARCHAR},
+      </if>
+      <if test="vCourse != null" >
+        #{vCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="vSchool != null" >
+        #{vSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="vGraduate != null" >
+        #{vGraduate,jdbcType=VARCHAR},
+      </if>
+      <if test="vOccupation != null" >
+        #{vOccupation,jdbcType=VARCHAR},
+      </if>
+      <if test="vEmployment != null" >
+        #{vEmployment,jdbcType=VARCHAR},
+      </if>
+      <if test="vComment != null" >
+        #{vComment,jdbcType=VARCHAR},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="tCreatetime != null" >
+        #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bCreator != null" >
+        #{bCreator,jdbcType=BIGINT},
+      </if>
+      <if test="tModifytime != null" >
+        #{tModifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bModifier != null" >
+        #{bModifier,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.specialty.model.Specialty" >
+    update T_SPECIALTY
+    <set >
+      <if test="vName != null" >
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vCode != null" >
+        V_CODE = #{vCode,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iCategory != null" >
+        I_CATEGORY = #{iCategory,jdbcType=INTEGER},
+      </if>
+      <if test="iLevel != null" >
+        I_LEVEL = #{iLevel,jdbcType=INTEGER},
+      </if>
+      <if test="iLevelname != null" >
+        I_LEVELNAME = #{iLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="bPid != null" >
+        B_PID = #{bPid,jdbcType=BIGINT},
+      </if>
+      <if test="vDegree != null" >
+        V_DEGREE = #{vDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="iYear != null" >
+        I_YEAR = #{iYear,jdbcType=INTEGER},
+      </if>
+      <if test="iHot != null" >
+        I_HOT = #{iHot,jdbcType=INTEGER},
+      </if>
+      <if test="vGender != null" >
+        V_GENDER = #{vGender,jdbcType=VARCHAR},
+      </if>
+      <if test="vAnalysis != null" >
+        V_ANALYSIS = #{vAnalysis,jdbcType=VARCHAR},
+      </if>
+      <if test="vCourse != null" >
+        V_COURSE = #{vCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="vSchool != null" >
+        V_SCHOOL = #{vSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="vGraduate != null" >
+        V_GRADUATE = #{vGraduate,jdbcType=VARCHAR},
+      </if>
+      <if test="vOccupation != null" >
+        V_OCCUPATION = #{vOccupation,jdbcType=VARCHAR},
+      </if>
+      <if test="vEmployment != null" >
+        V_EMPLOYMENT = #{vEmployment,jdbcType=VARCHAR},
+      </if>
+      <if test="vComment != null" >
+        V_COMMENT = #{vComment,jdbcType=VARCHAR},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bCreator != null" >
+        B_CREATOR = #{bCreator,jdbcType=BIGINT},
+      </if>
+      <if test="tModifytime != null" >
+        T_MODIFYTIME = #{tModifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bModifier != null" >
+        B_MODIFIER = #{bModifier,jdbcType=BIGINT},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.specialty.model.Specialty" >
+    update T_SPECIALTY
+    set V_NAME = #{vName,jdbcType=VARCHAR},
+      V_CODE = #{vCode,jdbcType=VARCHAR},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      I_CATEGORY = #{iCategory,jdbcType=INTEGER},
+      I_LEVEL = #{iLevel,jdbcType=INTEGER},
+      I_LEVELNAME = #{iLevelname,jdbcType=VARCHAR},
+      B_PID = #{bPid,jdbcType=BIGINT},
+      V_DEGREE = #{vDegree,jdbcType=VARCHAR},
+      I_YEAR = #{iYear,jdbcType=INTEGER},
+      I_HOT = #{iHot,jdbcType=INTEGER},
+      V_GENDER = #{vGender,jdbcType=VARCHAR},
+      V_ANALYSIS = #{vAnalysis,jdbcType=VARCHAR},
+      V_COURSE = #{vCourse,jdbcType=VARCHAR},
+      V_SCHOOL = #{vSchool,jdbcType=VARCHAR},
+      V_GRADUATE = #{vGraduate,jdbcType=VARCHAR},
+      V_OCCUPATION = #{vOccupation,jdbcType=VARCHAR},
+      V_EMPLOYMENT = #{vEmployment,jdbcType=VARCHAR},
+      V_COMMENT = #{vComment,jdbcType=VARCHAR},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      B_CREATOR = #{bCreator,jdbcType=BIGINT},
+      T_MODIFYTIME = #{tModifytime,jdbcType=TIMESTAMP},
+      B_MODIFIER = #{bModifier,jdbcType=BIGINT}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectSpecialtyTree" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY
+    <where> 
+  		I_CATEGORY = 1
+	</where>
+  </select>
+  
+  <select id="selectByPids" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY
+    where B_PID in(
+     <foreach collection="list" item="list" separator=",">  
+            #{list.bPid}
+     </foreach>
+     )
+  </select>
+  
+  <!-- 查询集合数据 -->
+  <select id="listParamTree" resultMap="BaseResultMapTree" parameterType="com.meatball.exuanbao.specialty.model.SpecialtyTree">
+   select 
+    B_ID, V_NAME, I_TYPE, I_CATEGORY, B_PID
+    from T_SPECIALTY
+    <where> 
+    	1=1 
+  		<if test="iType != null" >
+    		and I_TYPE = #{iType,jdbcType=INTEGER} 
+	    </if>
+	    <if test="iCategory != null" >
+	    	and I_CATEGORY = #{iCategory,jdbcType=INTEGER} 
+	    </if>
+	    <if test="pid != null" >
+	        and B_PID = #{pid,jdbcType=BIGINT}
+	    </if>
+	</where> 
+	order by T_MODIFYTIME desc
+  </select>
+  
+  <!-- 查询集合数据 -->
+  <select id="listParamTreeBySchool" resultMap="BaseResultMapTree" parameterType="com.meatball.exuanbao.specialty.model.SpecialtyTree">
+   select B_ID, V_NAME, I_TYPE, I_CATEGORY, B_PID, 
+   (select linke.B_SPECIALTYID from T_SCHOOL_SPECIALTY_LINKS linke where linke.B_SCHOOLID = #{schoolId,jdbcType=BIGINT}
+   		and linke.B_SPECIALTYID = spectalty.B_ID) schoolId 
+   from T_SPECIALTY spectalty
+    <where> 
+    	1=1 
+  		<if test="iType != null" >
+    		and I_TYPE = #{iType,jdbcType=INTEGER} spread
+	    </if>
+	    <if test="iCategory != null" >
+	    	and I_CATEGORY = #{iCategory,jdbcType=INTEGER} 
+	    </if>
+	    <if test="pid != null" >
+	        and B_PID = #{pid,jdbcType=BIGINT}
+	    </if>
+	</where> 
+	order by T_MODIFYTIME desc
+  </select>
+  
+  
+  <!-- 查询集合数据 -->
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.specialty.model.Specialty">
+   select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY
+    <where> 
+    	1=1 
+  	  <if test="vName != null and vName != ''" >
+        and V_NAME like concat(concat('%', #{vName}), '%')  
+      </if>
+      <if test="vCode != null" >
+        and V_CODE = #{vCode,jdbcType=VARCHAR}
+      </if>
+      <if test="iType != null" >
+        and I_TYPE = #{iType,jdbcType=INTEGER}
+      </if>
+      <if test="iCategory != null" >
+        and I_CATEGORY = #{iCategory,jdbcType=INTEGER}
+      </if>
+      <if test="iLevel != null" >
+        and I_LEVEL = #{iLevel,jdbcType=INTEGER}
+      </if>
+      <if test="iLevelname != null" >
+        and I_LEVELNAME = #{iLevelname,jdbcType=VARCHAR}
+      </if>
+      <if test="bPid != null" >
+        and B_PID = #{bPid,jdbcType=BIGINT}
+      </if>
+      <if test="vDegree != null" >
+        and V_DEGREE = #{vDegree,jdbcType=VARCHAR}
+      </if>
+      <if test="iYear != null" >
+        and I_YEAR = #{iYear,jdbcType=INTEGER}
+      </if>
+      <if test="iHot != null" >
+        and I_HOT = #{iHot,jdbcType=INTEGER}
+      </if>
+      <if test="vGender != null" >
+        and V_GENDER = #{vGender,jdbcType=VARCHAR}
+      </if>
+      <if test="vAnalysis != null" >
+        and V_ANALYSIS = #{vAnalysis,jdbcType=VARCHAR}
+      </if>
+      <if test="vCourse != null" >
+        and V_COURSE = #{vCourse,jdbcType=VARCHAR}
+      </if>
+      <if test="vSchool != null" >
+        and V_SCHOOL = #{vSchool,jdbcType=VARCHAR}
+      </if>
+      <if test="vGraduate != null" >
+        and V_GRADUATE = #{vGraduate,jdbcType=VARCHAR}
+      </if>
+      <if test="vOccupation != null" >
+        and V_OCCUPATION = #{vOccupation,jdbcType=VARCHAR}
+      </if>
+      <if test="vEmployment != null" >
+        and V_EMPLOYMENT = #{vEmployment,jdbcType=VARCHAR}
+      </if>
+      <if test="vComment != null" >
+        and V_COMMENT = #{vComment,jdbcType=VARCHAR}
+      </if>
+      <if test="iStatus != null" >
+        and I_STATUS = #{iStatus,jdbcType=INTEGER}
+      </if>
+      <if test="bCreator != null" >
+        and B_CREATOR = #{bCreator,jdbcType=BIGINT}
+      </if>
+	</where> 
+	order by T_MODIFYTIME desc
+  </select>
+  
+
+  <!-- 查询集合数据 -->
+  <select id="selectSpectaltys" resultMap="BaseResultMapTree" parameterType="com.meatball.exuanbao.specialty.model.Specialty">
+   select B_ID, V_NAME, I_TYPE, I_CATEGORY, B_PID 
+   from T_SPECIALTY specialty
+    <where> 
+    	1=1 
+  	  <if test="vName != null and vName != ''" >
+        and V_NAME like concat(concat('%', #{vName}), '%')  
+      </if>
+      <if test="vCode != null" >
+        and V_CODE = #{vCode,jdbcType=VARCHAR}
+      </if>
+      <if test="iType != null" >
+        and I_TYPE = #{iType,jdbcType=INTEGER}
+      </if>
+      <if test="iCategory != null" >
+        and I_CATEGORY = #{iCategory,jdbcType=INTEGER}
+      </if>
+      <if test="iLevel != null" >
+        and I_LEVEL = #{iLevel,jdbcType=INTEGER}
+      </if>
+      <if test="iLevelname != null" >
+        and I_LEVELNAME = #{iLevelname,jdbcType=VARCHAR}
+      </if>
+      <if test="bPid != null" >
+        and B_PID = #{bPid,jdbcType=BIGINT}
+      </if>
+      <if test="vDegree != null" >
+        and V_DEGREE = #{vDegree,jdbcType=VARCHAR}
+      </if>
+      <if test="iYear != null" >
+        and I_YEAR = #{iYear,jdbcType=INTEGER}
+      </if>
+      <if test="iHot != null" >
+        and I_HOT = #{iHot,jdbcType=INTEGER}
+      </if>
+      <if test="vGender != null" >
+        and V_GENDER = #{vGender,jdbcType=VARCHAR}
+      </if>
+      <if test="vAnalysis != null" >
+        and V_ANALYSIS = #{vAnalysis,jdbcType=VARCHAR}
+      </if>
+      <if test="vCourse != null" >
+        and V_COURSE = #{vCourse,jdbcType=VARCHAR}
+      </if>
+      <if test="vSchool != null" >
+        and V_SCHOOL = #{vSchool,jdbcType=VARCHAR}
+      </if>
+      <if test="vGraduate != null" >
+        and V_GRADUATE = #{vGraduate,jdbcType=VARCHAR}
+      </if>
+      <if test="vOccupation != null" >
+        and V_OCCUPATION = #{vOccupation,jdbcType=VARCHAR}
+      </if>
+      <if test="vEmployment != null" >
+        and V_EMPLOYMENT = #{vEmployment,jdbcType=VARCHAR}
+      </if>
+      <if test="vComment != null" >
+        and V_COMMENT = #{vComment,jdbcType=VARCHAR}
+      </if>
+      <if test="iStatus != null" >
+        and I_STATUS = #{iStatus,jdbcType=INTEGER}
+      </if>
+      <if test="schoolid != null" >
+      	<!-- 优势专业 -->
+      	and specialty.B_ID in ( select links.B_SPECIALTYID from T_SCHOOL_SPECIALTY_SUPERIORITY_LINKS links where links.B_SCHOOLID = #{schoolid,jdbcType=BIGINT} ) 
+      </if>
+	</where> 
+	order by T_MODIFYTIME desc
+  </select>
+  
+</mapper>

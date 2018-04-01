@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.personal.dao.UserTokenMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.personal.model.UserToken" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="scope" property="scope" jdbcType="VARCHAR" />
+    <result column="expires_time" property="expiresTime" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="activekey" property="activekey" jdbcType="VARCHAR" />
+    <result column="user_Id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, token, scope, expires_time, create_time, activekey, user_Id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_token
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_token
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.personal.model.UserToken" >
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+  		SELECT LAST_INSERT_ID() AS id
+  	</selectKey>
+    insert into user_token (id, token, scope, 
+      expires_time, create_time, activekey, 
+      user_Id)
+    values (#{id,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, 
+      #{expiresTime,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, #{activekey,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.personal.model.UserToken" >
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+  		SELECT LAST_INSERT_ID() AS id
+  	</selectKey>
+    insert into user_token
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="scope != null" >
+        scope,
+      </if>
+      <if test="expiresTime != null" >
+        expires_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="activekey != null" >
+        activekey,
+      </if>
+      <if test="userId != null" >
+        user_Id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="scope != null" >
+        #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresTime != null" >
+        #{expiresTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="activekey != null" >
+        #{activekey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.personal.model.UserToken" >
+    update user_token
+    <set >
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="scope != null" >
+        scope = #{scope,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresTime != null" >
+        expires_time = #{expiresTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="activekey != null" >
+        activekey = #{activekey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_Id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.personal.model.UserToken" >
+    update user_token
+    set token = #{token,jdbcType=VARCHAR},
+      scope = #{scope,jdbcType=VARCHAR},
+      expires_time = #{expiresTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      activekey = #{activekey,jdbcType=VARCHAR},
+      user_Id = #{userId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getUserTokenByUserId" resultType="com.meatball.exuanbao.personal.model.UserToken" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from user_token
+    where  user_Id = #{0}
+  
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.parameter.dao.SchoolTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.parameter.model.SchoolType" >
+    <id column="I_ID" property="iId" jdbcType="INTEGER" />
+    <result column="V_NAME" property="vName" jdbcType="VARCHAR" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="I_PID" property="iPid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    I_ID, V_NAME, I_TYPE, I_PID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCHOOL_TYPE
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SCHOOL_TYPE
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.parameter.model.SchoolType" >
+    insert into T_SCHOOL_TYPE (I_ID, V_NAME, I_TYPE, 
+      I_PID)
+    values (#{iId,jdbcType=INTEGER}, #{vName,jdbcType=VARCHAR}, #{iType,jdbcType=INTEGER}, 
+      #{iPid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.parameter.model.SchoolType" >
+    insert into T_SCHOOL_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iId != null" >
+        I_ID,
+      </if>
+      <if test="vName != null" >
+        V_NAME,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+      <if test="iPid != null" >
+        I_PID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iId != null" >
+        #{iId,jdbcType=INTEGER},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iPid != null" >
+        #{iPid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.parameter.model.SchoolType" >
+    update T_SCHOOL_TYPE
+    <set >
+      <if test="vName != null" >
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iPid != null" >
+        I_PID = #{iPid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.parameter.model.SchoolType" >
+    update T_SCHOOL_TYPE
+    set V_NAME = #{vName,jdbcType=VARCHAR},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      I_PID = #{iPid,jdbcType=INTEGER}
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </update>
+  
+  <!--查询全部-->
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCHOOL_TYPE
+  </select>
+</mapper>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.school.dao.SpecialtyScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.school.model.SpecialtyScore" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="B_SCHOOLID" property="bSchoolid" jdbcType="BIGINT" />
+    <result column="V_SCHOOLNAME" property="vSchoolname" jdbcType="VARCHAR" />
+    <result column="B_SPECIALTYID" property="bSpecialtyid" jdbcType="BIGINT" />
+    <result column="V_SPECIALTYNAME" property="vSpecialtyname" jdbcType="VARCHAR" />
+    <result column="D_YEAR" property="dYear" jdbcType="INTEGER" />
+    <result column="I_BATCHID" property="iBatchid" jdbcType="INTEGER" />
+    <result column="V_BATCHNAME" property="vBatchname" jdbcType="VARCHAR" />
+    <result column="I_REGIONID" property="iRegionid" jdbcType="INTEGER" />
+    <result column="V_PLACENAME" property="vPlacename" jdbcType="VARCHAR" />
+    <result column="I_HIGH" property="iHigh" jdbcType="INTEGER" />
+    <result column="I_AVG" property="iAvg" jdbcType="INTEGER" />
+    <result column="I_MINIMUM" property="iMinimum" jdbcType="INTEGER" />
+    <result column="I_LSD" property="iLsd" jdbcType="INTEGER" />
+    <result column="I_TOPDIGIT" property="iTopdigit" jdbcType="INTEGER" />
+    <result column="I_PEOPLE" property="iPeople" jdbcType="DOUBLE" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="I_SUBJECT" property="iSubject" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, B_SCHOOLID, V_SCHOOLNAME, B_SPECIALTYID, V_SPECIALTYNAME, D_YEAR, I_BATCHID, 
+    V_BATCHNAME, I_REGIONID, V_PLACENAME, I_HIGH, I_AVG, I_MINIMUM, I_LSD, I_TOPDIGIT, 
+    I_PEOPLE,I_TYPE,I_SUBJECT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY_SCORE
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SPECIALTY_SCORE
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.school.model.SpecialtyScore" >
+    insert into T_SPECIALTY_SCORE (B_ID, B_SCHOOLID, V_SCHOOLNAME, 
+      B_SPECIALTYID, V_SPECIALTYNAME, D_YEAR, 
+      I_BATCHID, V_BATCHNAME, I_REGIONID, 
+      V_PLACENAME, I_HIGH, I_AVG, 
+      I_MINIMUM, I_LSD, I_TOPDIGIT, 
+      I_PEOPLE,I_TYPE,I_SUBJECT)
+    values (#{bId,jdbcType=BIGINT}, #{bSchoolid,jdbcType=BIGINT}, #{vSchoolname,jdbcType=VARCHAR}, 
+      #{bSpecialtyid,jdbcType=BIGINT}, #{vSpecialtyname,jdbcType=VARCHAR}, #{dYear,jdbcType=INTEGER}, 
+      #{iBatchid,jdbcType=INTEGER}, #{vBatchname,jdbcType=VARCHAR}, #{iRegionid,jdbcType=INTEGER}, 
+      #{vPlacename,jdbcType=VARCHAR}, #{iHigh,jdbcType=INTEGER}, #{iAvg,jdbcType=INTEGER}, 
+      #{iMinimum,jdbcType=INTEGER}, #{iLsd,jdbcType=INTEGER}, #{iTopdigit,jdbcType=INTEGER}, 
+      #{iPeople,jdbcType=DOUBLE}, #{iType,jdbcType=INTEGER}, #{iSubject,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.school.model.SpecialtyScore" >
+    insert into T_SPECIALTY_SCORE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="bSchoolid != null" >
+        B_SCHOOLID,
+      </if>
+      <if test="vSchoolname != null" >
+        V_SCHOOLNAME,
+      </if>
+      <if test="bSpecialtyid != null" >
+        B_SPECIALTYID,
+      </if>
+      <if test="vSpecialtyname != null" >
+        V_SPECIALTYNAME,
+      </if>
+      <if test="dYear != null" >
+        D_YEAR,
+      </if>
+      <if test="iBatchid != null" >
+        I_BATCHID,
+      </if>
+      <if test="vBatchname != null" >
+        V_BATCHNAME,
+      </if>
+      <if test="iRegionid != null" >
+        I_REGIONID,
+      </if>
+      <if test="vPlacename != null" >
+        V_PLACENAME,
+      </if>
+      <if test="iHigh != null" >
+        I_HIGH,
+      </if>
+      <if test="iAvg != null" >
+        I_AVG,
+      </if>
+      <if test="iMinimum != null" >
+        I_MINIMUM,
+      </if>
+      <if test="iLsd != null" >
+        I_LSD,
+      </if>
+      <if test="iTopdigit != null" >
+        I_TOPDIGIT,
+      </if>
+      <if test="iPeople != null" >
+        I_PEOPLE,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+      <if test="iSubject != null" >
+        I_SUBJECT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="bSchoolid != null" >
+        #{bSchoolid,jdbcType=BIGINT},
+      </if>
+      <if test="vSchoolname != null" >
+        #{vSchoolname,jdbcType=VARCHAR},
+      </if>
+      <if test="bSpecialtyid != null" >
+        #{bSpecialtyid,jdbcType=BIGINT},
+      </if>
+      <if test="vSpecialtyname != null" >
+        #{vSpecialtyname,jdbcType=VARCHAR},
+      </if>
+      <if test="dYear != null" >
+        #{dYear,jdbcType=INTEGER},
+      </if>
+      <if test="iBatchid != null" >
+        #{iBatchid,jdbcType=INTEGER},
+      </if>
+      <if test="vBatchname != null" >
+        #{vBatchname,jdbcType=VARCHAR},
+      </if>
+      <if test="iRegionid != null" >
+        #{iRegionid,jdbcType=INTEGER},
+      </if>
+      <if test="vPlacename != null" >
+        #{vPlacename,jdbcType=VARCHAR},
+      </if>
+      <if test="iHigh != null" >
+        #{iHigh,jdbcType=INTEGER},
+      </if>
+      <if test="iAvg != null" >
+        #{iAvg,jdbcType=INTEGER},
+      </if>
+      <if test="iMinimum != null" >
+        #{iMinimum,jdbcType=INTEGER},
+      </if>
+      <if test="iLsd != null" >
+        #{iLsd,jdbcType=INTEGER},
+      </if>
+      <if test="iTopdigit != null" >
+        #{iTopdigit,jdbcType=INTEGER},
+      </if>
+      <if test="iPeople != null" >
+        #{iPeople,jdbcType=DOUBLE},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iSubject != null" >
+        #{iSubject,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.school.model.SpecialtyScore" >
+    update T_SPECIALTY_SCORE
+    <set >
+      <if test="bSchoolid != null" >
+        B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT},
+      </if>
+      <if test="vSchoolname != null" >
+        V_SCHOOLNAME = #{vSchoolname,jdbcType=VARCHAR},
+      </if>
+      <if test="bSpecialtyid != null" >
+        B_SPECIALTYID = #{bSpecialtyid,jdbcType=BIGINT},
+      </if>
+      <if test="vSpecialtyname != null" >
+        V_SPECIALTYNAME = #{vSpecialtyname,jdbcType=VARCHAR},
+      </if>
+      <if test="dYear != null" >
+        D_YEAR = #{dYear,jdbcType=INTEGER},
+      </if>
+      <if test="iBatchid != null" >
+        I_BATCHID = #{iBatchid,jdbcType=INTEGER},
+      </if>
+      <if test="vBatchname != null" >
+        V_BATCHNAME = #{vBatchname,jdbcType=VARCHAR},
+      </if>
+      <if test="iRegionid != null" >
+        I_REGIONID = #{iRegionid,jdbcType=INTEGER},
+      </if>
+      <if test="vPlacename != null" >
+        V_PLACENAME = #{vPlacename,jdbcType=VARCHAR},
+      </if>
+      <if test="iHigh != null" >
+        I_HIGH = #{iHigh,jdbcType=INTEGER},
+      </if>
+      <if test="iAvg != null" >
+        I_AVG = #{iAvg,jdbcType=INTEGER},
+      </if>
+      <if test="iMinimum != null" >
+        I_MINIMUM = #{iMinimum,jdbcType=INTEGER},
+      </if>
+      <if test="iLsd != null" >
+        I_LSD = #{iLsd,jdbcType=INTEGER},
+      </if>
+      <if test="iTopdigit != null" >
+        I_TOPDIGIT = #{iTopdigit,jdbcType=INTEGER},
+      </if>
+      <if test="iPeople != null" >
+        I_PEOPLE = #{iPeople,jdbcType=DOUBLE},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iSubject != null" >
+        I_SUBJECT = #{iSubject,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.school.model.SpecialtyScore" >
+    update T_SPECIALTY_SCORE
+    set B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT},
+      V_SCHOOLNAME = #{vSchoolname,jdbcType=VARCHAR},
+      B_SPECIALTYID = #{bSpecialtyid,jdbcType=BIGINT},
+      V_SPECIALTYNAME = #{vSpecialtyname,jdbcType=VARCHAR},
+      D_YEAR = #{dYear,jdbcType=INTEGER},
+      I_BATCHID = #{iBatchid,jdbcType=INTEGER},
+      V_BATCHNAME = #{vBatchname,jdbcType=VARCHAR},
+      I_REGIONID = #{iRegionid,jdbcType=INTEGER},
+      V_PLACENAME = #{vPlacename,jdbcType=VARCHAR},
+      I_HIGH = #{iHigh,jdbcType=INTEGER},
+      I_AVG = #{iAvg,jdbcType=INTEGER},
+      I_MINIMUM = #{iMinimum,jdbcType=INTEGER},
+      I_LSD = #{iLsd,jdbcType=INTEGER},
+      I_TOPDIGIT = #{iTopdigit,jdbcType=INTEGER},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      I_SUBJECT = #{iSubject,jdbcType=VARCHAR},
+      I_PEOPLE = #{iPeople,jdbcType=DOUBLE}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <!-- 查询集合数据 -->
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.school.model.SpecialtyScore">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY_SCORE
+    <where>
+    	1=1 
+      <if test="bSchoolid != null" >
+        and B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT}
+      </if>
+      <if test="vSchoolname != null" >
+        and V_SCHOOLNAME = #{vSchoolname,jdbcType=VARCHAR}
+      </if>
+      <if test="bSpecialtyid != null" >
+        and B_SPECIALTYID = #{bSpecialtyid,jdbcType=BIGINT}
+      </if>
+      <if test="vSpecialtyname != null" >
+        and V_SPECIALTYNAME = #{vSpecialtyname,jdbcType=VARCHAR}
+      </if>
+      <if test="dYear != null" >
+        and D_YEAR = #{dYear,jdbcType=INTEGER}
+      </if>
+      <if test="iBatchid != null" >
+        and I_BATCHID = #{iBatchid,jdbcType=INTEGER}
+      </if>
+      <if test="vBatchname != null" >
+        and V_BATCHNAME = #{vBatchname,jdbcType=VARCHAR}
+      </if>
+      <if test="iRegionid != null" >
+        and I_REGIONID = #{iRegionid,jdbcType=INTEGER}
+      </if>
+      <if test="vPlacename != null" >
+        and V_PLACENAME = #{vPlacename,jdbcType=VARCHAR}
+      </if>
+      <if test="iHigh != null" >
+        and I_HIGH = #{iHigh,jdbcType=INTEGER}
+      </if>
+      <if test="iAvg != null" >
+        and I_AVG = #{iAvg,jdbcType=INTEGER}
+      </if>
+      <if test="iMinimum != null" >
+        and I_MINIMUM = #{iMinimum,jdbcType=INTEGER}
+      </if>
+      <if test="iLsd != null" >
+        and I_LSD = #{iLsd,jdbcType=INTEGER}
+      </if>
+      <if test="iTopdigit != null" >
+        and I_TOPDIGIT = #{iTopdigit,jdbcType=INTEGER}
+      </if>
+      <if test="iPeople != null" >
+        and I_PEOPLE = #{iPeople,jdbcType=DOUBLE}
+      </if>
+      <if test="iType != null" >
+        and I_TYPE = #{iType,jdbcType=INTEGER}
+      </if>
+      <if test="iSubject != null" >
+        and I_SUBJECT = #{iSubject,jdbcType=VARCHAR}
+      </if>
+    </where>
+    GROUP BY I_TYPE, I_HIGH DESC 
+  </select>
+  
+  <!-- 查询年份 -->
+  <select id="groupByYear" resultType="java.lang.Integer">
+   select D_YEAR year from  T_SPECIALTY_SCORE GROUP BY D_YEAR ;
+  </select>
+  
+  <!-- 根据志愿条件查询 -->
+  <select id="selectByVoluntary" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_SPECIALTY_SCORE 
+    <where>
+    	<if test="specialties != null">
+	    	B_SPECIALTYID in 
+	    	<foreach collection="specialties" item="item" index="index" open="(" separator="," close=")">
+	    		#{item,jdbcType=VARCHAR}
+	    	</foreach>
+    	</if>
+    	<if test="district != null">
+	    	and I_REGIONID in 
+	    	<foreach collection="district" item="item" index="index" open="(" separator="," close=")">
+	    		#{item,jdbcType=VARCHAR}
+	    	</foreach>
+    	</if>
+    	<if test="Itype != null">
+    		and I_TYPE = #{iType,jdbcType=INTEGER} 
+    	</if>
+    	<if test="score != null">
+    		and I_MINIMUM &lt; #{score,jdbcType=VARCHAR}
+    	</if>
+    </where>
+    order by I_MINIMUM
+  </select>
+  
+</mapper>

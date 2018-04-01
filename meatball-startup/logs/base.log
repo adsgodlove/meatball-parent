@@ -1,0 +1,180 @@
+2018-03-18 17:23:37,200 INFO (StartupInfoLogger.java:48)- Starting MeatballApplication on office with PID 14668 (started by 翔宇 in C:\Users\翔宇\git\exuanbao\meatball\meatball-parent\meatball-startup)
+2018-03-18 17:23:37,210 DEBUG (StartupInfoLogger.java:51)- Running with Spring Boot v1.5.7.RELEASE, Spring v4.3.11.RELEASE
+2018-03-18 17:23:37,211 INFO (SpringApplication.java:593)- No active profile set, falling back to default profiles: default
+2018-03-18 17:23:43,220 INFO (ShiroConfig.java:96)- The authorization module loads successfully. (权限认证模块加载成功。)
+2018-03-18 17:23:43,704 INFO (ShiroConfig.java:165)- RememberMeManager loads successfully. ( 记住我管理模块加载成功。)
+2018-03-18 17:23:43,705 INFO (ShiroConfig.java:148)- RememberMeCookie write successfully. (记住我模块cookie写入成功。)
+2018-03-18 17:23:45,827 INFO (Upload.java:93)- Initialization upload parameter is successful. (初始化上传参数成功。)
+2018-03-18 17:23:46,362 INFO (CorsConfig.java:55)- Registered cross-domain support success. (注册跨域支持成功。)
+2018-03-18 17:23:47,221 INFO (SpringUtil.java:34)- Common class get SpringBean is loads successfully. (普通类获取SpringBean模块加载成功。)
+2018-03-18 17:23:58,834 INFO (StartupInfoLogger.java:57)- Started MeatballApplication in 22.232 seconds (JVM running for 23.569)
+2018-03-18 17:23:58,839 INFO (MeatballApplication.java:28)- Service startup complete. (服务启动完成。)
+2018-03-18 17:24:09,867 INFO (SysLogService.java:60)- =======================通知开始=======================
+2018-03-18 17:24:09,876 INFO (SysLogService.java:66)- 请求方法:com.meatball.login.controller.LoginController.validate()
+2018-03-18 17:24:09,878 INFO (SysLogService.java:67)- 方法描述:用户登陆
+2018-03-18 17:24:09,883 INFO (SysLogService.java:68)- 请求人:admin
+2018-03-18 17:24:09,883 INFO (SysLogService.java:69)- 请求IP:127.0.0.1
+2018-03-18 17:24:10,098 DEBUG (BaseJdbcLogger.java:159)- ==>  Preparing: insert into sys_log ( description, method, params, type, request_ip, operate_user, operate_date ) values ( ?, ?, ?, ?, ?, ?, ? ) 
+2018-03-18 17:24:10,321 DEBUG (BaseJdbcLogger.java:159)- ==> Parameters: 用户登陆(String), com.meatball.login.controller.LoginController.validate()(String), {"account":"admin","password":"123","rememberMe":false,"resetPwd":false,"statusType":false};(String), 0(Integer), 127.0.0.1(String), admin(String), 2018-03-18 17:24:09.887(Timestamp)
+2018-03-18 17:24:10,337 DEBUG (BaseJdbcLogger.java:159)- <==    Updates: 1
+2018-03-18 17:24:10,339 INFO (SysLogService.java:101)- =======================通知结束=======================
+2018-03-18 17:24:10,345 DEBUG (BaseJdbcLogger.java:159)- ==>  Preparing: select id, avatar, account, password, salt, name, birthday, sex, email, phone, roleid, deptid, status, createtime, version from sys_user WHERE account = ? 
+2018-03-18 17:24:10,390 DEBUG (BaseJdbcLogger.java:159)- ==> Parameters: admin(String)
+2018-03-18 17:24:10,500 DEBUG (BaseJdbcLogger.java:159)- <==      Total: 1
+2018-03-18 17:24:10,527 DEBUG (MeatballRealm.java:79)- 验证信息：{"birthday":1515600000000,"statusType":false,"createtimeText":"2017-01-10 14:41:24","birthdayText":"2018-01-11","password":"65ae02591f484ec799092cf3aa1749c9","sexName":"女","statusName":"启用","verify":"admin","id":3,"email":"admin@meatball.com","createtime":1484030484000,"salt":"ccc","sex":2,"avatar":"MjAxOC0wMy0wNC8xNTIwMTUxNDUxOTc4LmpwZw==.jpg","resetPwd":false,"phone":"13888888888","name":"系统管理员","rememberMe":false,"account":"admin","status":1}
+2018-03-18 17:24:10,542 DEBUG (BaseJdbcLogger.java:159)- ==>  Preparing: select id, role_name, role_sign, role_view, remark, create_time, update_time from sys_role r WHERE r.id in (select role_id from sys_user_role_links l where l.user_id=?); 
+2018-03-18 17:24:10,549 DEBUG (BaseJdbcLogger.java:159)- ==> Parameters: 3(Long)
+2018-03-18 17:24:10,563 DEBUG (BaseJdbcLogger.java:159)- <==      Total: 1
+2018-03-18 17:24:10,566 DEBUG (BaseJdbcLogger.java:159)- ==>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = 0 order by order_num 
+2018-03-18 17:24:10,569 DEBUG (BaseJdbcLogger.java:159)- ==> Parameters: 
+2018-03-18 17:24:10,584 DEBUG (BaseJdbcLogger.java:159)- ====>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,586 DEBUG (BaseJdbcLogger.java:159)- ====> Parameters: 65(Integer)
+2018-03-18 17:24:10,598 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,603 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 96(Integer)
+2018-03-18 17:24:10,616 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 0
+2018-03-18 17:24:10,618 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,618 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 97(Integer)
+2018-03-18 17:24:10,629 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 0
+2018-03-18 17:24:10,631 DEBUG (BaseJdbcLogger.java:159)- <====      Total: 2
+2018-03-18 17:24:10,632 DEBUG (BaseJdbcLogger.java:159)- ====>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,633 DEBUG (BaseJdbcLogger.java:159)- ====> Parameters: 125(Integer)
+2018-03-18 17:24:10,644 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,645 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 130(Integer)
+2018-03-18 17:24:10,658 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,660 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 126(Integer)
+2018-03-18 17:24:10,670 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,674 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,677 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 127(Integer)
+2018-03-18 17:24:10,690 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,702 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,703 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 128(Integer)
+2018-03-18 17:24:10,715 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,717 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,717 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 129(Integer)
+2018-03-18 17:24:10,728 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,729 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 4
+2018-03-18 17:24:10,730 DEBUG (BaseJdbcLogger.java:159)- <====      Total: 1
+2018-03-18 17:24:10,732 DEBUG (BaseJdbcLogger.java:159)- ====>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,733 DEBUG (BaseJdbcLogger.java:159)- ====> Parameters: 95(Integer)
+2018-03-18 17:24:10,744 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,745 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 98(Integer)
+2018-03-18 17:24:10,756 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 0
+2018-03-18 17:24:10,760 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,762 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 99(Integer)
+2018-03-18 17:24:10,773 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 0
+2018-03-18 17:24:10,780 DEBUG (BaseJdbcLogger.java:159)- <====      Total: 2
+2018-03-18 17:24:10,781 DEBUG (BaseJdbcLogger.java:159)- ====>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,782 DEBUG (BaseJdbcLogger.java:159)- ====> Parameters: 90(Integer)
+2018-03-18 17:24:10,793 DEBUG (BaseJdbcLogger.java:159)- <====      Total: 0
+2018-03-18 17:24:10,795 DEBUG (BaseJdbcLogger.java:159)- ====>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,796 DEBUG (BaseJdbcLogger.java:159)- ====> Parameters: 63(Integer)
+2018-03-18 17:24:10,810 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,811 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 68(Integer)
+2018-03-18 17:24:10,828 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,829 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 113(Integer)
+2018-03-18 17:24:10,840 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,843 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,844 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 109(Integer)
+2018-03-18 17:24:10,854 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,856 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,857 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 110(Integer)
+2018-03-18 17:24:10,868 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,870 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,870 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 111(Integer)
+2018-03-18 17:24:10,880 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,881 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 4
+2018-03-18 17:24:10,882 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,883 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 94(Integer)
+2018-03-18 17:24:10,894 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,894 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 112(Integer)
+2018-03-18 17:24:10,904 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,905 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,906 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 114(Integer)
+2018-03-18 17:24:10,916 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,917 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,917 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 115(Integer)
+2018-03-18 17:24:10,928 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,929 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,930 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 116(Integer)
+2018-03-18 17:24:10,939 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,940 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 4
+2018-03-18 17:24:10,941 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,942 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 64(Integer)
+2018-03-18 17:24:10,952 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,953 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 117(Integer)
+2018-03-18 17:24:10,963 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,964 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,965 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 118(Integer)
+2018-03-18 17:24:10,974 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,976 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,976 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 119(Integer)
+2018-03-18 17:24:10,986 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,987 DEBUG (BaseJdbcLogger.java:159)- ========>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:10,988 DEBUG (BaseJdbcLogger.java:159)- ========> Parameters: 120(Integer)
+2018-03-18 17:24:10,998 DEBUG (BaseJdbcLogger.java:159)- <========      Total: 0
+2018-03-18 17:24:10,998 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 4
+2018-03-18 17:24:10,999 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:11,000 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 93(Integer)
+2018-03-18 17:24:11,009 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 0
+2018-03-18 17:24:11,010 DEBUG (BaseJdbcLogger.java:159)- ======>  Preparing: select id, pid, name, href, perms, type, icon, order_num, create_time, spread from sys_menu WHERE pid = ? order by order_num 
+2018-03-18 17:24:11,011 DEBUG (BaseJdbcLogger.java:159)- ======> Parameters: 124(Integer)
+2018-03-18 17:24:11,021 DEBUG (BaseJdbcLogger.java:159)- <======      Total: 0
+2018-03-18 17:24:11,021 DEBUG (BaseJdbcLogger.java:159)- <====      Total: 5
+2018-03-18 17:24:11,022 DEBUG (BaseJdbcLogger.java:159)- <==      Total: 5
+2018-03-18 17:24:11,035 INFO (TokenComponent.java:59)- Jeisr^l,?>0
+2018-03-18 17:24:20,235 INFO (TokenComponent.java:80)- eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzIiwiaWF0IjoxNTIxMzY1MDUxLCJzdWIiOiIxMjcuMC4wLjEiLCJpc3MiOiJtZWF0YmFsbCJ9.3tsozPkhbVzzKq_I8sNRUb6Z6rfWjVYro2kX3nZqbs0
+2018-03-18 17:24:46,415 INFO (StartupInfoLogger.java:48)- Starting MeatballApplication on office with PID 14668 (started by 翔宇 in C:\Users\翔宇\git\exuanbao\meatball\meatball-parent\meatball-startup)
+2018-03-18 17:24:46,415 DEBUG (StartupInfoLogger.java:51)- Running with Spring Boot v1.5.7.RELEASE, Spring v4.3.11.RELEASE
+2018-03-18 17:24:46,415 INFO (SpringApplication.java:593)- No active profile set, falling back to default profiles: default
+2018-03-18 17:24:48,961 INFO (ShiroConfig.java:96)- The authorization module loads successfully. (权限认证模块加载成功。)
+2018-03-18 17:24:48,966 INFO (ShiroConfig.java:165)- RememberMeManager loads successfully. ( 记住我管理模块加载成功。)
+2018-03-18 17:24:48,967 INFO (ShiroConfig.java:148)- RememberMeCookie write successfully. (记住我模块cookie写入成功。)
+2018-03-18 17:24:49,624 INFO (Upload.java:93)- Initialization upload parameter is successful. (初始化上传参数成功。)
+2018-03-18 17:24:49,936 INFO (CorsConfig.java:55)- Registered cross-domain support success. (注册跨域支持成功。)
+2018-03-18 17:24:50,367 INFO (SpringUtil.java:34)- Common class get SpringBean is loads successfully. (普通类获取SpringBean模块加载成功。)
+2018-03-18 17:24:57,164 INFO (StartupInfoLogger.java:57)- Started MeatballApplication in 10.85 seconds (JVM running for 81.899)
+2018-03-18 17:24:57,173 INFO (MeatballApplication.java:28)- Service startup complete. (服务启动完成。)
+2018-03-18 17:26:32,842 INFO (StartupInfoLogger.java:48)- Starting MeatballApplication on office with PID 14668 (started by 翔宇 in C:\Users\翔宇\git\exuanbao\meatball\meatball-parent\meatball-startup)
+2018-03-18 17:26:32,842 DEBUG (StartupInfoLogger.java:51)- Running with Spring Boot v1.5.7.RELEASE, Spring v4.3.11.RELEASE
+2018-03-18 17:26:32,842 INFO (SpringApplication.java:593)- No active profile set, falling back to default profiles: default
+2018-03-18 17:26:35,136 INFO (ShiroConfig.java:96)- The authorization module loads successfully. (权限认证模块加载成功。)
+2018-03-18 17:26:35,136 INFO (ShiroConfig.java:165)- RememberMeManager loads successfully. ( 记住我管理模块加载成功。)
+2018-03-18 17:26:35,136 INFO (ShiroConfig.java:148)- RememberMeCookie write successfully. (记住我模块cookie写入成功。)
+2018-03-18 17:26:35,782 INFO (Upload.java:93)- Initialization upload parameter is successful. (初始化上传参数成功。)
+2018-03-18 17:26:36,079 INFO (CorsConfig.java:55)- Registered cross-domain support success. (注册跨域支持成功。)
+2018-03-18 17:26:36,517 INFO (SpringUtil.java:34)- Common class get SpringBean is loads successfully. (普通类获取SpringBean模块加载成功。)
+2018-03-18 17:26:43,864 INFO (StartupInfoLogger.java:57)- Started MeatballApplication in 11.131 seconds (JVM running for 188.614)
+2018-03-18 17:26:43,880 INFO (MeatballApplication.java:28)- Service startup complete. (服务启动完成。)
+2018-03-18 17:30:58,209 INFO (StartupInfoLogger.java:48)- Starting MeatballApplication on office with PID 14668 (started by 翔宇 in C:\Users\翔宇\git\exuanbao\meatball\meatball-parent\meatball-startup)
+2018-03-18 17:30:58,209 DEBUG (StartupInfoLogger.java:51)- Running with Spring Boot v1.5.7.RELEASE, Spring v4.3.11.RELEASE
+2018-03-18 17:30:58,209 INFO (SpringApplication.java:593)- No active profile set, falling back to default profiles: default
+2018-03-18 17:31:00,443 INFO (ShiroConfig.java:96)- The authorization module loads successfully. (权限认证模块加载成功。)
+2018-03-18 17:31:00,449 INFO (ShiroConfig.java:165)- RememberMeManager loads successfully. ( 记住我管理模块加载成功。)
+2018-03-18 17:31:00,450 INFO (ShiroConfig.java:148)- RememberMeCookie write successfully. (记住我模块cookie写入成功。)
+2018-03-18 17:31:01,076 INFO (Upload.java:93)- Initialization upload parameter is successful. (初始化上传参数成功。)
+2018-03-18 17:31:01,366 INFO (CorsConfig.java:55)- Registered cross-domain support success. (注册跨域支持成功。)
+2018-03-18 17:31:01,773 INFO (SpringUtil.java:34)- Common class get SpringBean is loads successfully. (普通类获取SpringBean模块加载成功。)
+2018-03-18 17:31:08,517 INFO (StartupInfoLogger.java:57)- Started MeatballApplication in 10.389 seconds (JVM running for 453.252)
+2018-03-18 17:31:08,525 INFO (MeatballApplication.java:28)- Service startup complete. (服务启动完成。)
+2018-03-18 17:33:05,093 INFO (StartupInfoLogger.java:48)- Starting MeatballApplication on office with PID 14668 (started by 翔宇 in C:\Users\翔宇\git\exuanbao\meatball\meatball-parent\meatball-startup)
+2018-03-18 17:33:05,093 DEBUG (StartupInfoLogger.java:51)- Running with Spring Boot v1.5.7.RELEASE, Spring v4.3.11.RELEASE
+2018-03-18 17:33:05,093 INFO (SpringApplication.java:593)- No active profile set, falling back to default profiles: default
+2018-03-18 17:33:07,365 INFO (ShiroConfig.java:96)- The authorization module loads successfully. (权限认证模块加载成功。)
+2018-03-18 17:33:07,371 INFO (ShiroConfig.java:165)- RememberMeManager loads successfully. ( 记住我管理模块加载成功。)
+2018-03-18 17:33:07,372 INFO (ShiroConfig.java:148)- RememberMeCookie write successfully. (记住我模块cookie写入成功。)
+2018-03-18 17:33:07,991 INFO (Upload.java:93)- Initialization upload parameter is successful. (初始化上传参数成功。)
+2018-03-18 17:33:08,278 INFO (CorsConfig.java:55)- Registered cross-domain support success. (注册跨域支持成功。)
+2018-03-18 17:33:08,698 INFO (SpringUtil.java:34)- Common class get SpringBean is loads successfully. (普通类获取SpringBean模块加载成功。)
+2018-03-18 17:33:15,513 INFO (StartupInfoLogger.java:57)- Started MeatballApplication in 10.514 seconds (JVM running for 580.248)
+2018-03-18 17:33:15,518 INFO (MeatballApplication.java:28)- Service startup complete. (服务启动完成。)
+2018-03-18 17:36:00,616 INFO (StartupInfoLogger.java:48)- Starting MeatballApplication on office with PID 14668 (started by 翔宇 in C:\Users\翔宇\git\exuanbao\meatball\meatball-parent\meatball-startup)
+2018-03-18 17:36:00,616 DEBUG (StartupInfoLogger.java:51)- Running with Spring Boot v1.5.7.RELEASE, Spring v4.3.11.RELEASE
+2018-03-18 17:36:00,616 INFO (SpringApplication.java:593)- No active profile set, falling back to default profiles: default
+2018-03-18 17:36:02,809 INFO (ShiroConfig.java:96)- The authorization module loads successfully. (权限认证模块加载成功。)
+2018-03-18 17:36:02,816 INFO (ShiroConfig.java:165)- RememberMeManager loads successfully. ( 记住我管理模块加载成功。)
+2018-03-18 17:36:02,817 INFO (ShiroConfig.java:148)- RememberMeCookie write successfully. (记住我模块cookie写入成功。)
+2018-03-18 17:36:03,470 INFO (Upload.java:93)- Initialization upload parameter is successful. (初始化上传参数成功。)
+2018-03-18 17:36:03,755 INFO (CorsConfig.java:55)- Registered cross-domain support success. (注册跨域支持成功。)
+2018-03-18 17:36:04,193 INFO (SpringUtil.java:34)- Common class get SpringBean is loads successfully. (普通类获取SpringBean模块加载成功。)
+2018-03-18 17:36:11,197 INFO (StartupInfoLogger.java:57)- Started MeatballApplication in 10.691 seconds (JVM running for 755.932)
+2018-03-18 17:36:11,198 INFO (MeatballApplication.java:28)- Service startup complete. (服务启动完成。)

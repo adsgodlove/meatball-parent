@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.parameter.dao.SchoolBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.parameter.model.SchoolBatch" >
+    <id column="I_ID" property="iId" jdbcType="INTEGER" />
+    <result column="D_YEAR" property="dYear" jdbcType="INTEGER" />
+    <result column="V_NAME" property="vName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    I_ID, D_YEAR, V_NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCHOOL_BATCH
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_SCHOOL_BATCH
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.parameter.model.SchoolBatch" >
+    insert into T_SCHOOL_BATCH (I_ID, D_YEAR, V_NAME
+      )
+    values (#{iId,jdbcType=INTEGER}, #{dYear,jdbcType=INTEGER}, #{vName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.parameter.model.SchoolBatch" >
+    insert into T_SCHOOL_BATCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iId != null" >
+        I_ID,
+      </if>
+      <if test="dYear != null" >
+        D_YEAR,
+      </if>
+      <if test="vName != null" >
+        V_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iId != null" >
+        #{iId,jdbcType=INTEGER},
+      </if>
+      <if test="dYear != null" >
+        #{dYear,jdbcType=INTEGER},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.parameter.model.SchoolBatch" >
+    update T_SCHOOL_BATCH
+    <set >
+      <if test="dYear != null" >
+        D_YEAR = #{dYear,jdbcType=INTEGER},
+      </if>
+      <if test="vName != null" >
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.parameter.model.SchoolBatch" >
+    update T_SCHOOL_BATCH
+    set D_YEAR = #{dYear,jdbcType=INTEGER},
+      V_NAME = #{vName,jdbcType=VARCHAR}
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </update>
+  
+  <!--查询全部-->
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCHOOL_BATCH
+  </select>
+</mapper>

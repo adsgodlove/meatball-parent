@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meatball.exuanbao.appraisal.dao.TestQuestionsBankMapper">
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsBank">
+    <id column="B_ID" jdbcType="BIGINT" property="bId" />
+    <result column="B_GID" jdbcType="BIGINT" property="bGid" />
+    <result column="V_QNAME" jdbcType="VARCHAR" property="vQname" />
+    <result column="I_TYPE" jdbcType="VARCHAR" property="iType" />
+    <result column="V_TITLE" jdbcType="VARCHAR" property="vTitle" />
+    <result column="F_VALUE" jdbcType="REAL" property="fValue" />
+    <result column="D_CREATETIME" jdbcType="DATE" property="dCreatetime" />
+    <result column="V_ANSWER" jdbcType="VARCHAR" property="vAnswer" />
+    <result column="V_ANALYSIS" jdbcType="VARCHAR" property="vAnalysis" />
+  </resultMap>
+  <!-- 試題選項表 -->
+  <resultMap id="OptionsResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    <id column="B_ID" jdbcType="BIGINT" property="bId" />
+    <result column="B_QBANKID" jdbcType="BIGINT" property="bQbankid" />
+    <result column="V_OPTION" jdbcType="VARCHAR" property="vOption" />
+    <result column="V_CONTENT" jdbcType="VARCHAR" property="vContent" />
+    <result column="F_FRACTION" jdbcType="REAL" property="fFraction" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    B_ID, B_GID, V_QNAME, I_TYPE, V_TITLE, F_VALUE, D_CREATETIME, V_ANSWER, V_ANALYSIS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS_BANK
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_TEST_QUESTIONS_BANK
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank">
+    insert into T_TEST_QUESTIONS_BANK (B_ID, B_GID, V_QNAME, 
+      I_TYPE, V_TITLE, F_VALUE, 
+      D_CREATETIME, V_ANSWER, V_ANALYSIS
+      )
+    values (#{bId,jdbcType=BIGINT}, #{bGid,jdbcType=BIGINT}, #{vQname,jdbcType=VARCHAR}, 
+      #{iType,jdbcType=VARCHAR}, #{vTitle,jdbcType=VARCHAR}, #{fValue,jdbcType=REAL}, 
+      #{dCreatetime,jdbcType=DATE}, #{vAnswer,jdbcType=VARCHAR}, #{vAnalysis,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank">
+  	<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="bId">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into T_TEST_QUESTIONS_BANK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        B_ID,
+      </if>
+      <if test="bGid != null">
+        B_GID,
+      </if>
+      <if test="vQname != null">
+        V_QNAME,
+      </if>
+      <if test="iType != null">
+        I_TYPE,
+      </if>
+      <if test="vTitle != null">
+        V_TITLE,
+      </if>
+      <if test="fValue != null">
+        F_VALUE,
+      </if>
+      <if test="dCreatetime != null">
+        D_CREATETIME,
+      </if>
+      <if test="vAnswer != null">
+        V_ANSWER,
+      </if>
+      <if test="vAnalysis != null">
+        V_ANALYSIS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="bGid != null">
+        #{bGid,jdbcType=BIGINT},
+      </if>
+      <if test="vQname != null">
+        #{vQname,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null">
+        #{iType,jdbcType=VARCHAR},
+      </if>
+      <if test="vTitle != null">
+        #{vTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fValue != null">
+        #{fValue,jdbcType=REAL},
+      </if>
+      <if test="dCreatetime != null">
+        #{dCreatetime,jdbcType=DATE},
+      </if>
+      <if test="vAnswer != null">
+        #{vAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="vAnalysis != null">
+        #{vAnalysis,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank">
+    update T_TEST_QUESTIONS_BANK
+    <set>
+      <if test="bGid != null">
+        B_GID = #{bGid,jdbcType=BIGINT},
+      </if>
+      <if test="vQname != null">
+        V_QNAME = #{vQname,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null">
+        I_TYPE = #{iType,jdbcType=VARCHAR},
+      </if>
+      <if test="vTitle != null">
+        V_TITLE = #{vTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fValue != null">
+        F_VALUE = #{fValue,jdbcType=REAL},
+      </if>
+      <if test="dCreatetime != null">
+        D_CREATETIME = #{dCreatetime,jdbcType=DATE},
+      </if>
+      <if test="vAnswer != null">
+        V_ANSWER = #{vAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="vAnalysis != null">
+        V_ANALYSIS = #{vAnalysis,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank">
+    update T_TEST_QUESTIONS_BANK
+    set B_GID = #{bGid,jdbcType=BIGINT},
+      V_QNAME = #{vQname,jdbcType=VARCHAR},
+      I_TYPE = #{iType,jdbcType=VARCHAR},
+      V_TITLE = #{vTitle,jdbcType=VARCHAR},
+      F_VALUE = #{fValue,jdbcType=REAL},
+      D_CREATETIME = #{dCreatetime,jdbcType=DATE},
+      V_ANSWER = #{vAnswer,jdbcType=VARCHAR},
+      V_ANALYSIS = #{vAnalysis,jdbcType=VARCHAR}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 根據試卷ID查詢出所有試題 -->
+  <select id="selectByBQid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS_BANK
+    where B_GID = #{bId,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 根據題目ID查詢出選項 -->
+  <select id="selectByBQbankid" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank" resultMap="OptionsResultMap">
+  	 select  
+    	B_ID, B_QBANKID, V_OPTION, V_CONTENT, F_FRACTION, TYPE 
+    from T_TEST_QUESTIONS_SUBJECT_OPTION
+    where B_QBANKID = #{bId,jdbcType=BIGINT}
+  </select>
+</mapper>

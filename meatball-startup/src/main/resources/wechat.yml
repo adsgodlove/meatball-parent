@@ -1,0 +1,7 @@
+weixin:
+ appid: wx4d37253de6011888
+ appsecret: 5b6d548ecd9233c31f90a4ca719e3335
+ mch_id: 
+ key: 
+ payCallback:
+ host: http://bondpartner.cn/wjp/weixin

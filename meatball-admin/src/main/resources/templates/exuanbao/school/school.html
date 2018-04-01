@@ -1,0 +1,1181 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-md12">
+			<div class="layui-row">
+				<div class="layui-col-md1">
+					<form class="layui-form" style="float: left;">
+						<button class="layui-btn layui-btn-warm" lay-submit lay-filter="addSchoolBtn" title="新增">
+							<i class="layui-icon">&#xe61f;</i> 新增
+						</button>
+					</form>
+				</div>
+				<div class="layui-col-md11">
+					<form class="layui-form" id="queryForm" style="float: right;">
+						<div class="layui-inline">
+							<input type="text" name="vName" title="名称" placeholder="请输入名称" autocomplete="off" class="layui-input">
+					 	</div>
+					 	<div class="layui-input-inline">
+							<select name="iPlaceid" title="所在地" class="iPlaceid">
+								<option value="">请选择所在地</option>
+								<option th:each="region,iterStat:${regionArray}" th:value="${region.iCode}" th:text="${region.vName}"></option>
+							</select>
+						</div>
+					 	<div class="layui-input-inline">
+							<select name="iNatureid" title="高校性质">
+								<option value="">请选择高校性质</option>
+								<option value="公办">公办</option>
+								<option value="民办">民办</option>
+							</select>
+						</div>
+						<div class="layui-input-inline">
+							<select name="iSubid" title="高校隶属">
+								<option value="">请选择高校隶属</option>
+								<option th:each="subjection,iterStat:${subjectionArray}" th:value="${subjection.iId}" th:text="${subjection.vName}"></option>
+							</select>
+						</div>
+						<div class="layui-input-inline">
+							<select name="iTypeid" title="高校类型">
+								<option value="">请选择高校类型</option>
+								<option th:each="schoolType,iterStat:${schoolTypeArray}" th:value="${schoolType.iId}" th:text="${schoolType.vName}"></option>
+							</select>
+						</div>
+						<div class="layui-input-inline">
+							<select name="iLevel" title="高校层次">
+								<option value="">请选择高校层次</option>
+								<option th:each="level,iterStat:${levelArray}" th:value="${level.iId}" th:text="${level.vName}"></option>
+							</select>
+						</div>
+						<button class="layui-btn" lay-submit lay-filter="query">
+							<i class="layui-icon">&#xe615;</i> 查询
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<!-- 表格 -->
+			<table id="schoolTable" lay-filter="schoolTable"></table>
+		</div>
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationBar">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="scoreDetail">专业分数线</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+</script>
+
+<!-- 状态操作 -->
+<script type="text/html" id="status">
+	<input type="checkbox" id="{{d.id}}" name="status" value="{{d.status}}" lay-skin="switch" lay-text="启用|冻结" lay-filter="status" {{ d.status == 1 ? 'checked' : '' }}>
+</script>
+
+<!-- 专业分数线名称 -->
+<script type="text/html" id=specialtyScoreName>
+	<span>{{ d.iType == 1 ? d.vSchoolname : d.vSpecialtyname }}</span>
+</script>
+
+<!-- 新增 -->
+<script type="text/html" id="schoolForm">
+<form class="layui-form layui-form-pane">
+	<div class="layui-row">
+		<div class="layui-col-md4">
+			<img class="layui-user-head-img" src="/meatball/images/head_null.jpg">
+		</div>
+		<div class="layui-col-md8">
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="vName" autocomplete="off" placeholder="请输入名称" class="layui-input" lay-verify="required">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">代码</label>
+					<div class="layui-input-block">
+						<input type="text" name="vCode" autocomplete="off" placeholder="请输入院校代码" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">建校时间</label>
+					<div class="layui-input-block">
+						<input type="text" name="dStime" autocomplete="off" placeholder="请选择建校时间" class="layui-input birthday" readonly="readonly" lay-verify="required">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业</label>
+				<div class="layui-input-block">
+					<div class="layui-unselect layui-form-select downpanel-tree">
+						<div class="layui-select-title">
+							<span class="layui-input layui-unselect" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">请选择专业</span>
+							<input type="hidden" name="specialtyStr" id="specialtyStr" value="">
+							<i class="layui-edge"></i>
+						</div>
+						<dl class="layui-anim layui-anim-upbit">
+							<dd>
+								<ul id="specialtyTree" class="ztree"></ul>
+							</dd>
+						</dl>						
+					</div>
+				</div>		
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">排名</label>
+				<div class="layui-input-block">
+					<input type="text" name="iRanking" autocomplete="off" placeholder="请输入排名" class="layui-input"  lay-verify="required|number">
+				</div>
+			</div>
+		</div>	
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">省份</label>
+				<div class="layui-input-block">
+					<select name="iPlaceid" id="iPlaceid" lay-filter="iPlaceid">
+						<option value="">请选择省份</option>
+						{{# for(var i = 0; i < regionArray.length; i++) { }}
+							<option value="{{regionArray[i].iCode}}" >{{regionArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">市</label>
+				<div class="layui-input-block">
+					<select name="iRegionid" id="iRegionid" lay-filter="iRegionid">
+						<option value="">请选择市</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校性质</label>
+				<div class="layui-input-block">
+					<select name="iNatureid" id="iNatureid" title="高校性质" lay-filter="iNatureid">
+						<option value="">请选择高校性质</option>
+						<option value="1">公办</option>
+						<option value="2">民办</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校类型</label>
+				<div class="layui-input-block">
+					<select name="iTypeid" id="iTypeid" title="高校类型">
+						<option value="">请选择高校类型</option>
+						{{# for(var i = 0; i < schoolTypeArray.length; i++) { }}
+							<option value="{{schoolTypeArray[i].iId}}" >{{schoolTypeArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校隶属类型</label>
+				<div class="layui-input-block">
+					<select name="iSubid" id="iSubid" title="高校隶属">
+						<option value="">请选择高校隶属</option>
+						{{# for(var i = 0; i < subjectionArray.length; i++) { }}
+							<option value="{{subjectionArray[i].iId}}" >{{subjectionArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校层次</label>
+				<div class="layui-input-block">
+					<select name="iLevel" id="iLevel" multiple title="高校层次">
+						<option value="">请选择高校层次</option>
+						{{# for(var i = 0; i < levelArray.length; i++) { }}
+							<option value="{{levelArray[i].iId}}" >{{levelArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校网址</label>
+				<div class="layui-input-block">
+					<input type="text" name="vUrl" autocomplete="off" placeholder="请输入院校网址" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">电子邮箱</label>
+				<div class="layui-input-block">
+					<input type="text" name="vEmail" autocomplete="off" placeholder="请输入电子邮箱" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">联系电话</label>
+				<div class="layui-input-block">
+					<input type="text" name="vPhone" autocomplete="off" placeholder="请输入联系电话" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校地址</label>
+				<div class="layui-input-block">
+					<input type="text" name="vAddress" autocomplete="off" placeholder="请输入院校地址" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">占地面积</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCovering" autocomplete="off" placeholder="请输入占地面积" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">校舍面积</label>
+				<div class="layui-input-block">
+					<input type="text" name="vSchoolhouse" autocomplete="off" placeholder="请输入校舍面积" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">固定资产</label>
+				<div class="layui-input-block">
+					<input type="text" name="vAsset" autocomplete="off" placeholder="请输入固定资产" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">教学仪器</label>
+				<div class="layui-input-block">
+					<input type="text" name="vInstrument" autocomplete="off" placeholder="请输入教学仪器" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">图书馆藏</label>
+				<div class="layui-input-block">
+					<input type="text" name="vLibrary" autocomplete="off" placeholder="请输入图书馆藏" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业数量</label>
+				<div class="layui-input-block">
+					<input type="text" name="vMajor" autocomplete="off" placeholder="请输入专业数量" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">在校学生</label>
+				<div class="layui-input-block">
+					<input type="text" name="vStudents" autocomplete="off" placeholder="请输入在校学生" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专任教师</label>
+				<div class="layui-input-block">
+					<input type="text" name="vTeachers" autocomplete="off" placeholder="请输入专任教师" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">历史沿革</label>
+				<div class="layui-input-block">
+					<input type="text" name="vHistory" autocomplete="off" placeholder="请输入历史沿革" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">院系设置</label>
+				<div class="layui-input-block">
+					<input type="text" name="vFaculty" autocomplete="off" placeholder="请输入院系设置" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">合作办学</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCooperation" autocomplete="off" placeholder="请输入合作办学" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">特色解读</label>
+				<div class="layui-input-block">
+					<input type="text" name="vFeature" autocomplete="off" placeholder="请输入特色解读" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">学科实力</label>
+				<div class="layui-input-block">
+					<input type="text" name="tStrength" autocomplete="off" placeholder="请输入学科实力" class="layui-input" >
+				</div>
+			</div>
+		</div>
+		<div class="hidden-attribute">
+			<button class="layui-btn submit" lay-submit="" lay-filter="addSchool">新增</button>
+			<button class="layui-btn reset" type="reset">重置</button>
+		</div>
+	</div>
+	<input class="hidden-attribute" name="pLogo">
+</form>
+</script>
+
+<!-- 详情 -->
+<script type="text/html" id="schoolView">
+<table class="layui-table" style="width: 680px; margin: 5px 10px 10px 10px;">
+	<td rowspan=5" class="table-td-head">
+			<img class="layui-user-head-img" src="{{d.pLogo}}">
+		</td>
+	<tr>
+		<td class="table-td-title">名称</td>
+		<td width="265">{{d.vName == null ? '' : d.vName}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">代码</td>
+		<td width="265">{{ d.vCode == null ? '' : d.vCode}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">建校时间</td>
+		<td width="265">{{ d.dStime == null ? '' : TimeObjectUtil.longMsTimeConvertToDate(d.dStime) }}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">专业</td>
+		<td></td>
+	</tr>
+</table>
+<table class="layui-table" style="width: 680px; margin: 5px 10px 10px 10px;">
+	<tr>
+		<td class="table-td-title">排名</td>
+		<td width="265">{{d.iRanking == null ? '' : d.iRanking}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">省份</td>
+		<td width="265">{{d.vPlacename == null ? '' : d.vPlacename}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">市</td>
+		<td width="265">{{d.vRegionname == null ? '' : d.vRegionname}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院校性质</td>
+		<td width="265">{{d.iNaturename == null ? '' : d.iNaturename}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院校类型</td>
+		<td width="265">{{d.vTypename == null ? '' : d.vTypename}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院校隶属类型</td>
+		<td width="265">{{d.vSubname == null ? '' : d.vSubname}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院校层次</td>
+		<td width="265">{{d.vLevelname == null ? '' : d.vLevelname}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院校网址</td>
+		<td width="265">{{d.vUrl == null ? '' : d.vUrl}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">电子邮箱</td>
+		<td width="265">{{d.vEmail == null ? '' : d.vEmail}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">联系电话</td>
+		<td width="265">{{d.vPhone == null ? '' : d.vPhone}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院校地址</td>
+		<td width="265">{{d.vAddress == null ? '' : d.vAddress}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">占地面积</td>
+		<td width="265">{{d.vCovering == null ? '' : d.vCovering}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">校舍面积</td>
+		<td width="265">{{d.vSchoolhouse == null ? '' : d.vSchoolhouse}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">固定资产</td>
+		<td width="265">{{d.vAsset == null ? '' : d.vAsset}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">教学仪器</td>
+		<td width="265">{{d.vInstrument == null ? '' : d.vInstrument}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">图书馆藏</td>
+		<td width="265">{{d.vLibrary == null ? '' : d.vLibrary}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">专业数量</td>
+		<td width="265">{{d.vMajor == null ? '' : d.vMajor}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">在校学生</td>
+		<td width="265">{{d.vStudents == null ? '' : d.vStudents}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">专任教师</td>
+		<td width="265">{{d.vTeachers == null ? '' : d.vTeachers}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">历史沿革</td>
+		<td width="265">{{d.vHistory == null ? '' : d.vHistory}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">院系设置</td>
+		<td width="265">{{d.vFaculty == null ? '' : d.vFaculty}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">合作办学</td>
+		<td width="265">{{d.vCooperation == null ? '' : d.vCooperation}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">特色解读</td>
+		<td width="265">{{d.vFeature == null ? '' : d.vFeature}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">学科实力</td>
+		<td width="265">{{d.tStrength == null ? '' : d.tStrength}}</td>
+	</tr>
+</table>
+<br>
+</script>
+
+<!-- 专业分数线详情 -->
+<script type="text/html" id="scoreView">
+<div class="layui-fluid" style="width: 680px; height: 600px;">
+	<div class="layui-row">
+		<div class="layui-col-md12">
+			<form class="layui-form" id="queryForm" style="float: right;">
+				<input type="hidden" id="bSchoolidScoreView" value="{{d.bId}}"> 
+				<div class="layui-input-inline">
+					<select name="dYear" id="dYearScoreView" title="年份" lay-filter="dYearScoreView">
+						<option value="">请选择年份</option>
+						{{# for(var i = 0; i < groupByYear.length; i++) { }}
+							<option value="{{groupByYear[i]}}" >{{groupByYear[i]}}</option>
+						{{# } }}
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<select name="iSubject" id="iSubjectScoreView" title="科目" lay-filter="iSubjectScoreView">
+						<option value="">请选择科目</option>
+						<option value="1">文科</option>
+						<option value="2">理科</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<select name="iBatchid" id="iBatchidScoreView" title="批次" lay-filter="iBatchidScoreView">
+						<option value="">请选择批次</option>
+						{{# for(var i = 0; i < batchArray.length; i++) { }}
+							<option value="{{batchArray[i].iId}}" >{{batchArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</form>
+		</div>
+		<div class="layui-col-md12">
+			<table id="scoreTable" lay-filter="scoreTable"></table>
+		</div>
+	</div>
+</div>
+</script>
+
+<!-- 编辑 -->
+<script type="text/html" id="schoolEdit">
+<form class="layui-form layui-form-pane">
+	<div class="layui-row">
+		<div class="layui-col-md4">
+			<img class="layui-user-head-img" src="{{d.pLogo}}">
+		</div>
+		<div class="layui-col-md8">
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="vName" autocomplete="off" placeholder="请输入名称" class="layui-input" lay-verify="required" value="{{d.vName}}">
+						<input type="hidden" name="bId" value="{{d.bId == null ? '' : d.bId}}">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-md12">		
+				<div class="layui-form-item">
+					<label class="layui-form-label">代码</label>
+					<div class="layui-input-block">
+						<input type="text" name="vCode" autocomplete="off" placeholder="请输入院校代码" class="layui-input" value="{{d.vCode == null ? '' : d.vCode}}" >
+					</div>		
+				</div>
+			</div>
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">建校时间</label>
+					<div class="layui-input-block">
+						<input type="text" name="dStime" autocomplete="off" placeholder="请选择建校时间" class="layui-input birthday" readonly="readonly" 
+						lay-verify="required" value="{{ d.dStime == null ? '' : TimeObjectUtil.longMsTimeConvertToDate(d.dStime) }}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="layui-row">	
+		<div class="layui-col-md6">		
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业</label>
+				<div class="layui-input-block">
+					<div class="layui-unselect layui-form-select downpanel-tree">
+						<div class="layui-select-title">
+							<span class="layui-input layui-unselect" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">请选择专业</span>
+							<input type="hidden" name="specialtyStr" id="specialtyStr" value="">
+							<i class="layui-edge"></i>
+						</div>
+						<dl class="layui-anim layui-anim-upbit">
+							<dd>
+								<ul id="specialtyTree" class="ztree"></ul>
+							</dd>
+						</dl>						
+					</div>
+				</div>		
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">排名</label>
+				<div class="layui-input-block">
+					<input type="text" name="iRanking" autocomplete="off" placeholder="请输入排名" class="layui-input" value="{{d.iRanking == null ? '' : d.iRanking}}" >
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">省份</label>
+				<div class="layui-input-block">
+					<select name="iPlaceid" id="iPlaceid" lay-filter="iPlaceid">
+						<option value="">请选择省份</option>
+						{{# for(var i = 0; i < regionArray.length; i++) { }}
+							<option value="{{regionArray[i].iCode}}" {{d.iPlaceid == regionArray[i].iCode ? 'selected ' : ''}}>{{regionArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">市</label>
+				<div class="layui-input-block">
+					<select name="iRegionid" id="iRegionid" lay-filter="iRegionid">
+						<option value="">请选择市</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校性质</label>
+				<div class="layui-input-block">
+					<select name="iNatureid" id="iNatureid" title="高校性质">
+						<option value="">请选择高校性质</option>
+						<option value="1" {{d.iNatureid == 1 ? 'selected ' : ''}}>公办</option>
+						<option value="2" {{d.sex == 2 ? 'selected ' : ''}}>民办</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校类型</label>
+				<div class="layui-input-block">
+					<select name="iTypeid" id="iTypeid" title="高校类型">
+						<option value="">请选择高校类型</option>
+						{{# for(var i = 0; i < schoolTypeArray.length; i++) { }}
+							<option value="{{schoolTypeArray[i].iId}}" {{d.iTypeid == schoolTypeArray[i].iId ? 'selected ' : ''}}>{{schoolTypeArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校隶属类型</label>
+				<div class="layui-input-block">
+					<select name="iSubid" id="iSubid" title="高校隶属">
+						<option value="">请选择高校隶属</option>
+						{{# for(var i = 0; i < subjectionArray.length; i++) { }}
+							<option value="{{subjectionArray[i].iId}}" {{d.iSubid == subjectionArray[i].iId ? 'selected ' : ''}}>{{subjectionArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校层次</label>
+				<div class="layui-input-block">
+					<select name="iLevel" id="iLevel" multiple title="高校层次">
+						<option value="">请选择高校层次</option>
+						{{# for(var i = 0; i < levelArray.length; i++) { }}
+							<option value="{{levelArray[i].iId}}" {{d.iLevel == levelArray[i].iId ? 'selected ' : ''}}>{{levelArray[i].vName}}</option>
+						{{# } }}
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">	
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校网址</label>
+				<div class="layui-input-block">
+					<input type="text" name="vUrl" autocomplete="off" placeholder="请输入院校网址" class="layui-input"  value="{{d.vUrl == null ? '' : d.vUrl}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">电子邮箱</label>
+				<div class="layui-input-block">
+					<input type="text" name="vEmail" autocomplete="off" placeholder="请输入电子邮箱" class="layui-input"  value="{{d.vEmail == null ? '' : d.vEmail}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">联系电话</label>
+				<div class="layui-input-block">
+					<input type="text" name="vPhone" autocomplete="off" placeholder="请输入联系电话" class="layui-input" value="{{d.vPhone == null ? '' : d.vPhone}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">院校地址</label>
+				<div class="layui-input-block">
+					<input type="text" name="vAddress" autocomplete="off" placeholder="请输入院校地址" class="layui-input" value="{{d.vAddress == null ? '' : d.vAddress}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">占地面积</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCovering" autocomplete="off" placeholder="请输入占地面积" class="layui-input" value="{{d.vCovering == null ? '' : d.vCovering}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">校舍面积</label>
+				<div class="layui-input-block">
+					<input type="text" name="vSchoolhouse" autocomplete="off" placeholder="请输入校舍面积" class="layui-input" value="{{d.vSchoolhouse == null ? '' : d.vSchoolhouse}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">固定资产</label>
+				<div class="layui-input-block">
+					<input type="text" name="vAsset" autocomplete="off" placeholder="请输入固定资产" class="layui-input" value="{{d.vAsset == null ? '' : d.vAsset}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">教学仪器</label>
+				<div class="layui-input-block">
+					<input type="text" name="vInstrument" autocomplete="off" placeholder="请输入教学仪器" class="layui-input" value="{{d.vInstrument == null ? '' : d.vInstrument}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">图书馆藏</label>
+				<div class="layui-input-block">
+					<input type="text" name="vLibrary" autocomplete="off" placeholder="请输入图书馆藏" class="layui-input" value="{{d.vLibrary == null ? '' : d.vLibrary}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业数量</label>
+				<div class="layui-input-block">
+					<input type="text" name="vMajor" autocomplete="off" placeholder="请输入专业数量" class="layui-input" value="{{d.vMajor == null ? '' : d.vMajor}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">在校学生</label>
+				<div class="layui-input-block">
+					<input type="text" name="vStudents" autocomplete="off" placeholder="请输入在校学生" class="layui-input" value="{{d.vStudents == null ? '' : d.vStudents}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专任教师</label>
+				<div class="layui-input-block">
+					<input type="text" name="vTeachers" autocomplete="off" placeholder="请输入专任教师" class="layui-input" value="{{d.vTeachers == null ? '' : d.vTeachers}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">历史沿革</label>
+				<div class="layui-input-block">
+					<input type="text" name="vHistory" autocomplete="off" placeholder="请输入历史沿革" class="layui-input" value="{{d.vHistory == null ? '' : d.vHistory}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">院系设置</label>
+				<div class="layui-input-block">
+					<input type="text" name="vFaculty" autocomplete="off" placeholder="请输入院系设置" class="layui-input" value="{{d.vFaculty == null ? '' : d.vFaculty}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">合作办学</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCooperation" autocomplete="off" placeholder="请输入合作办学" class="layui-input" value="{{d.vCooperation == null ? '' : d.vCooperation}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">特色解读</label>
+				<div class="layui-input-block">
+					<input type="text" name="vFeature" autocomplete="off" placeholder="请输入特色解读" class="layui-input" value="{{d.vFeature == null ? '' : d.vFeature}}" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">学科实力</label>
+				<div class="layui-input-block">
+					<input type="text" name="tStrength" autocomplete="off" placeholder="请输入学科实力" class="layui-input" value="{{d.tStrength == null ? '' : d.tStrength}}" >
+				</div>
+			</div>
+		</div>
+		<div class="hidden-attribute">
+			<button class="layui-btn submit" lay-submit="" lay-filter="updateSchool">编辑</button>
+			<button class="layui-btn reset" type="reset">重置</button>
+		</div>
+	</div>
+	<input class="hidden-attribute" name="pLogo">
+</form>
+</script>
+
+<!-- javascirpt -->
+<script th:inline="javascript">  
+	var allRoles = /*[[${allRoles}]]*/  
+</script>
+<!-- 通过父级编码查询行政单位 -->
+<script th:inline="javascript">  
+	var regionArray = /*[[${regionArray}]]*/  
+</script>
+<!-- 查询全部学校录取批次 -->
+<script th:inline="javascript">  
+	var batchArray = /*[[${batchArray}]]*/  
+</script>
+<!-- 查询全部学校层次 -->
+<script th:inline="javascript">  
+	var levelArray = /*[[${levelArray}]]*/  
+</script>
+<!-- //通过父级编码查询学校地方所属(0  大类、1 地方所属、2 教育部直属、3 其它中央部署') -->
+<script th:inline="javascript">  
+	var subjectionArray = /*[[${subjectionArray}]]*/ 
+</script>
+<!-- //查询全部学校类型 -->
+<script th:inline="javascript">  
+	var schoolTypeArray = /*[[${schoolTypeArray}]]*/  
+</script>
+<!-- //查询全部专业 -->
+<script th:inline="javascript">  
+	var specialtyTreeAll = /*[[${specialtyTreeAll}]]*/  
+</script>
+<!-- //学校专业分数年限 -->
+<script th:inline="javascript">  
+	var groupByYear = /*[[${groupByYear}]]*/  
+</script>
+<script type="text/javascript">
+layui.use(['table', 'form', 'jquery', 'laydate', 'upload', 'laytpl', 'element', 'ztree', 'ztreecheck'], function() {
+	var table = layui.table,
+		form = layui.form,
+		laydate = layui.laydate,
+		upload = layui.upload,
+		element = layui.element,
+		laytpl = layui.laytpl,
+		$ = layui.jquery,
+		layer = layui.layer,
+		ztree = layui.ztree, 
+		checkedMenu = -1, 
+		$addSchoolBtn = $('#addSchoolBtn'),
+		$queryForm = $('#queryForm'),
+		layerIndex = 1;
+	
+	// 绘制表格
+	table.render({
+		elem: '#schoolTable',
+		url: '/exuanbao/school/listParams',
+		page: true, // 开始分页
+		// cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'numbers', title: '序号'},
+			/* {field:'account', title: '账号', sort: true}, */
+			{field:'vName', title: '名称'},
+			{field:'vPlacename', title: '院校所在地'},
+			{field:'vRegionname', title: '高校地区'},
+			{field:'iNaturename', title: '院校性质'},
+			{field:'vTypename', title: '院校类型'},
+			{field:'vSubname', title: '院校隶属名称'},
+			{field:'vLevelname', title: '院校层次'},
+			{field:'vUrl', title: '院校网址'},
+			{field:'iStatus', title: '状态', align:'center', templet: '#status'},
+			{fixed: 'right', align:'center', width: 180, toolbar: '#operationBar'}
+		]]
+	});
+	
+	//监听工具条
+	table.on('tool(schoolTable)', function(obj) {
+		var data = obj.data,
+			$this = $(this),
+			getView = schoolView.innerHTML,
+			getScoreView = scoreView.innerHTML,
+			getEdit = schoolEdit.innerHTML;
+		if(obj.event === 'detail') {
+			$.get('/exuanbao/school/info?bId=' + data.bId, function(res) {
+				laytpl(getView).render(res, function(html) {
+					popupUserWin($this.text(), html, false);
+				})
+			})
+		}else if(obj.event === 'scoreDetail') {
+			$.get('/exuanbao/school/info?bId=' + data.bId, function(res) {
+				res.batchArray = batchArray;
+				laytpl(getScoreView).render(res, function(html) {
+					popupUserWin($this.text(), html, false);
+					rendering();
+				})
+			})
+			//院校专业分数线table
+			scoreTable({bSchoolid:data.bId});
+		} else if(obj.event === 'del') {
+			layer.confirm('真的删除行么', {icon: 3}, function(index) {
+				operateSchool('delete', {'bId': data.bId}, false, obj);
+				layer.close(index);
+			});
+		} else if(obj.event === 'edit') {
+			$.get('/exuanbao/school/info?bId=' + data.bId, function(res) {
+				laytpl(getEdit).render(res, function(html) {
+					popupUserWin($this.text(), html, true);
+					city(res.iPlaceid, res.iRegionid);
+				});
+				//院校层次
+				var schoolLevels = res.schoolLevels;
+				var levelArray = [];
+				$(schoolLevels).each(function(i){
+					levelArray.push(schoolLevels[i].iId);
+				});
+				$("select[name=iLevel]").val(levelArray);
+				rendering();
+				renderTree(res.specialtysTrees);
+			})
+		}
+	});
+	
+	// 监听状态改变
+	form.on('primary(status)', function(obj) {
+		operateSchool('PUT', {'id': this.id, 'statusType': obj.elem.checked}, false);
+	});
+	
+	// 搜索条件提示
+	$queryForm.find('input').on('mouseover', function() {
+		if(typeof($(this).attr('title')) == 'undefined') return;
+		layer.tips($(this).attr('title'), this, {tips: 1});
+	})
+	
+	//省份事件
+	form.on('select(iPlaceid)', function(data){
+		city(data.value, null);
+	});
+	
+	// 新增
+	form.on('submit(addSchoolBtn)', function(data) {
+		var $this = $(this);
+		var datas = {};
+		datas.regionArray = regionArray;
+		datas.batchArray = batchArray;
+		datas.levelArray = levelArray;
+		datas.subjectionArray = subjectionArray;
+		datas.schoolTypeArray = schoolTypeArray;
+		laytpl(schoolForm.innerHTML).render(datas, function(html) {
+			popupUserWin($this.attr('title'), html, true);
+		});
+		rendering();
+		renderTree(specialtyTreeAll);
+		return false;
+	})
+	
+	// 新增学校
+	form.on('submit(addSchool)', function(data) {
+		var $form = $(this).parents('form');
+		data.field.vPlacename = $('#iPlaceid option:selected').text();
+		data.field.vRegionname = $('#iRegionid option:selected').text();
+		data.field.iNaturename = $('#iNatureid option:selected').text();
+		data.field.vTypename = $('#iTypeid option:selected').text();
+		data.field.vSubname = $('#iSubid option:selected').text();
+		data.field.iSubsort = subjectionMap[data.field.iSubid];
+		data.field.vLevelname = $('#iLevel option:selected').text();
+		data.field.vLevelname = data.field.iLevel.join(",");
+		data.field.iLevel = null;
+		data.field.specialtyStr = $("#specialtyStr").val();
+		operateSchool('add', data.field, true);
+		return false;
+	})
+	
+	// 更新学校
+	form.on('submit(updateSchool)', function(data) {
+		var $form = $(this).parents('form');
+		data.field.vPlacename = $('#iPlaceid option:selected').text();
+		data.field.vRegionname = $('#iRegionid option:selected').text();
+		data.field.iNaturename = $('#iNatureid option:selected').text();
+		data.field.vTypename = $('#iTypeid option:selected').text();
+		data.field.vSubname = $('#iSubid option:selected').text();
+		data.field.iSubsort = subjectionMap[data.field.iSubid];
+		data.field.vLevelname = $('#iLevel option:selected').text();
+		data.field.vLevelname = data.field.iLevel.join(",");
+		data.field.iLevel = null;
+		data.field.specialtyStr = $("#specialtyStr").val();
+		operateSchool('edit', data.field, true);
+		return false;
+	})
+	
+	// 查询用户
+	form.on('submit(query)', function(data) {
+		table.reload('scoreTable', {
+			where: data.field
+		});
+		return false;
+	})
+	
+	//批次
+	form.on('select(iBatchidScoreView)', function(data){
+		table.reload('scoreTable', {
+			where: specialtyScoresData()
+		});
+		return false;
+	});
+	
+	//年份
+	form.on('select(dYearScoreView)', function(data){
+		table.reload('scoreTable', {
+			where: specialtyScoresData()
+		});
+		return false;
+	});
+	
+	//科目 （1文科，理科）
+	form.on('select(iSubjectScoreView)', function(data){
+		table.reload('scoreTable', {
+			where: specialtyScoresData()
+		});
+		return false;
+	});
+	
+	// 用户操作
+	// type 请求类型
+	// data 参数
+	// refresh 是否刷新
+	// 删除操作时传入的当前行对象
+	function operateSchool(type, data, refresh, delRow) {
+		var url = '/exuanbao/school/add';
+		if(type == 'delete') {
+			url = '/exuanbao/school/delete/';
+		}
+		if(type == 'edit') {
+			url = '/exuanbao/school/edit';
+		}
+		$.ajax({
+			url: url,
+		    type: 'POST',
+		    async: true,
+		    data: data,
+		    success: function(res) {
+		    	if(res.code == 0) {
+					layer.close(layerIndex);
+					if(refresh) {
+		    			table.reload('schoolTable');
+					} else if(type == 'delete') {
+						delRow.del();
+					}
+					layer.msg(res.message, {icon: 1});
+		    	}else if(res.code == 1) {
+		    		layer.msg(res.message, {icon: 4});
+		    	} else {
+		    		layer.msg(res.message, {icon: 5});
+		    	}
+		    }
+		})
+	}
+	
+	//渲染弹框
+	function popupUserWin(title, content, showBtn) {
+		layerIndex = layer.open({
+			id: 'meatball',
+			type: 1, //Page层类型
+			area: '700px', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			content: content,
+			btn: showBtn ? ['<i class="layui-icon">&#xe61f;</i> 提交', '<i class="layui-icon">&#x1002;</i> 重置'] : '',
+			yes: function(index, layero) {
+				layero.find('form .submit').trigger('click');
+				return false;
+			},
+			btn2: function(index, layero) {
+				layero.find('form .reset').trigger('click');
+				return false;
+			}
+		});
+	}
+	
+	//专业分数线table
+	function scoreTable(data){
+		table.render({
+			elem: '#scoreTable',
+			url: '/exuanbao/school/specialtyScores',
+			page: true, // 开始分页
+			request: {
+				pageName: 'offset'
+			},
+			where: data,//筛选条件
+			response: {
+			  countName: 'total', //数据总数的字段名称，默认：count
+			  dataName: 'list' //数据列表的字段名称，默认：data
+			},
+			cols: [[
+				{type: 'numbers', title: '序号'},
+				{field:'vSchoolname', title: '名称', width:150,templet: '#specialtyScoreName'},//vSpecialtyname
+				{field:'iHigh', title: '最高分'},
+				{field:'iAvg', title: '平均分'},
+				{field:'iMinimum', title: '最低分'},
+				{field:'iLsd', title: '最低位此'},
+				{field:'iTopdigit', title: '最高位'},
+				{field:'iPeople', title: '招生人数'}
+			]]
+		});
+	}
+	
+	//获取专业分数线参数
+	function specialtyScoresData(){
+		return {
+				iBatchid:$("#iBatchidScoreView").val(), 
+				dYear:$("#dYearScoreView").val(), 
+				iSubject:$("#iSubjectScoreView").val(),
+				bSchoolid:$("#bSchoolidScoreView").val()
+		};
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		var $form = $('form');
+		// 渲染select
+		form.render('select');
+		// 重新渲染多选框
+		form.render('checkbox');	
+		// 初始化日期
+		laydate.render({
+			elem: '.birthday'
+		});
+		// 上传头像
+		upload.render({
+			elem: '.layui-user-head-img',
+			url: '/upload',
+			size: 10240, // 限制上传大小
+			done: function(res, index, upload) {
+				$form.find('.layui-user-head-img').attr('src', res[0].url);
+				$form.find('input[name=pLogo]').val(res[0].url);
+			}
+		})
+	}
+	
+	//pcode 父编码 code自编码(选中)
+	function city(pcode, code){
+		$('#iRegionid').html('');
+	  	var options = '<option value="">请选择市</option>';
+	  	$.post("/exuanbao/school/regionByPcode", {pcode: pcode},function(result){
+			$(result.data).each(function(i){
+				options += "<option value='"+ result.data[i].iCode +"'";
+				if(code != null && code == result.data[i].iCode){
+					options += " selected ";
+				}
+				options += ">"+result.data[i].vName+"</option>";
+			});
+			$("#iRegionid").append(options);
+			//form.render('select');// 渲染select
+			rendering();
+		});
+	}
+	
+	/**------------tree**/
+	// 渲染下拉树
+	var setting = {
+		check: {
+			enable: true,
+		},
+		view: {
+			remoteIcon: false,
+			showIcon: false
+		},
+		callback: {
+			onCheck: zTreeOnCheck
+		}
+	};
+	
+	function zTreeOnCheck(event, treeId, treeNode) {
+		var treeObj = $.fn.zTree.getZTreeObj("specialtyTree");
+		var nodes = treeObj.getCheckedNodes(true);
+		var vo = {
+			id: '',
+			pid : '',
+			name : '',
+		};
+		vo = permission(nodes, vo);
+		alert(vo.id.substring(0, vo.id.length - 1))
+		// 设置显示值
+		$('form input[name=specialtyStr]').val(vo.id.substring(0, vo.id.length - 1));
+	};
+	
+	function permission(nodes, vo) {
+		$.each(nodes, function(index, data) {
+			vo.id += data.id;
+			vo.id += ',';
+			vo.pid += data.pid;
+			vo.pid += ',';
+			vo.name += data.name;
+			vo.name += ',';
+		})
+		return vo;
+	}
+	
+	// 渲染下拉树
+	function renderTree(treeNode) {
+		ztree.init($("#specialtyTree"), setting, treeNode);
+		var $downpanelTree = $('.downpanel-tree');
+		$('.downpanel-tree').on('click','.layui-select-title',function(e) {
+			$('.layui-form-select').not($(this).parents('.layui-form-select')).removeClass('layui-form-selected');
+			$(this).parents('.downpanel-tree').toggleClass('layui-form-selected');
+			layui.stope(e);
+		}).on('click','dl i',function(e) {
+			layui.stope(e);
+		});
+		$('.layui-layer-page').on('click',function(e) {
+			//$('.layui-form-select').removeClass('layui-form-selected');
+			// e.stopPropagation();
+		});
+		$('#specialtyTree').on("click", function(e){
+		    e.stopPropagation();
+		});
+	}
+	/**------------tree**/
+	
+	var subjectionMap = {};
+	//初始方法
+	function init(){
+		//遍历学校所属类型
+		$(subjectionArray).each(function(i){
+			subjectionMap[subjectionArray[i].iId] = subjectionArray[i].iPid;
+		});
+	}
+	
+	//初始方法
+	init();
+});
+</script>

@@ -1,0 +1,585 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-col-md2">
+			<ul id="specialtyTree"></ul>
+		</div>
+	 
+		<div class="layui-col-md10">
+			<!-- 表格 -->
+			<table id="specialtyTable" lay-filter="specialtyTable"></table>
+		</div>
+	</div>
+</div>
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-md12">
+			<div class="layui-row">
+				<div class="layui-col-md1">
+					<form class="layui-form" style="float: left;">
+						<button class="layui-btn layui-btn-warm" lay-submit lay-filter="addUserBtn" title="新增">
+							<i class="layui-icon">&#xe61f;</i> 新增
+						</button>
+					</form>
+				</div>
+				<div class="layui-col-md11">
+					<form class="layui-form" id="queryForm" style="float: right;">
+						<div class="layui-inline">
+							<input type="text" name="vName" title="名称" placeholder="请输入专业名称" autocomplete="off" class="layui-input">
+					 	</div>
+						<div class="layui-input-inline">
+							<select name="iHot" title="热门">
+								<option value="1">是</option>
+								<option value="0">否</option>
+							</select>
+						</div>
+						<button class="layui-btn" lay-submit lay-filter="query">
+							<i class="layui-icon">&#xe615;</i> 查询
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationBar">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+ 
+
+<!-- 新增 -->
+<script type="text/html" id="userForm">
+<form class="layui-form layui-form-pane">
+	<div class="layui-row">
+		<div class="layui-col-md12">
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="vName" autocomplete="off" placeholder="请输入名称" class="layui-input" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">代码</label>
+					<div class="layui-input-block">
+						<input type="text" name="vCode" autocomplete="off" placeholder="请输入代码" class="layui-input" lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">学科类型</label>
+					<div class="layui-input-block">
+					<select name="Integer">
+						<option value="1">文科</option>
+						<option value="2">理科</option>
+					</select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">修学年限</label>
+					<div class="layui-input-block">
+						<input type="number" name="iYear" autocomplete="off" placeholder="请输入修学年限" class="layui-input" lay-verify="required">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">授予学位</label>
+				<div class="layui-input-block">
+					<input type="text" name="vDegree" autocomplete="off" placeholder="请输入学位" class="layui-input" lay-verify="required">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业解读</label>
+				<div class="layui-input-block">
+					<textarea name="vAnalysis" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">必修课程</label>
+				<div class="layui-input-block">
+					<textarea name="vCourse" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">就业方向</label>
+				<div class="layui-input-block">
+					<textarea name="vGraduate" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">行业趋势</label>
+				<div class="layui-input-block">
+					<textarea name="vEmployment" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">就职岗位</label>
+				<div class="layui-input-block">
+					<textarea name="vOccupation" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">相关专业</label>
+				<div class="layui-input-block">
+					<div class="layui-unselect layui-form-select downpanel-tree">
+						<div class="layui-select-title">
+							<span class="layui-input layui-unselect" style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;">请选择专业</span>
+							<input type="hidden" name="roleView" value="0">
+							<i class="layui-edge"></i>
+						</div>
+						<dl class="layui-anim layui-anim-upbit">
+							<dd>
+								<ul id="zyTree" class="ztree"></ul>
+							</dd>
+						</dl>						
+					</div>
+				 </div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">优势院校</label>
+				<div class="layui-input-block">
+					<textarea name="vSchool" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+				</div>
+			</div>
+ 
+		</div>
+		<div class="hidden-attribute">
+			<button class="layui-btn submit" lay-submit="" lay-filter="addUser">新增</button>
+			<button class="layui-btn reset" type="reset">重置</button>
+		</div>
+	</div>
+	<input class="hidden-attribute" name="avatar">
+</form>
+</script>
+
+<!-- 详情 -->
+<script type="text/html" id="userView">
+<table class="layui-table" style="width: 680px; margin: 10px 10px 0px 10px;">
+	<tr>
+		<td rowspan=5" class="table-td-head">
+			<img class="layui-user-head-img" src="{{d.avatar}}">
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">账号</td>
+		<td width="465">{{d.account}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">姓名</td>
+		<td width="465">{{d.name}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">性别</td>
+		<td width="465">{{d.sexName}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">生日</td>
+		<td width="465">{{d.birthdayText}}</td>
+	</tr>
+</table>
+<table class="layui-table" style="width: 680px; margin: 5px 10px 10px 10px;">
+	<tr>
+		<td class="table-td-title">角色</td>
+		<td colspan="3">
+			{{# for(var i = 0; i < d.rolesVo.length; i++) { }}
+				{{d.rolesVo[i].roleName + (i < d.rolesVo.length - 1 ? '，' : '')}}
+			{{# } }}
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">邮箱</td>
+		<td width="265">{{d.email}}</td>
+		<td class="table-td-title">联系方式</td>
+		<td width="265">{{d.phone}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">所属部门</td>
+		<td width="265">{{d.roleid == null ? '无' : d.roleid}}</td>
+		<td class="table-td-title">状态</td>
+		<td width="265">{{d.statusName}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">拥有角色</td>
+		<td width="265">{{d.deptid == null ? '无' : d.deptid}}</td>
+		<td class="table-td-title">创建时间</td>
+		<td width="265">{{d.createtimeText}}</td>
+	</tr>
+</table>
+<br>
+</script>
+
+<!-- 编辑 -->
+<script type="text/html" id="userEdit">
+<form class="layui-form layui-form-pane">
+	<div class="layui-row">
+		<div class="layui-col-md3">
+			<div class="layui-col-md12">
+				<img class="layui-user-head-img" src="{{d.avatar}}">
+			</div>
+		</div>
+		<div class="layui-col-md9">
+			<div class="layui-col-md12">
+				<div class="layui-form-item">
+					<label class="layui-form-label">账号</label>
+					<div class="layui-input-block">
+						<input type="text" name="account" autocomplete="off" placeholder="请设置账号" class="layui-input" lay-verify="required" value="{{d.account}}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">重置密码</label>
+					<div class="layui-input-block">
+						<input type="checkbox" name="resetPwd" lay-skin="switch" lay-text="是|否">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">姓名</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" autocomplete="off" placeholder="请输入姓名" class="layui-input" lay-verify="required" value="{{d.name}}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">角色</label>
+				<div class="layui-input-block">
+					{{# for(var i = 0; i < d.allRoles.length; i++) { }}
+						{{# 
+							var ckecked = false;
+							for(var j = 0; j < d.rolesVo.length; j++) { 
+								if(d.allRoles[i].id == d.rolesVo[j].id) { 
+									ckecked = true
+								}
+						 	} 
+						 }}
+						<input type="checkbox" {{ckecked ? 'checked' : ''}} name="roles" lay-skin="primary" title="{{d.allRoles[i].roleName}}" value="{{d.allRoles[i].id}}">
+					{{# } }}
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别</label>
+				<div class="layui-input-block">
+					<select name="sex">
+						<option value="0" {{d.sex == 0 ? 'selected ' : ''}}>保密</option>
+						<option value="1" {{d.sex == 1 ? 'selected ' : ''}}>男</option>
+						<option value="2" {{d.sex == 2 ? 'selected ' : ''}}>女</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">生日</label>
+				<div class="layui-input-block">
+					<input type="text" name="birthday" autocomplete="off" placeholder="请选择日期" class="layui-input birthday" value="{{d.birthdayText}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">邮箱</label>
+				<div class="layui-input-block">
+					<input type="text" name="email" autocomplete="off" placeholder="请输入邮箱" class="layui-input" lay-verify="email" value="{{d.email}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">联系方式</label>
+				<div class="layui-input-block">
+					<input type="text" name="phone" autocomplete="off" placeholder="请输入联系方式" class="layui-input" lay-verify="phone" value="{{d.phone}}">
+				</div>
+			</div>
+		</div>
+		<div class="hidden-attribute">
+			<button class="layui-btn submit" lay-submit="" lay-filter="updateUser">新增</button>
+			<button class="layui-btn reset" type="reset">重置</button>
+		</div>
+	</div>
+	<input class="hidden-attribute" name="avatar" value="{{d.avatar}}" title="头像">
+	<input class="hidden-attribute" name="id" value="{{d.id}}" title="ID">
+</form>
+</script>
+
+
+<script type="text/html" id="xklx">
+	{{#  if(iType == 1){ }}
+    	文科
+  	{{#  } else if(iType == 2){ }}
+    	理科
+  	{{#  } }}
+</script>
+<script type="text/html" id="sfrm">
+	{{#  if(iHot == 1){ }}
+    	是
+  	{{#  } else if(iHot == 0){ }}
+    	否
+  	{{#  } }}
+</script>
+<!-- javascirpt -->
+<script th:inline="javascript">  
+	var allRoles = /*[[${allRoles}]]*/  
+</script>
+<script type="text/javascript">
+layui.use(['table', 'form', 'jquery', 'laydate', 'upload', 'laytpl', 'element'], function() {
+	
+	var table = layui.table,
+		form = layui.form,
+		laydate = layui.laydate,
+		upload = layui.upload,
+		element = layui.element,
+		laytpl = layui.laytpl,
+		$ = layui.jquery,
+		$addUserBtn = $('#addUserBtn'),
+		$queryForm = $('#queryForm'),
+		layerIndex = 1;
+	
+	// 左侧树
+	tree({
+		elem: '#specialtyTree', //传入元素选择器
+		url: '/specialty/specialtyTree',
+		click: function(node) {
+			pid = node.pid;
+			table.reload('specialtyTable', {
+				where: {'id': node.id}
+			});
+		}
+	})
+	
+	
+	// 绘制表格
+	table.render({
+// 		id: 'specialtyTable',
+		elem: '#specialtyTable',
+		url: '/specialty/listParams',
+		page: true, // 开始分页
+		// cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'numbers', title: '序号'},
+			/* {field:'account', title: '账号', sort: true}, */
+			{field:'bId', title: '编号'},
+			{field:'vName', title: '名称'},
+			{field:'vCode', title: '代码'},
+			{field:'iType', title: '学科类型', templet:'#xklx'},
+			{field:'iHot', title: '热门', templet:'#sfrm'},
+			{field:'iYear', title: '修学年限'},
+			{field:'vGender', title: '性别要求'},
+			{fixed: 'right', align:'center', width: 180, toolbar: '#operationBar'}
+		]]
+	});
+	//监听工具条
+	table.on('tool(specialtyTable)', function(obj) {
+		var data = obj.data,
+			$this = $(this),
+			getView = userView.innerHTML,
+			getEdit = userEdit.innerHTML;
+		if(obj.event === 'detail') {
+			$.get('/specialty/info/' + data.id, function(res) {
+				if(res.code == 403) {
+					layer.msg(res.message, {icon: 4});
+				} else {
+					laytpl(getView).render(res, function(html) {
+						popupUserWin($this.text(), html, false);
+					})
+				}
+			})
+		} else if(obj.event === 'del') {
+			layer.confirm('真的删除行么', {icon: 3}, function(index) {
+				operateUser('DELETE', {'id': data.id}, false, obj);
+				layer.close(index);
+			});
+		} else if(obj.event === 'edit') {
+			$.get('/specialty/edit/' + data.id, function(res) {
+				if(res.status == 403) {
+					layer.msg(res.message, {icon: 4});
+				} else {
+					res.allRoles = allRoles;
+					laytpl(getEdit).render(res, function(html) {
+						popupUserWin($this.text(), html, true);
+					});
+					rendering();
+				}
+			})
+		}
+	});
+	
+	// 学科门类选择联动专业类列表
+/* 	form.on('select(xkmlSel)', function(data){
+	  	$('#zySel').html('');
+ 		var options = '<option value="">请选择专业类</option>';
+ 		$.post("/specialty/queryXKZY", {pid: data.value},function(result){
+			$(result.data).each(function(i){
+				options += "<option value='"+result.data[i].bId+"'>"+result.data[i].vName+"</option>";
+			});
+			$("#zySel").append(options);
+			form.render('select');// 渲染select
+		});
+		  
+	});  */
+	
+	
+	
+	// 搜索条件提示
+	$queryForm.find('input').on('mouseover', function() {
+		if(typeof($(this).attr('title')) == 'undefined') return;
+		layer.tips($(this).attr('title'), this, {tips: 1});
+	})
+	
+	// 新增
+	form.on('submit(addUserBtn)', function(data) {
+		var $this = $(this);
+		laytpl(userForm.innerHTML).render(allRoles, function(html) {
+			popupUserWin($this.attr('title'), html, true);
+		});
+		rendering();
+		return false;
+	})
+	
+	// 新增用户
+	form.on('submit(addUser)', function(data) {
+		var $form = $(this).parents('form');
+		var roles = [];
+		$form.find('input[name=roles]:checked').each(function() {
+			roles.push($(this).val());
+		})
+		data.field.roles = roles;
+		operateUser('POST', data.field, true);
+		return false;
+	})
+	
+	// 更新
+	form.on('submit(updateUser)', function(data) {
+		var $form = $(this).parents('form');
+		var roles = [];
+		$form.find('input[name=roles]:checked').each(function() {
+			roles.push($(this).val());
+		})
+		data.field.roles = roles;
+		operateUser('PUT', data.field, true);
+		return false;
+	})
+	
+	// 查询用户
+	form.on('submit(query)', function(data) {
+		table.reload('specialtyTable', {
+			where: data.field
+		});
+		return false;
+	})
+	
+	// 用户操作
+	// ajaxType 请求类型
+	// data 参数
+	// refresh 是否刷新
+	// 删除操作时传入的当前行对象
+	function operateUser(ajaxType, data, refresh, delRow) {
+		var url = '/system/user/';
+		if(ajaxType == 'DELETE') {
+			url = '/system/user/' + data.id;
+		}
+		$.ajax({
+			url: url,
+		    type: ajaxType,
+		    async: true,
+		    data: data,
+		    success: function(res) {
+		    	if(res.code == 200) {
+					layer.close(layerIndex);
+					if(refresh) {
+		    			table.reload('specialtyTable');
+					} else if(ajaxType == 'DELETE') {
+						delRow.del();
+					}
+		    		if(data.resetPwd) {
+		    			layer.alert(res.message, {icon: 6});
+		    		} else {
+						layer.msg(res.message, {icon: 1});
+		    		}
+		    	}  else if(res.code == 403) {
+		    		layer.msg(res.message, {icon: 4});
+		    	} else {
+		    		layer.msg(res.message, {icon: 5});
+		    	}
+		    }
+		})
+	}
+	
+	//渲染弹框
+	function popupUserWin(title, content, showBtn) {
+		layerIndex = layer.open({
+			id: 'meatball',
+			type: 1, //Page层类型
+			area: '700px', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			content: content,
+			btn: showBtn ? ['<i class="layui-icon">&#xe61f;</i> 提交', '<i class="layui-icon">&#x1002;</i> 重置'] : '',
+			yes: function(index, layero) {
+				layero.find('form .submit').trigger('click');
+				return false;
+			},
+			btn2: function(index, layero) {
+				layero.find('form .reset').trigger('click');
+				return false;
+			}
+		});
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		var $form = $('form');
+		// 渲染select
+		form.render('select');
+		// 重新渲染多选框
+		form.render('checkbox');	
+		// 初始化日期
+		laydate.render({
+			elem: '.birthday'
+		});
+		// 上传头像
+		upload.render({
+			elem: '.layui-user-head-img',
+			url: '/upload',
+			size: 10240, // 限制上传大小
+			done: function(res, index, upload) {
+				$form.find('.layui-user-head-img').attr('src', res[0].url);
+				$form.find('input[name=avatar]').val(res[0].url);
+			}
+		})
+	}
+	
+	// 渲染下拉树
+	function renderTree(treeNode) {
+		ztree.init($("#zyTree"), setting, treeNode);
+		var $downpanelTree = $('.downpanel-tree');
+		$('.downpanel-tree').on('click','.layui-select-title',function(e) {
+			$('.layui-form-select').not($(this).parents('.layui-form-select')).removeClass('layui-form-selected');
+			$(this).parents('.downpanel-tree').toggleClass('layui-form-selected');
+			layui.stope(e);
+		}).on('click','dl i',function(e) {
+			layui.stope(e);
+		});
+		$('.layui-layer-page').on('click',function(e) {
+			$('.layui-form-select').removeClass('layui-form-selected');
+			// e.stopPropagation();
+		});
+		$('#roleMenuTree').on("click", function(e){
+		    e.stopPropagation();
+		});
+	}
+	
+	
+});
+</script>

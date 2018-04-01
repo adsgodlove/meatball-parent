@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.school.dao.SchoolSpecialtyLinksMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.school.model.SchoolSpecialtyLinks" >
+    <result column="B_SCHOOLID" property="bSchoolid" jdbcType="BIGINT" />
+    <result column="B_SPECIALTYID" property="bSpecialtyid" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.meatball.exuanbao.school.model.SchoolSpecialtyLinks" >
+    insert into T_SCHOOL_SPECIALTY_LINKS (B_SCHOOLID, B_SPECIALTYID)
+    values (#{bSchoolid,jdbcType=BIGINT}, #{bSpecialtyid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.school.model.SchoolSpecialtyLinks" >
+    insert into T_SCHOOL_SPECIALTY_LINKS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bSchoolid != null" >
+        B_SCHOOLID,
+      </if>
+      <if test="bSpecialtyid != null" >
+        B_SPECIALTYID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bSchoolid != null" >
+        #{bSchoolid,jdbcType=BIGINT},
+      </if>
+      <if test="bSpecialtyid != null" >
+        #{bSpecialtyid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="deleteBySchoolid" parameterType="java.lang.Long" >
+    delete from T_SCHOOL_SPECIALTY_LINKS
+    where B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT}
+  </delete>
+  
+  <select id="selectBySchoolid" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select B_SPECIALTYID bSpecialtyid from T_SCHOOL
+    where B_SCHOOLID = #{bSchoolid,jdbcType=BIGINT}
+  </select>
+</mapper>

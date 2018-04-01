@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.news.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.news.model.News" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="V_TITLE" property="vTitle" jdbcType="VARCHAR" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="I_LEVE" property="iLeve" jdbcType="INTEGER" />
+    <result column="I_LOCAL" property="iLocal" jdbcType="INTEGER" />
+    <result column="P_URL" property="pUrl" jdbcType="VARCHAR" />
+    <result column="I_SCAN" property="iScan" jdbcType="INTEGER" />
+    <result column="T_SHOW_TIME" property="tShowTime" jdbcType="TIMESTAMP" />
+    <result column="T_UPDATE_TIME" property="tUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="I_USER_ID" property="iUserId" jdbcType="BIGINT" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+    <result column="V_SUMMARY" property="vSummary" jdbcType="LONGVARCHAR" />
+    <result column="V_CONTENT" property="vContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, V_TITLE, I_TYPE, I_LEVE, I_LOCAL, P_URL, I_SCAN, T_SHOW_TIME, T_UPDATE_TIME, V_SUMMARY, V_CONTENT
+    I_USER_ID, I_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_NEWS
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_NEWS
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.news.model.News" >
+    insert into T_NEWS (B_ID, V_TITLE, I_TYPE, 
+      I_LEVE, I_LOCAL, P_URL, 
+      I_SCAN, T_SHOW_TIME, T_UPDATE_TIME, 
+      I_USER_ID, I_STATUS, V_SUMMARY, 
+      V_CONTENT)
+    values (#{bId,jdbcType=BIGINT}, #{vTitle,jdbcType=VARCHAR}, #{iType,jdbcType=INTEGER}, 
+      #{iLeve,jdbcType=INTEGER}, #{iLocal,jdbcType=INTEGER}, #{pUrl,jdbcType=VARCHAR}, 
+      #{iScan,jdbcType=INTEGER}, #{tShowTime,jdbcType=TIMESTAMP}, #{tUpdateTime,jdbcType=TIMESTAMP}, 
+      #{iUserId,jdbcType=BIGINT}, #{iStatus,jdbcType=INTEGER}, #{vSummary,jdbcType=LONGVARCHAR}, 
+      #{vContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.news.model.News" >
+    insert into T_NEWS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="vTitle != null" >
+        V_TITLE,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+      <if test="iLeve != null" >
+        I_LEVE,
+      </if>
+      <if test="iLocal != null" >
+        I_LOCAL,
+      </if>
+      <if test="pUrl != null" >
+        P_URL,
+      </if>
+      <if test="iScan != null" >
+        I_SCAN,
+      </if>
+      <if test="tShowTime != null" >
+        T_SHOW_TIME,
+      </if>
+      <if test="tUpdateTime != null" >
+        T_UPDATE_TIME,
+      </if>
+      <if test="iUserId != null" >
+        I_USER_ID,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+      <if test="vSummary != null" >
+        V_SUMMARY,
+      </if>
+      <if test="vContent != null" >
+        V_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="vTitle != null" >
+        #{vTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iLeve != null" >
+        #{iLeve,jdbcType=INTEGER},
+      </if>
+      <if test="iLocal != null" >
+        #{iLocal,jdbcType=INTEGER},
+      </if>
+      <if test="pUrl != null" >
+        #{pUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="iScan != null" >
+        #{iScan,jdbcType=INTEGER},
+      </if>
+      <if test="tShowTime != null" >
+        #{tShowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tUpdateTime != null" >
+        #{tUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iUserId != null" >
+        #{iUserId,jdbcType=BIGINT},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="vSummary != null" >
+        #{vSummary,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="vContent != null" >
+        #{vContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.news.model.News" >
+    update T_NEWS
+    <set >
+      <if test="vTitle != null" >
+        V_TITLE = #{vTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iLeve != null" >
+        I_LEVE = #{iLeve,jdbcType=INTEGER},
+      </if>
+      <if test="iLocal != null" >
+        I_LOCAL = #{iLocal,jdbcType=INTEGER},
+      </if>
+      <if test="pUrl != null" >
+        P_URL = #{pUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="iScan != null" >
+        I_SCAN = #{iScan,jdbcType=INTEGER},
+      </if>
+      <if test="tShowTime != null" >
+        T_SHOW_TIME = #{tShowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tUpdateTime != null" >
+        T_UPDATE_TIME = #{tUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iUserId != null" >
+        I_USER_ID = #{iUserId,jdbcType=BIGINT},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="vSummary != null" >
+        V_SUMMARY = #{vSummary,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="vContent != null" >
+        V_CONTENT = #{vContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.news.model.News" >
+    update T_NEWS
+    set V_TITLE = #{vTitle,jdbcType=VARCHAR},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      I_LEVE = #{iLeve,jdbcType=INTEGER},
+      I_LOCAL = #{iLocal,jdbcType=INTEGER},
+      P_URL = #{pUrl,jdbcType=VARCHAR},
+      I_SCAN = #{iScan,jdbcType=INTEGER},
+      T_SHOW_TIME = #{tShowTime,jdbcType=TIMESTAMP},
+      T_UPDATE_TIME = #{tUpdateTime,jdbcType=TIMESTAMP},
+      I_USER_ID = #{iUserId,jdbcType=BIGINT},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      V_SUMMARY = #{vSummary,jdbcType=LONGVARCHAR},
+      V_CONTENT = #{vContent,jdbcType=LONGVARCHAR}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+    <!-- 查询集合数据 -->
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.news.model.News">
+    select 
+    <include refid="Base_Column_List" />
+    from T_NEWS
+    <where>
+    	1=1 
+      <if test="vTitle != null" >
+        and V_TITLE like concat(concat('%', #{vTitle}), '%')  
+      </if>
+      <if test="iType != null" >
+        and I_TYPE = #{iType,jdbcType=INTEGER}
+      </if>
+      <if test="iLeve != null" >
+        and I_LEVE = #{iLeve,jdbcType=INTEGER}
+      </if>
+      <if test="iLocal != null" >
+        and I_LOCAL = #{iLocal,jdbcType=INTEGER}
+      </if>
+      <if test="iScan != null" >
+        and I_SCAN = #{iScan,jdbcType=INTEGER}
+      </if>
+      <if test="tShowTime != null" >
+        and T_SHOW_TIME = #{tShowTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="iUserId != null" >
+        and I_USER_ID = #{iUserId,jdbcType=BIGINT}
+      </if>
+      <if test="iStatus != null" >
+        and I_STATUS = #{iStatus,jdbcType=INTEGER}
+      </if>
+    </where>
+     ORDER BY T_UPDATE_TIME, T_SHOW_TIME,I_SCAN desc
+  </select>
+</mapper>

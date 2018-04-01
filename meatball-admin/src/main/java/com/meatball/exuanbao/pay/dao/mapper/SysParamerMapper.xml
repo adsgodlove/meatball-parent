@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.pay.dao.SysParamerMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.pay.model.SysParamer" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="V_CODE" property="vCode" jdbcType="VARCHAR" />
+    <result column="V_TYPE" property="vType" jdbcType="VARCHAR" />
+    <result column="V_NAME" property="vName" jdbcType="VARCHAR" />
+    <result column="V_VALUE" property="vValue" jdbcType="VARCHAR" />
+    <result column="I_SORT" property="iSort" jdbcType="INTEGER" />
+    <result column="V_PID" property="vPid" jdbcType="BIGINT" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, V_CODE, V_TYPE, V_NAME, V_VALUE, I_SORT, V_PID, I_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_PARAMER
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SYS_PARAMER
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.pay.model.SysParamer" >
+    insert into T_SYS_PARAMER (B_ID, V_CODE, V_TYPE, 
+      V_NAME, V_VALUE, I_SORT, 
+      V_PID, I_STATUS)
+    values (#{bId,jdbcType=BIGINT}, #{vCode,jdbcType=VARCHAR}, #{vType,jdbcType=VARCHAR}, 
+      #{vName,jdbcType=VARCHAR}, #{vValue,jdbcType=VARCHAR}, #{iSort,jdbcType=INTEGER}, 
+      #{vPid,jdbcType=BIGINT}, #{iStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.pay.model.SysParamer" >
+    insert into T_SYS_PARAMER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="vCode != null" >
+        V_CODE,
+      </if>
+      <if test="vType != null" >
+        V_TYPE,
+      </if>
+      <if test="vName != null" >
+        V_NAME,
+      </if>
+      <if test="vValue != null" >
+        V_VALUE,
+      </if>
+      <if test="iSort != null" >
+        I_SORT,
+      </if>
+      <if test="vPid != null" >
+        V_PID,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="vCode != null" >
+        #{vCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vType != null" >
+        #{vType,jdbcType=VARCHAR},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vValue != null" >
+        #{vValue,jdbcType=VARCHAR},
+      </if>
+      <if test="iSort != null" >
+        #{iSort,jdbcType=INTEGER},
+      </if>
+      <if test="vPid != null" >
+        #{vPid,jdbcType=BIGINT},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.pay.model.SysParamer" >
+    update T_SYS_PARAMER
+    <set >
+      <if test="vCode != null" >
+        V_CODE = #{vCode,jdbcType=VARCHAR},
+      </if>
+      <if test="vType != null" >
+        V_TYPE = #{vType,jdbcType=VARCHAR},
+      </if>
+      <if test="vName != null" >
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vValue != null" >
+        V_VALUE = #{vValue,jdbcType=VARCHAR},
+      </if>
+      <if test="iSort != null" >
+        I_SORT = #{iSort,jdbcType=INTEGER},
+      </if>
+      <if test="vPid != null" >
+        V_PID = #{vPid,jdbcType=BIGINT},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.pay.model.SysParamer" >
+    update T_SYS_PARAMER
+    set V_CODE = #{vCode,jdbcType=VARCHAR},
+      V_TYPE = #{vType,jdbcType=VARCHAR},
+      V_NAME = #{vName,jdbcType=VARCHAR},
+      V_VALUE = #{vValue,jdbcType=VARCHAR},
+      I_SORT = #{iSort,jdbcType=INTEGER},
+      V_PID = #{vPid,jdbcType=BIGINT},
+      I_STATUS = #{iStatus,jdbcType=INTEGER}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.pay.model.SysParamer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SYS_PARAMER
+   <where>
+   		I_STATUS = 1
+   		<if test="vName != null and vName != ''" >
+	      and V_NAME like  concat(concat('%', #{vName}), '%')  
+	    </if>
+   </where>
+  </select>
+  
+  <select id="selectInfoBy" resultMap="BaseResultMap">
+  select 
+    <include refid="Base_Column_List" />
+    from T_SYS_PARAMER
+   where V_CODE = #{vCode,jdbcType=VARCHAR}   and V_TYPE = #{vType,jdbcType=VARCHAR}
+  
+  </select>
+  
+</mapper>

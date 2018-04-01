@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.parameter.dao.RegionMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.parameter.model.Region" >
+    <id column="I_ID" property="iId" jdbcType="INTEGER" />
+    <result column="I_CODE" property="iCode" jdbcType="INTEGER" />
+    <result column="V_NAME" property="vName" jdbcType="VARCHAR" />
+    <result column="I_PCODE" property="iPcode" jdbcType="INTEGER" />
+    <result column="V_PNAME" property="vPname" jdbcType="VARCHAR" />
+    <result column="V_FCODE" property="vFcode" jdbcType="VARCHAR" />
+    <result column="V_FNAME" property="vFname" jdbcType="VARCHAR" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+    <result column="I_AREA" property="iArea" jdbcType="INTEGER" />
+    <result column="I_ZIP" property="iZip" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMapArea" type="com.meatball.parameter.model.Area" >
+    <result column="I_CODE" property="v" jdbcType="INTEGER" />
+    <result column="V_NAME" property="n" jdbcType="VARCHAR" />
+    <result column="I_PCODE" property="p" jdbcType="INTEGER" />
+    <result column="I_TYPE" property="t" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    I_ID, I_CODE, V_NAME, I_PCODE, V_PNAME, V_FCODE, V_FNAME, I_TYPE, I_AREA, I_ZIP
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_REGION
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from T_REGION
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.parameter.model.Region" >
+    insert into T_REGION (I_ID, I_CODE, V_NAME, 
+      I_PCODE, V_PNAME, V_FCODE, 
+      V_FNAME, I_TYPE, I_AREA, 
+      I_ZIP)
+    values (#{iId,jdbcType=INTEGER}, #{iCode,jdbcType=INTEGER}, #{vName,jdbcType=VARCHAR}, 
+      #{iPcode,jdbcType=INTEGER}, #{vPname,jdbcType=VARCHAR}, #{vFcode,jdbcType=VARCHAR}, 
+      #{vFname,jdbcType=VARCHAR}, #{iType,jdbcType=INTEGER}, #{iArea,jdbcType=INTEGER}, 
+      #{iZip,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.parameter.model.Region" >
+    insert into T_REGION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iId != null" >
+        I_ID,
+      </if>
+      <if test="iCode != null" >
+        I_CODE,
+      </if>
+      <if test="vName != null" >
+        V_NAME,
+      </if>
+      <if test="iPcode != null" >
+        I_PCODE,
+      </if>
+      <if test="vPname != null" >
+        V_PNAME,
+      </if>
+      <if test="vFcode != null" >
+        V_FCODE,
+      </if>
+      <if test="vFname != null" >
+        V_FNAME,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+      <if test="iArea != null" >
+        I_AREA,
+      </if>
+      <if test="iZip != null" >
+        I_ZIP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iId != null" >
+        #{iId,jdbcType=INTEGER},
+      </if>
+      <if test="iCode != null" >
+        #{iCode,jdbcType=INTEGER},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="iPcode != null" >
+        #{iPcode,jdbcType=INTEGER},
+      </if>
+      <if test="vPname != null" >
+        #{vPname,jdbcType=VARCHAR},
+      </if>
+      <if test="vFcode != null" >
+        #{vFcode,jdbcType=VARCHAR},
+      </if>
+      <if test="vFname != null" >
+        #{vFname,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iArea != null" >
+        #{iArea,jdbcType=INTEGER},
+      </if>
+      <if test="iZip != null" >
+        #{iZip,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.parameter.model.Region" >
+    update T_REGION
+    <set >
+      <if test="iCode != null" >
+        I_CODE = #{iCode,jdbcType=INTEGER},
+      </if>
+      <if test="vName != null" >
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="iPcode != null" >
+        I_PCODE = #{iPcode,jdbcType=INTEGER},
+      </if>
+      <if test="vPname != null" >
+        V_PNAME = #{vPname,jdbcType=VARCHAR},
+      </if>
+      <if test="vFcode != null" >
+        V_FCODE = #{vFcode,jdbcType=VARCHAR},
+      </if>
+      <if test="vFname != null" >
+        V_FNAME = #{vFname,jdbcType=VARCHAR},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+      <if test="iArea != null" >
+        I_AREA = #{iArea,jdbcType=INTEGER},
+      </if>
+      <if test="iZip != null" >
+        I_ZIP = #{iZip,jdbcType=INTEGER},
+      </if>
+    </set>
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.parameter.model.Region" >
+    update T_REGION
+    set I_CODE = #{iCode,jdbcType=INTEGER},
+      V_NAME = #{vName,jdbcType=VARCHAR},
+      I_PCODE = #{iPcode,jdbcType=INTEGER},
+      V_PNAME = #{vPname,jdbcType=VARCHAR},
+      V_FCODE = #{vFcode,jdbcType=VARCHAR},
+      V_FNAME = #{vFname,jdbcType=VARCHAR},
+      I_TYPE = #{iType,jdbcType=INTEGER},
+      I_AREA = #{iArea,jdbcType=INTEGER},
+      I_ZIP = #{iZip,jdbcType=INTEGER}
+    where I_ID = #{iId,jdbcType=INTEGER}
+  </update>
+  
+  <!--查询行政区域-->
+  <select id="listParamsArea" resultMap="BaseResultMapArea" parameterType="com.meatball.parameter.model.Area" >
+    select 
+    I_CODE , V_NAME , I_PCODE, I_TYPE
+    from T_REGION
+    <where>
+    	1=1 
+   	  <if test="v != null" >
+        and I_CODE = #{v,jdbcType=INTEGER}
+      </if>
+      <if test="n != null" >
+        and V_NAME = #{n,jdbcType=VARCHAR}
+      </if>
+      <if test="p != null" >
+        and I_PCODE = #{p,jdbcType=INTEGER}
+      </if>
+      <if test="t != null" >
+        and I_TYPE = #{t,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  
+  <!--查询行政区域-->
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.parameter.model.Region" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_REGION
+    <where>
+    	1=1 
+   	  <if test="iCode != null" >
+        and I_CODE = #{iCode,jdbcType=INTEGER}
+      </if>
+      <if test="vName != null" >
+        and V_NAME = #{vName,jdbcType=VARCHAR}
+      </if>
+      <if test="iPcode != null" >
+        and I_PCODE = #{iPcode,jdbcType=INTEGER}
+      </if>
+      <if test="vPname != null" >
+        and V_PNAME = #{vPname,jdbcType=VARCHAR}
+      </if>
+      <if test="vFcode != null" >
+        and V_FCODE = #{vFcode,jdbcType=VARCHAR}
+      </if>
+      <if test="vFname != null" >
+        and V_FNAME = #{vFname,jdbcType=VARCHAR}
+      </if>
+      <if test="iType != null" >
+        and I_TYPE = #{iType,jdbcType=INTEGER}
+      </if>
+      <if test="iArea != null" >
+        and I_AREA = #{iArea,jdbcType=INTEGER}
+      </if>
+      <if test="iZip != null" >
+        and I_ZIP = #{iZip,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  
+  <!--通过父级编码查询行政单位-->
+  <select id="selectByPcode" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_REGION
+    where I_PCODE = #{iPcode,jdbcType=INTEGER}
+  </select>
+  
+  <!--通过父级编码查询行政单位-->
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_REGION
+    where I_TYPE = #{iType,jdbcType=INTEGER}
+  </select>
+</mapper>

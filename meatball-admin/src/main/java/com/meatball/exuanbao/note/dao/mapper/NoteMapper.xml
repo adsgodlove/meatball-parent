@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.note.dao.NoteMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.note.model.Note" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="V_TITLE" property="vTitle" jdbcType="VARCHAR" />
+    <result column="V_CONTENT" property="vContent" jdbcType="VARCHAR" />
+    <result column="T_SENDTIME" property="tSendtime" jdbcType="TIMESTAMP" />
+    <result column="T_CREATETIME" property="tCreatetime" jdbcType="TIMESTAMP" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+    <result column="I_TYPE" property="iType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, V_TITLE, V_CONTENT, T_SENDTIME, T_CREATETIME, I_STATUS, I_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_NOTE
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_NOTE
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.note.model.Note" >
+  <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="bId">
+  		SELECT LAST_INSERT_ID() AS b_id
+  	</selectKey>
+    insert into T_NOTE (B_ID, V_TITLE, V_CONTENT, 
+      T_SENDTIME, T_CREATETIME, I_STATUS, 
+      I_TYPE)
+    values (#{bId,jdbcType=BIGINT}, #{vTitle,jdbcType=VARCHAR}, #{vContent,jdbcType=VARCHAR}, 
+      #{tSendtime,jdbcType=TIMESTAMP}, #{tCreatetime,jdbcType=TIMESTAMP}, #{iStatus,jdbcType=INTEGER}, 
+      #{iType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.note.model.Note" >
+  <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="bId">
+  		SELECT LAST_INSERT_ID() AS b_id
+  	</selectKey>
+    insert into T_NOTE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="vTitle != null" >
+        V_TITLE,
+      </if>
+      <if test="vContent != null" >
+        V_CONTENT,
+      </if>
+      <if test="tSendtime != null" >
+        T_SENDTIME,
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+      <if test="iType != null" >
+        I_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="vTitle != null" >
+        #{vTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="vContent != null" >
+        #{vContent,jdbcType=VARCHAR},
+      </if>
+      <if test="tSendtime != null" >
+        #{tSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tCreatetime != null" >
+        #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="iType != null" >
+        #{iType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.note.model.Note" >
+    update T_NOTE
+    <set >
+      <if test="vTitle != null" >
+        V_TITLE = #{vTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="vContent != null" >
+        V_CONTENT = #{vContent,jdbcType=VARCHAR},
+      </if>
+      <if test="tSendtime != null" >
+        T_SENDTIME = #{tSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="iType != null" >
+        I_TYPE = #{iType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.note.model.Note" >
+    update T_NOTE
+    set V_TITLE = #{vTitle,jdbcType=VARCHAR},
+      V_CONTENT = #{vContent,jdbcType=VARCHAR},
+      T_SENDTIME = #{tSendtime,jdbcType=TIMESTAMP},
+      T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      I_TYPE = #{iType,jdbcType=INTEGER}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.note.model.Note" >
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_NOTE
+  	<where>
+  		<if test="iType != null " >
+        I_TYPE = #{iType,jdbcType=INTEGER}
+      </if>
+      <if test="vTitle != null and vTitle != ''" >
+        and  V_TITLE like  concat(concat('%', #{vTitle}), '%')  
+      </if>
+      <if test="iStatus != null " >
+        and I_STATUS = #{iStatus,jdbcType=INTEGER}
+      </if>
+      <if test="tSendtime != null" >
+        	and T_SENDTIME <![CDATA[ >= ]]> #{tSendtime,jdbcType=TIMESTAMP}  
+		</if>
+		<if test="tCreatetime != null" >
+        	and T_SENDTIME <![CDATA[ <= ]]> #{tCreatetime,jdbcType=TIMESTAMP} 
+      	</if>
+      
+  	</where>
+  </select>
+  <select id="selectListByUserid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  select 
+    <include refid="Base_Column_List" />
+    from T_NOTE
+  	where T_SENDTIME <![CDATA[ <= ]]> current_timestamp()
+  	and I_STATUS = 1
+  
+  </select>
+  
+  
+</mapper>

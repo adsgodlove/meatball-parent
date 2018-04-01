@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meatball.exuanbao.appraisal.dao.TestQuestionsSubjectOptionMapper">
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    <id column="B_ID" jdbcType="BIGINT" property="bId" />
+    <result column="B_QBANKID" jdbcType="BIGINT" property="bQbankid" />
+    <result column="V_OPTION" jdbcType="VARCHAR" property="vOption" />
+    <result column="V_CONTENT" jdbcType="VARCHAR" property="vContent" />
+    <result column="F_FRACTION" jdbcType="REAL" property="fFraction" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    B_ID, B_QBANKID, V_OPTION, V_CONTENT, F_FRACTION, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS_SUBJECT_OPTION
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_TEST_QUESTIONS_SUBJECT_OPTION
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    insert into T_TEST_QUESTIONS_SUBJECT_OPTION (B_ID, B_QBANKID, V_OPTION, 
+      V_CONTENT, F_FRACTION, TYPE
+      )
+    values (#{bId,jdbcType=BIGINT}, #{bQbankid,jdbcType=BIGINT}, #{vOption,jdbcType=VARCHAR}, 
+      #{vContent,jdbcType=VARCHAR}, #{fFraction,jdbcType=REAL}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    insert into T_TEST_QUESTIONS_SUBJECT_OPTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        B_ID,
+      </if>
+      <if test="bQbankid != null">
+        B_QBANKID,
+      </if>
+      <if test="vOption != null">
+        V_OPTION,
+      </if>
+      <if test="vContent != null">
+        V_CONTENT,
+      </if>
+      <if test="fFraction != null">
+        F_FRACTION,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bId != null">
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="bQbankid != null">
+        #{bQbankid,jdbcType=BIGINT},
+      </if>
+      <if test="vOption != null">
+        #{vOption,jdbcType=VARCHAR},
+      </if>
+      <if test="vContent != null">
+        #{vContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fFraction != null">
+        #{fFraction,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    update T_TEST_QUESTIONS_SUBJECT_OPTION
+    <set>
+      <if test="bQbankid != null">
+        B_QBANKID = #{bQbankid,jdbcType=BIGINT},
+      </if>
+      <if test="vOption != null">
+        V_OPTION = #{vOption,jdbcType=VARCHAR},
+      </if>
+      <if test="vContent != null">
+        V_CONTENT = #{vContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fFraction != null">
+        F_FRACTION = #{fFraction,jdbcType=REAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    update T_TEST_QUESTIONS_SUBJECT_OPTION
+    set B_QBANKID = #{bQbankid,jdbcType=BIGINT},
+      V_OPTION = #{vOption,jdbcType=VARCHAR},
+      V_CONTENT = #{vContent,jdbcType=VARCHAR},
+      F_FRACTION = #{fFraction,jdbcType=REAL},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+</mapper>

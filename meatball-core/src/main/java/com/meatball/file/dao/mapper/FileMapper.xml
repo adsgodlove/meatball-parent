@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.file.dao.FileMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.file.model.File" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="B_FID" property="bFid" jdbcType="BIGINT" />
+    <result column="V_FILENAME" property="vFilename" jdbcType="VARCHAR" />
+    <result column="V_FILEURL" property="vFileurl" jdbcType="VARCHAR" />
+    <result column="V_FILEFORMAT" property="vFileformat" jdbcType="VARCHAR" />
+    <result column="V_FILETYPE" property="vFiletype" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SERIAL" property="serial" jdbcType="INTEGER" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+    <result column="T_CREATETIME" property="tCreatetime" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, B_FID, V_FILENAME, V_FILEURL, V_FILEFORMAT, V_FILETYPE, TITLE, SERIAL, I_STATUS, 
+    T_CREATETIME, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_FIEL
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_FIEL
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.file.model.File" >
+    insert into T_FIEL (B_ID, B_FID, V_FILENAME, 
+      V_FILEURL, V_FILEFORMAT, V_FILETYPE, 
+      TITLE, SERIAL, I_STATUS, 
+      T_CREATETIME, REMARK)
+    values (#{bId,jdbcType=BIGINT}, #{bFid,jdbcType=BIGINT}, #{vFilename,jdbcType=VARCHAR}, 
+      #{vFileurl,jdbcType=VARCHAR}, #{vFileformat,jdbcType=VARCHAR}, #{vFiletype,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{serial,jdbcType=INTEGER}, #{iStatus,jdbcType=INTEGER}, 
+      #{tCreatetime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.file.model.File" >
+    insert into T_FIEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="bFid != null" >
+        B_FID,
+      </if>
+      <if test="vFilename != null" >
+        V_FILENAME,
+      </if>
+      <if test="vFileurl != null" >
+        V_FILEURL,
+      </if>
+      <if test="vFileformat != null" >
+        V_FILEFORMAT,
+      </if>
+      <if test="vFiletype != null" >
+        V_FILETYPE,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="serial != null" >
+        SERIAL,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="bFid != null" >
+        #{bFid,jdbcType=BIGINT},
+      </if>
+      <if test="vFilename != null" >
+        #{vFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="vFileurl != null" >
+        #{vFileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="vFileformat != null" >
+        #{vFileformat,jdbcType=VARCHAR},
+      </if>
+      <if test="vFiletype != null" >
+        #{vFiletype,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="serial != null" >
+        #{serial,jdbcType=INTEGER},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="tCreatetime != null" >
+        #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.file.model.File" >
+    update T_FIEL
+    <set >
+      <if test="bFid != null" >
+        B_FID = #{bFid,jdbcType=BIGINT},
+      </if>
+      <if test="vFilename != null" >
+        V_FILENAME = #{vFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="vFileurl != null" >
+        V_FILEURL = #{vFileurl,jdbcType=VARCHAR},
+      </if>
+      <if test="vFileformat != null" >
+        V_FILEFORMAT = #{vFileformat,jdbcType=VARCHAR},
+      </if>
+      <if test="vFiletype != null" >
+        V_FILETYPE = #{vFiletype,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="serial != null" >
+        SERIAL = #{serial,jdbcType=INTEGER},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.file.model.File" >
+    update T_FIEL
+    set B_FID = #{bFid,jdbcType=BIGINT},
+      V_FILENAME = #{vFilename,jdbcType=VARCHAR},
+      V_FILEURL = #{vFileurl,jdbcType=VARCHAR},
+      V_FILEFORMAT = #{vFileformat,jdbcType=VARCHAR},
+      V_FILETYPE = #{vFiletype,jdbcType=INTEGER},
+      TITLE = #{title,jdbcType=VARCHAR},
+      SERIAL = #{serial,jdbcType=INTEGER},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <!--通过关联id查询附件-->
+  <select id="selectByFid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_FIEL
+    where B_FID = #{bFid,jdbcType=BIGINT}
+  </select>
+</mapper>

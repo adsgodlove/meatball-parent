@@ -1,0 +1,252 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-md12">
+			<div class="layui-row">
+				<div class="layui-col-md12">
+					<form class="layui-form" id="accountQueryForm" style="float: right;">
+						<div class="layui-inline">
+							<input type="text" name="name" title="姓名" placeholder="姓名" autocomplete="off" class="layui-input">
+					 	</div>
+					 	<div class="layui-inline">
+							<input type="text" name="phone" title="手机号码" placeholder="手机号码" autocomplete="off" class="layui-input">
+					 	</div>
+						<div class="layui-input-inline">
+							<select name="vType" title="科别">
+								<option value="">请选择科别</option>
+								<option value="文科">文科</option>
+								<option value="理科">理科</option>
+							</select>
+						</div>
+					 	
+						<button class="layui-btn" lay-submit lay-filter="accountQuery">
+							<i class="layui-icon">&#xe615;</i> 查询
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="layui-md12">
+			<!-- 表格 -->
+			<table id="accountTable" lay-filter="accountTable"></table>
+		</div>
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationAccountBar">
+   
+<button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</button>
+   
+</script>
+
+<!-- 详情 -->
+<script type="text/html" id="viewAccount">
+<table class="layui-table" style="width: 880px; margin: 10px 10px 0px 10px;">
+	<tr>
+		<td width="50%" rowspan=5" colspan="2" class="table-td-head">
+			<img class="layui-user-head-img" src="{{d.avatar}}">
+		</td>
+	</tr>
+	<tr>
+		<td width="15%" class="table-td-title">账号</td>
+		<td width="35%">{{d.account}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">姓名</td>
+		<td >{{d.name}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">性别</td>
+		<td >
+		{{# if(d.sex == '1'){ }}男{{# } }}		
+		{{# if(d.sex == '2'){ }}女{{# } }}
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">生日</td>
+		<td >{{  layui.util.toDateString(d.birthday) }}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">昵称</td>
+		<td >{{ d.nickname }}</td>
+	 
+		<td class="table-td-title">固定电话</td>
+		<td >{{  d.telephone }}</td>
+	 </tr>
+	<tr>
+		<td class="table-td-title">手机号码</td>
+		<td >{{ d.phone }}</td>
+	 
+		<td class="table-td-title">邮箱</td>
+		<td >{{ d.email }}</td>
+	 </tr>
+	<tr>
+		<td class="table-td-title">省份编码</td>
+		<td >{{ d.provincecode }}</td>
+	 
+		<td class="table-td-title">省份名称</td>
+		<td >{{ d.provincename }}</td>
+	 </tr>
+	<tr>
+		<td class="table-td-title">地区编码</td>
+		<td >{{ d.citycode }}</td>
+	 
+		<td class="table-td-title">地区名称</td>
+		<td >{{ d.cityname }}</td>
+	 </tr>
+	<tr>
+		<td class="table-td-title">详细地址</td>
+		<td >{{ d.address }}</td>
+	 
+		<td class="table-td-title">平台id</td>
+		<td >{{ d.platformid }}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">手机号码</td>
+		<td >{{ d.phone }}</td>
+	 
+		<td class="table-td-title">验证码</td>
+		<td >{{ d.verifycode }}</td>
+	 </tr>
+	<tr>
+		<td class="table-td-title">科别</td>
+		<td >{{ d.vType }}</td>	 
+		<td class="table-td-title">年级</td>
+		<td >{{ d.grade }}</td>
+	 </tr>
+	<tr>
+	 
+		<td class="table-td-title">注册时间</td>
+		<td >{{ layui.util.toDateString(d.registeredtime) }}</td>
+		<td class="table-td-title">更新时间</td>
+		<td >{{  layui.util.toDateString(d.updatetime) }}</td>
+	 </tr>
+	<tr>
+		<td class="table-td-title">状态</td>
+		<td colspan="4">
+		{{# if(d.status == '1'){ }}有效{{# } }}		
+		{{# if(d.status == '0'){ }}无效{{# } }}
+		</td>
+	</tr>
+</table> 
+ 
+<br>
+</script>
+
+<script type="text/html" id="accountxb">
+{{# if(d.sex == '1') { }} 男
+{{# } else if (d.sex == '2') { }}女{{# } }}
+</script> 
+
+<script type="text/html" id="accountzt">
+{{# if(d.status == 1) { }}有效
+{{# } else if (d.status == 0) { }}无效 {{# } }}
+</script> 
+<!-- javascript -->
+<script type="text/javascript">
+
+layui.use(['form', 'tree', 'laydate', 'layedit', 'jquery', 'table','util'], function() {
+	var form = layui.form, 
+	ajaxType = 'POST', 
+	layer = layui.layer, 
+	tree = layui.tree, 
+	$ = layui.jquery, 
+	table = layui.table,
+	laytpl = layui.laytpl, 
+	layerIndex = 0,
+	laydate = layui.laydate;
+	 
+	$accountQueryForm = $('#accountQueryForm');
+	
+ 
+	// 绘制表格
+	table.render({
+		elem: '#accountTable',
+		url: '/exuanbao/user/listParams',
+		page: true, // 开始分页
+		cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'numbers', title: '序号'},
+			{field:'bId', title: 'id'},
+			{field:'name', title: '姓名'},
+			{field:'nickname', title: '昵称'},
+			{field:'sex', title: '性别',templet: '#accountxb'},
+			{field:'phone', title: '手机号码'},
+			{field:'provincename', title: '省份'},
+			{field:'cityname', title: '地区'},
+			{field:'birthday', title: '出生年月',templet: '<div>{{  layui.util.toDateString(d.birthday) }}</div>'},
+			{field:'status', title: '状态',templet: '#accountzt'},
+			{field:'vType', title: '科别'},
+			{field:'grade', title: '年级'},
+			{field:'registeredtime', title: '注册时间',templet: '<div>{{  layui.util.toDateString(d.registeredtime) }}</div>'},
+			{fixed: 'right', align:'left', title: '操作',  width: 250, toolbar: '#operationAccountBar'}
+		]]
+	});
+	//监听工具条
+	table.on('tool(accountTable)', function(obj) {
+		var data = obj.data, 
+		$this = $(this), 
+		getView = viewAccount.innerHTML;
+
+		if(obj.event === 'detail') {
+			$.get('/exuanbao/user/info?bId=' + data.bId, function(res) {
+				laytpl(getView).render(res, function(html) {
+					popupWin('详情', html, false);
+				})
+			})
+		}  
+	});
+	
+	//DateUtils.compareDateEndTimeGTStartTime
+ 
+	// 搜索条件提示
+	$accountQueryForm.find('input').on('mouseover', function() {
+		if(typeof($(this).attr('title')) == 'undefined') return;
+		layer.tips($(this).attr('title'), this, {tips: 1});
+	})
+	
+	form.on('submit(accountQuery)', function(data) {
+		 
+		table.reload('accountTable', {
+			where: data.field 
+		});
+		return false;
+	})
+	
+	//渲染弹框
+	function popupWin(title, content, height) {
+		layerIndex = layer.open({
+			type: 1, //Page层类型
+			area: '900px',//'auto', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			// shadeClose: true, // 点击遮罩是否关闭
+			content: content 
+		});
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		// 渲染select
+		form.render('select');
+		// 单选
+		form.render('radio');	
+		// 重新渲染多选框
+		form.render('checkbox');	
+	}
+})
+</script>
+</html>

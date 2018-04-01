@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meatball.exuanbao.appraisal.dao.TestQuestionsGroupMapper">
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsGroup">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="Q_ID" jdbcType="BIGINT" property="qId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="DES" jdbcType="VARCHAR" property="des" />
+    <result column="APPRAISAL_ANALYSIS" jdbcType="VARCHAR" property="appraisalAnalysis" />
+    <result column="SPECIALTY_RECOMMEND" jdbcType="VARCHAR" property="specialtyRecommend" />
+    <result column="PROFESSION_RECOMMEND" jdbcType="VARCHAR" property="professionRecommend" />
+  </resultMap>
+  <!-- 用作递归查询 -->
+  <resultMap id="JsonResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsGroup">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="Q_ID" jdbcType="BIGINT" property="qId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="DES" jdbcType="VARCHAR" property="des" />
+    <result column="APPRAISAL_ANALYSIS" jdbcType="VARCHAR" property="appraisalAnalysis" />
+    <result column="SPECIALTY_RECOMMEND" jdbcType="VARCHAR" property="specialtyRecommend" />
+    <result column="PROFESSION_RECOMMEND" jdbcType="VARCHAR" property="professionRecommend" />
+    <collection property="banks" column="ID" javaType="ArrayList" ofType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank" select="selectByBQid" />
+  </resultMap>
+  <!-- 試題選項表 -->
+  <resultMap id="QuestionsBankResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsBank">
+    <id column="B_ID" jdbcType="BIGINT" property="bId" />
+    <result column="B_GID" jdbcType="BIGINT" property="bGid" />
+    <result column="V_QNAME" jdbcType="VARCHAR" property="vQname" />
+    <result column="I_TYPE" jdbcType="VARCHAR" property="iType" />
+    <result column="V_TITLE" jdbcType="VARCHAR" property="vTitle" />
+    <result column="F_VALUE" jdbcType="REAL" property="fValue" />
+    <result column="D_CREATETIME" jdbcType="DATE" property="dCreatetime" />
+    <result column="V_ANSWER" jdbcType="VARCHAR" property="vAnswer" />
+    <result column="V_ANALYSIS" jdbcType="VARCHAR" property="vAnalysis" />
+    <collection property="questionsSubjectOption" column="B_ID" javaType="ArrayList" ofType="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption" select="selectByBQbankid" />
+  </resultMap>
+  <!-- 試題選項表 -->
+  <resultMap id="OptionsResultMap" type="com.meatball.exuanbao.appraisal.model.TestQuestionsSubjectOption">
+    <id column="B_ID" jdbcType="BIGINT" property="bId" />
+    <result column="B_QBANKID" jdbcType="BIGINT" property="bQbankid" />
+    <result column="V_OPTION" jdbcType="VARCHAR" property="vOption" />
+    <result column="V_CONTENT" jdbcType="VARCHAR" property="vContent" />
+    <result column="F_FRACTION" jdbcType="REAL" property="fFraction" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, Q_ID, NAME, DES, APPRAISAL_ANALYSIS, SPECIALTY_RECOMMEND, PROFESSION_RECOMMEND
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS_GROUP
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_TEST_QUESTIONS_GROUP
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsGroup">
+    insert into T_TEST_QUESTIONS_GROUP (ID, Q_ID, NAME, 
+      DES, APPRAISAL_ANALYSIS, SPECIALTY_RECOMMEND, 
+      PROFESSION_RECOMMEND)
+    values (#{id,jdbcType=BIGINT}, #{qId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{des,jdbcType=VARCHAR}, #{appraisalAnalysis,jdbcType=VARCHAR}, #{specialtyRecommend,jdbcType=VARCHAR}, 
+      #{professionRecommend,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsGroup">
+    insert into T_TEST_QUESTIONS_GROUP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="qId != null">
+        Q_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="des != null">
+        DES,
+      </if>
+      <if test="appraisalAnalysis != null">
+        APPRAISAL_ANALYSIS,
+      </if>
+      <if test="specialtyRecommend != null">
+        SPECIALTY_RECOMMEND,
+      </if>
+      <if test="professionRecommend != null">
+        PROFESSION_RECOMMEND,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="qId != null">
+        #{qId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null">
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalAnalysis != null">
+        #{appraisalAnalysis,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtyRecommend != null">
+        #{specialtyRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="professionRecommend != null">
+        #{professionRecommend,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsGroup">
+    update T_TEST_QUESTIONS_GROUP
+    <set>
+      <if test="qId != null">
+        Q_ID = #{qId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null">
+        DES = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="appraisalAnalysis != null">
+        APPRAISAL_ANALYSIS = #{appraisalAnalysis,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtyRecommend != null">
+        SPECIALTY_RECOMMEND = #{specialtyRecommend,jdbcType=VARCHAR},
+      </if>
+      <if test="professionRecommend != null">
+        PROFESSION_RECOMMEND = #{professionRecommend,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsGroup">
+    update T_TEST_QUESTIONS_GROUP
+    set Q_ID = #{qId,jdbcType=BIGINT},
+      NAME = #{name,jdbcType=VARCHAR},
+      DES = #{des,jdbcType=VARCHAR},
+      APPRAISAL_ANALYSIS = #{appraisalAnalysis,jdbcType=VARCHAR},
+      SPECIALTY_RECOMMEND = #{specialtyRecommend,jdbcType=VARCHAR},
+      PROFESSION_RECOMMEND = #{professionRecommend,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 查询出当前试卷下的所有分组 -->
+  <select id="selectByQid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS_GROUP
+    where Q_ID = #{qId,jdbcType=BIGINT}
+  </select>
+  <!-- 查询出当前试卷下的所有分组for json -->
+  <select id="selectByQidForJson" parameterType="java.lang.Long" resultMap="JsonResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_TEST_QUESTIONS_GROUP
+    where Q_ID = #{qId,jdbcType=BIGINT}
+  </select>
+  <!-- 根據分組ID查詢出所有試題 -->
+  <select id="selectByBQid" parameterType="java.lang.Long" resultMap="QuestionsBankResultMap">
+    select 
+    B_ID, B_GID, V_QNAME, I_TYPE, V_TITLE, F_VALUE, D_CREATETIME, V_ANSWER, V_ANALYSIS 
+    from T_TEST_QUESTIONS_BANK
+    where B_GID = #{bId,jdbcType=BIGINT}
+  </select>
+  <!-- 根據題目ID查詢出選項 -->
+  <select id="selectByBQbankid" parameterType="com.meatball.exuanbao.appraisal.model.TestQuestionsBank" resultMap="OptionsResultMap">
+  	 select  
+    	B_ID, B_QBANKID, V_OPTION, V_CONTENT, F_FRACTION, TYPE 
+    from T_TEST_QUESTIONS_SUBJECT_OPTION
+    where B_QBANKID = #{bId,jdbcType=BIGINT}
+  </select>
+</mapper>

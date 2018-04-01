@@ -1,0 +1,241 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-md12">
+			<div class="layui-row">
+				<div class="layui-col-md12">
+					<form class="layui-form" id="payQueryForm" style="float: right;">
+						<div class="layui-inline">
+							<input type="text" name="vDealid" title="平台交易流水号" placeholder="平台交易流水号" autocomplete="off" class="layui-input">
+					 	</div>
+						<div class="layui-input-inline">
+							<select name="iType" title="支付类型">
+								<option value="">请选择支付类型</option>
+								<option value="11">智能填报(规划师)</option>
+								<option value="12">智能填报(高级规划师)</option>
+								<option value="13">智能填报(教育专家)</option>
+							</select>
+						</div>
+					 	<div class="layui-input-inline">
+							<select name="vPaytype" title="支付平台">
+								<option value="">请选择支付平台</option>
+								<option value="wx">微信</option>
+								<option value="zfb">支付宝</option>
+							</select>
+						</div>
+					 	<div class="layui-input-inline">
+							<select name="iStatus" title="支付状态">
+								<option value="">请选择支付状态</option>
+								<option value="1">成功</option>
+								<option value="0">失败</option>
+								<option value="9">未支付</option>
+							</select>
+						</div>
+					 	<div class="layui-inline">
+							<input type="text" class="layui-input time" id="sTime" name="sTime" title="开始时间" placeholder="请选择开始时间" readonly="">
+					 	</div>
+					 	<div class="layui-inline">
+							<input type="text" class="layui-input time" id="eTime" name="eTime" title="结束时间" placeholder="请选择结束时间" readonly="">
+					 	</div>
+					 	
+						<button class="layui-btn" lay-submit lay-filter="payQuery">
+							<i class="layui-icon">&#xe615;</i> 查询
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="layui-md12">
+			<!-- 表格 -->
+			<table id="orderTable" lay-filter="orderTable"></table>
+		</div>
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationOrderBar">
+   
+<button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</button>
+   
+</script>
+ 
+
+<!-- 详情 -->
+<script type="text/html" id="viewPay">
+<table class="layui-table" style="width: 880px; margin: 5px 10px 10px 10px;">
+	<tr>
+		<td width="20%" class="table-td-title">id</td>
+		<td width="30%" >{{d.bId}}</td>
+		<td width="20%" class="table-td-title">用户id</td>
+		<td width="30%" >{{d.bUserid}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">用户名称</td>
+		<td >{{d.vUsername}}</td>
+		<td class="table-td-title">用户电话</td>
+		<td >{{d.vTel}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">支付类型</td>
+		<td >
+		{{# if(d.iType == 11){ }}智能填报(规划师){{# } }}		
+		{{# if(d.iType == 12){ }}智能填报(高级规划师){{# } }}
+		{{# if(d.iType == 13){ }}智能填报(教育专家){{# } }}
+		</td>
+		<td class="table-td-title">支付平台</td>
+		<td >
+		{{# if(d.vPaytype == 'wx'){ }}微信{{# } }}		
+		{{# if(d.vPaytype == 'zfb'){ }}支付宝{{# } }}
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">支付平台交易流水号</td>
+		<td >{{d.vDealid}}</td>
+		<td class="table-td-title">支付金额</td>
+		<td >{{d.dMoney}}元</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">订单时间</td>
+		<td >{{  layui.util.toDateString(d.tTime) }}</td>
+		<td class="table-td-title">支付状态</td>
+		<td >
+		{{# if(d.iStatus == 0){ }}失败{{# } }}		
+		{{# if(d.iStatus == 1){ }}成功{{# } }}
+		{{# if(d.iStatus == 9){ }}未支付{{# } }}
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">备注</td>
+		<td  colspan="3" >{{d.remark}}</td>
+	</tr>
+	 
+</table>
+<br>
+</script>
+<script type="text/html" id="zflx">
+{{# if(d.iType == 11) { }}智能填报(规划师)
+{{# } else if (d.iType == 12) { }}智能填报(高级规划师)
+{{# } else if (d.iType == 13) { }}智能填报(教育专家){{# } }}
+</script> 
+
+<script type="text/html" id="zfpt">
+{{# if(d.vPaytype == 'wx') { }}微信
+{{# } else if (d.vPaytype == 'zfb') { }}支付宝 {{# } }}
+</script> 
+
+<script type="text/html" id="zfzt">
+{{# if(d.iStatus == 1) { }}成功
+{{# } else if (d.iStatus == 0) { }}失败
+{{# } else if (d.iStatus == 9) {  }}未支付{{# }  }}
+</script> 
+<!-- javascript -->
+<script type="text/javascript">
+
+layui.use(['form', 'tree', 'laydate', 'layedit', 'jquery', 'table','util'], function() {
+	var form = layui.form, 
+	ajaxType = 'POST', 
+	layer = layui.layer, 
+	tree = layui.tree, 
+	$ = layui.jquery, 
+	table = layui.table,
+	laytpl = layui.laytpl, 
+	layerIndex = 0,
+	laydate = layui.laydate;
+	 
+	$payQueryForm = $('#payQueryForm');
+	
+	 laydate.render({
+		    elem: '#sTime' //指定元素
+		  });
+	 laydate.render({
+		    elem: '#eTime' //指定元素
+		  });
+	// 绘制表格
+	table.render({
+		elem: '#orderTable',
+		url: '/exuanbao/pay/listParams',
+		page: true, // 开始分页
+		cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'numbers', title: '序号'},
+			{field:'bId', title: 'id'},
+			{field:'bUserid', title: '用户id'},
+			{field:'iType', title: '支付类型',templet: '#zflx'},
+			{field:'vPaytype', title: '支付平台',templet: '#zfpt'},
+			{field:'vDealid', title: '平台交易流水号'},
+			{field:'dMoney', title: '金额(元)'},
+			{field:'tTime', title: '订单时间',templet: '<div>{{  layui.util.toDateString(d.tTime) }}</div>'},
+			{field:'iStatus', title: '支付状态',templet: '#zfzt'},
+			{fixed: 'right', align:'left', title: '操作',  width: 250, toolbar: '#operationOrderBar'}
+		]]
+	});
+	//监听工具条
+	table.on('tool(orderTable)', function(obj) {
+		var data = obj.data, 
+		$this = $(this), 
+		getView = viewPay.innerHTML;
+
+		if(obj.event === 'detail') {
+			$.get('/exuanbao/pay/info?bId=' + data.bId, function(res) {
+				laytpl(getView).render(res, function(html) {
+					popupWin('详情', html, false);
+				})
+			})
+		}  
+	});
+	
+	//DateUtils.compareDateEndTimeGTStartTime
+ 
+	// 搜索条件提示
+	$payQueryForm.find('input').on('mouseover', function() {
+		if(typeof($(this).attr('title')) == 'undefined') return;
+		layer.tips($(this).attr('title'), this, {tips: 1});
+	})
+	
+	form.on('submit(payQuery)', function(data) {
+		if($('#eTime').val() < $('#sTime').val()) {
+			layer.msg('结束时间不能小于开始时间', {icon: 1});
+			return false;
+		}
+		table.reload('orderTable', {
+			where: data.field 
+		});
+		return false;
+	})
+	
+	//渲染弹框
+	function popupWin(title, content, height) {
+		layerIndex = layer.open({
+			type: 1, //Page层类型
+			area: '900px',//'auto', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			// shadeClose: true, // 点击遮罩是否关闭
+			content: content 
+		});
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		// 渲染select
+		form.render('select');
+		// 单选
+		form.render('radio');	
+		// 重新渲染多选框
+		form.render('checkbox');	
+	}
+})
+</script>
+</html>

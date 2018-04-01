@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.school.dao.SchoolMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.school.model.School" >
+    <id column="B_ID" property="bId" jdbcType="BIGINT" />
+    <result column="V_NAME" property="vName" jdbcType="VARCHAR" />
+    <result column="V_CODE" property="vCode" jdbcType="VARCHAR" />
+    <result column="P_LOGO" property="pLogo" jdbcType="VARCHAR" />
+    <result column="D_STIME" property="dStime" jdbcType="DATE" />
+    <result column="I_PLACEID" property="iPlaceid" jdbcType="INTEGER" />
+    <result column="V_PLACENAME" property="vPlacename" jdbcType="VARCHAR" />
+    <result column="I_REGIONID" property="iRegionid" jdbcType="INTEGER" />
+    <result column="V_REGIONNAME" property="vRegionname" jdbcType="VARCHAR" />
+    <result column="I_NATUREID" property="iNatureid" jdbcType="INTEGER" />
+    <result column="I_NATURENAME" property="iNaturename" jdbcType="VARCHAR" />
+    <result column="I_TYPEID" property="iTypeid" jdbcType="INTEGER" />
+    <result column="V_TYPENAME" property="vTypename" jdbcType="VARCHAR" />
+    <result column="I_SUBID" property="iSubid" jdbcType="INTEGER" />
+    <result column="I_SUBSORT" property="iSubsort" jdbcType="INTEGER" />
+    <result column="V_SUBNAME" property="vSubname" jdbcType="VARCHAR" />
+    <result column="I_LEVEL" property="iLevel" jdbcType="INTEGER" />
+    <result column="V_LEVELNAME" property="vLevelname" jdbcType="VARCHAR" />
+    <result column="V_URL" property="vUrl" jdbcType="VARCHAR" />
+    <result column="V_EMAIL" property="vEmail" jdbcType="VARCHAR" />
+    <result column="V_PHONE" property="vPhone" jdbcType="VARCHAR" />
+    <result column="V_ADDRESS" property="vAddress" jdbcType="VARCHAR" />
+    <result column="V_COVERING" property="vCovering" jdbcType="VARCHAR" />
+    <result column="V_SCHOOLHOUSE" property="vSchoolhouse" jdbcType="VARCHAR" />
+    <result column="V_ASSET" property="vAsset" jdbcType="VARCHAR" />
+    <result column="V_INSTRUMENT" property="vInstrument" jdbcType="VARCHAR" />
+    <result column="V_LIBRARY" property="vLibrary" jdbcType="VARCHAR" />
+    <result column="V_MAJOR" property="vMajor" jdbcType="VARCHAR" />
+    <result column="V_STUDENTS" property="vStudents" jdbcType="VARCHAR" />
+    <result column="V_TEACHERS" property="vTeachers" jdbcType="VARCHAR" />
+    <result column="V_HISTORY" property="vHistory" jdbcType="VARCHAR" />
+    <result column="V_FACULTY" property="vFaculty" jdbcType="VARCHAR" />
+    <result column="V_COOPERATION" property="vCooperation" jdbcType="VARCHAR" />
+    <result column="V_FEATURE" property="vFeature" jdbcType="VARCHAR" />
+    <result column="I_RANKING" property="iRanking" jdbcType="INTEGER" />
+    <result column="I_STATUS" property="iStatus" jdbcType="INTEGER" />
+    <result column="T_CREATETIME" property="tCreatetime" jdbcType="TIMESTAMP" />
+    <result column="B_CREATOR" property="bCreator" jdbcType="BIGINT" />
+    <result column="T_MODIFYTIME" property="tModifytime" jdbcType="TIMESTAMP" />
+    <result column="B_MODIFIER" property="bModifier" jdbcType="BIGINT" />
+    <result column="T_STRENGTH" property="tStrength" jdbcType="LONGVARCHAR" />
+    <result column="V_SUMMARY" property="vSummary" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meatball.exuanbao.school.model.School" extends="BaseResultMap" >
+    <result column="T_STRENGTH" property="tStrength" jdbcType="LONGVARCHAR" />
+    <result column="V_SUMMARY" property="vSummary" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    B_ID, V_NAME, V_CODE, P_LOGO, D_STIME, I_PLACEID, V_PLACENAME, I_REGIONID, V_REGIONNAME, 
+    I_NATUREID, I_NATURENAME, I_TYPEID, V_TYPENAME, I_SUBID, I_SUBSORT, V_SUBNAME, I_LEVEL, 
+    V_LEVELNAME, V_URL, V_EMAIL, V_PHONE, V_ADDRESS, V_COVERING, V_SCHOOLHOUSE, V_ASSET, 
+    V_INSTRUMENT, V_LIBRARY, V_MAJOR, V_STUDENTS, V_TEACHERS, V_HISTORY, V_FACULTY, V_COOPERATION, 
+    V_FEATURE, I_RANKING, I_STATUS, T_CREATETIME, B_CREATOR, T_MODIFYTIME, B_MODIFIER,T_STRENGTH, V_SUMMARY
+  </sql>
+  <sql id="Base_Column_List_Query" >
+    B_ID, V_NAME, V_CODE, P_LOGO, D_STIME, I_PLACEID, V_PLACENAME, I_REGIONID, V_REGIONNAME, 
+    I_NATUREID, I_NATURENAME, I_TYPEID, V_TYPENAME, I_SUBID, I_SUBSORT, V_SUBNAME, I_LEVEL, 
+    V_LEVELNAME, V_URL, V_EMAIL, V_PHONE, V_ADDRESS, V_COVERING, V_SCHOOLHOUSE, V_ASSET, 
+    V_INSTRUMENT, V_LIBRARY, V_MAJOR, V_STUDENTS, V_TEACHERS, V_HISTORY, V_FACULTY, V_COOPERATION, 
+    V_FEATURE, I_RANKING, I_STATUS, T_CREATETIME, B_CREATOR, T_MODIFYTIME, B_MODIFIER,T_STRENGTH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_SCHOOL
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from T_SCHOOL
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.meatball.exuanbao.school.model.School" >
+    insert into T_SCHOOL (B_ID, V_NAME, V_CODE, 
+      P_LOGO, D_STIME, I_PLACEID, 
+      V_PLACENAME, I_REGIONID, V_REGIONNAME, 
+      I_NATUREID, I_NATURENAME, I_TYPEID, 
+      V_TYPENAME, I_SUBID, I_SUBSORT, 
+      V_SUBNAME, I_LEVEL, V_LEVELNAME, 
+      V_URL, V_EMAIL, V_PHONE, 
+      V_ADDRESS, V_COVERING, V_SCHOOLHOUSE, 
+      V_ASSET, V_INSTRUMENT, V_LIBRARY, 
+      V_MAJOR, V_STUDENTS, V_TEACHERS, 
+      V_HISTORY, V_FACULTY, V_COOPERATION, 
+      V_FEATURE, I_RANKING, I_STATUS, 
+      T_CREATETIME, B_CREATOR, T_MODIFYTIME, 
+      B_MODIFIER, T_STRENGTH, V_SUMMARY
+      )
+    values (#{bId,jdbcType=BIGINT}, #{vName,jdbcType=VARCHAR}, #{vCode,jdbcType=VARCHAR}, 
+      #{pLogo,jdbcType=VARCHAR}, #{dStime,jdbcType=DATE}, #{iPlaceid,jdbcType=INTEGER}, 
+      #{vPlacename,jdbcType=VARCHAR}, #{iRegionid,jdbcType=INTEGER}, #{vRegionname,jdbcType=VARCHAR}, 
+      #{iNatureid,jdbcType=INTEGER}, #{iNaturename,jdbcType=VARCHAR}, #{iTypeid,jdbcType=INTEGER}, 
+      #{vTypename,jdbcType=VARCHAR}, #{iSubid,jdbcType=INTEGER}, #{iSubsort,jdbcType=INTEGER}, 
+      #{vSubname,jdbcType=VARCHAR}, #{iLevel,jdbcType=INTEGER}, #{vLevelname,jdbcType=VARCHAR}, 
+      #{vUrl,jdbcType=VARCHAR}, #{vEmail,jdbcType=VARCHAR}, #{vPhone,jdbcType=VARCHAR}, 
+      #{vAddress,jdbcType=VARCHAR}, #{vCovering,jdbcType=VARCHAR}, #{vSchoolhouse,jdbcType=VARCHAR}, 
+      #{vAsset,jdbcType=VARCHAR}, #{vInstrument,jdbcType=VARCHAR}, #{vLibrary,jdbcType=VARCHAR}, 
+      #{vMajor,jdbcType=VARCHAR}, #{vStudents,jdbcType=VARCHAR}, #{vTeachers,jdbcType=VARCHAR}, 
+      #{vHistory,jdbcType=VARCHAR}, #{vFaculty,jdbcType=VARCHAR}, #{vCooperation,jdbcType=VARCHAR}, 
+      #{vFeature,jdbcType=VARCHAR}, #{iRanking,jdbcType=INTEGER}, #{iStatus,jdbcType=INTEGER}, 
+      #{tCreatetime,jdbcType=TIMESTAMP}, #{bCreator,jdbcType=BIGINT}, #{tModifytime,jdbcType=TIMESTAMP}, 
+      #{bModifier,jdbcType=BIGINT}, #{tStrength,jdbcType=LONGVARCHAR}, #{vSummary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.school.model.School" >
+    insert into T_SCHOOL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        B_ID,
+      </if>
+      <if test="vName != null" >
+        V_NAME,
+      </if>
+      <if test="vCode != null" >
+        V_CODE,
+      </if>
+      <if test="pLogo != null" >
+        P_LOGO,
+      </if>
+      <if test="dStime != null" >
+        D_STIME,
+      </if>
+      <if test="iPlaceid != null" >
+        I_PLACEID,
+      </if>
+      <if test="vPlacename != null" >
+        V_PLACENAME,
+      </if>
+      <if test="iRegionid != null" >
+        I_REGIONID,
+      </if>
+      <if test="vRegionname != null" >
+        V_REGIONNAME,
+      </if>
+      <if test="iNatureid != null" >
+        I_NATUREID,
+      </if>
+      <if test="iNaturename != null" >
+        I_NATURENAME,
+      </if>
+      <if test="iTypeid != null" >
+        I_TYPEID,
+      </if>
+      <if test="vTypename != null" >
+        V_TYPENAME,
+      </if>
+      <if test="iSubid != null" >
+        I_SUBID,
+      </if>
+      <if test="iSubsort != null" >
+        I_SUBSORT,
+      </if>
+      <if test="vSubname != null" >
+        V_SUBNAME,
+      </if>
+      <if test="iLevel != null" >
+        I_LEVEL,
+      </if>
+      <if test="vLevelname != null" >
+        V_LEVELNAME,
+      </if>
+      <if test="vUrl != null" >
+        V_URL,
+      </if>
+      <if test="vEmail != null" >
+        V_EMAIL,
+      </if>
+      <if test="vPhone != null" >
+        V_PHONE,
+      </if>
+      <if test="vAddress != null" >
+        V_ADDRESS,
+      </if>
+      <if test="vCovering != null" >
+        V_COVERING,
+      </if>
+      <if test="vSchoolhouse != null" >
+        V_SCHOOLHOUSE,
+      </if>
+      <if test="vAsset != null" >
+        V_ASSET,
+      </if>
+      <if test="vInstrument != null" >
+        V_INSTRUMENT,
+      </if>
+      <if test="vLibrary != null" >
+        V_LIBRARY,
+      </if>
+      <if test="vMajor != null" >
+        V_MAJOR,
+      </if>
+      <if test="vStudents != null" >
+        V_STUDENTS,
+      </if>
+      <if test="vTeachers != null" >
+        V_TEACHERS,
+      </if>
+      <if test="vHistory != null" >
+        V_HISTORY,
+      </if>
+      <if test="vFaculty != null" >
+        V_FACULTY,
+      </if>
+      <if test="vCooperation != null" >
+        V_COOPERATION,
+      </if>
+      <if test="vFeature != null" >
+        V_FEATURE,
+      </if>
+      <if test="iRanking != null" >
+        I_RANKING,
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS,
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME,
+      </if>
+      <if test="bCreator != null" >
+        B_CREATOR,
+      </if>
+      <if test="tModifytime != null" >
+        T_MODIFYTIME,
+      </if>
+      <if test="bModifier != null" >
+        B_MODIFIER,
+      </if>
+      <if test="tStrength != null" >
+        T_STRENGTH,
+      </if>
+      <if test="vSummary != null" >
+        V_SUMMARY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bId != null" >
+        #{bId,jdbcType=BIGINT},
+      </if>
+      <if test="vName != null" >
+        #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vCode != null" >
+        #{vCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pLogo != null" >
+        #{pLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="dStime != null" >
+        #{dStime,jdbcType=DATE},
+      </if>
+      <if test="iPlaceid != null" >
+        #{iPlaceid,jdbcType=INTEGER},
+      </if>
+      <if test="vPlacename != null" >
+        #{vPlacename,jdbcType=VARCHAR},
+      </if>
+      <if test="iRegionid != null" >
+        #{iRegionid,jdbcType=INTEGER},
+      </if>
+      <if test="vRegionname != null" >
+        #{vRegionname,jdbcType=VARCHAR},
+      </if>
+      <if test="iNatureid != null" >
+        #{iNatureid,jdbcType=INTEGER},
+      </if>
+      <if test="iNaturename != null" >
+        #{iNaturename,jdbcType=VARCHAR},
+      </if>
+      <if test="iTypeid != null" >
+        #{iTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="vTypename != null" >
+        #{vTypename,jdbcType=VARCHAR},
+      </if>
+      <if test="iSubid != null" >
+        #{iSubid,jdbcType=INTEGER},
+      </if>
+      <if test="iSubsort != null" >
+        #{iSubsort,jdbcType=INTEGER},
+      </if>
+      <if test="vSubname != null" >
+        #{vSubname,jdbcType=VARCHAR},
+      </if>
+      <if test="iLevel != null" >
+        #{iLevel,jdbcType=INTEGER},
+      </if>
+      <if test="vLevelname != null" >
+        #{vLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="vUrl != null" >
+        #{vUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="vEmail != null" >
+        #{vEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="vPhone != null" >
+        #{vPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="vAddress != null" >
+        #{vAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="vCovering != null" >
+        #{vCovering,jdbcType=VARCHAR},
+      </if>
+      <if test="vSchoolhouse != null" >
+        #{vSchoolhouse,jdbcType=VARCHAR},
+      </if>
+      <if test="vAsset != null" >
+        #{vAsset,jdbcType=VARCHAR},
+      </if>
+      <if test="vInstrument != null" >
+        #{vInstrument,jdbcType=VARCHAR},
+      </if>
+      <if test="vLibrary != null" >
+        #{vLibrary,jdbcType=VARCHAR},
+      </if>
+      <if test="vMajor != null" >
+        #{vMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="vStudents != null" >
+        #{vStudents,jdbcType=VARCHAR},
+      </if>
+      <if test="vTeachers != null" >
+        #{vTeachers,jdbcType=VARCHAR},
+      </if>
+      <if test="vHistory != null" >
+        #{vHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="vFaculty != null" >
+        #{vFaculty,jdbcType=VARCHAR},
+      </if>
+      <if test="vCooperation != null" >
+        #{vCooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="vFeature != null" >
+        #{vFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="iRanking != null" >
+        #{iRanking,jdbcType=INTEGER},
+      </if>
+      <if test="iStatus != null" >
+        #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="tCreatetime != null" >
+        #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bCreator != null" >
+        #{bCreator,jdbcType=BIGINT},
+      </if>
+      <if test="tModifytime != null" >
+        #{tModifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bModifier != null" >
+        #{bModifier,jdbcType=BIGINT},
+      </if>
+      <if test="tStrength != null" >
+        #{tStrength,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="vSummary != null" >
+        #{vSummary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meatball.exuanbao.school.model.School" >
+    update T_SCHOOL
+    <set >
+      <if test="vName != null" >
+        V_NAME = #{vName,jdbcType=VARCHAR},
+      </if>
+      <if test="vCode != null" >
+        V_CODE = #{vCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pLogo != null" >
+        P_LOGO = #{pLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="dStime != null" >
+        D_STIME = #{dStime,jdbcType=DATE},
+      </if>
+      <if test="iPlaceid != null" >
+        I_PLACEID = #{iPlaceid,jdbcType=INTEGER},
+      </if>
+      <if test="vPlacename != null" >
+        V_PLACENAME = #{vPlacename,jdbcType=VARCHAR},
+      </if>
+      <if test="iRegionid != null" >
+        I_REGIONID = #{iRegionid,jdbcType=INTEGER},
+      </if>
+      <if test="vRegionname != null" >
+        V_REGIONNAME = #{vRegionname,jdbcType=VARCHAR},
+      </if>
+      <if test="iNatureid != null" >
+        I_NATUREID = #{iNatureid,jdbcType=INTEGER},
+      </if>
+      <if test="iNaturename != null" >
+        I_NATURENAME = #{iNaturename,jdbcType=VARCHAR},
+      </if>
+      <if test="iTypeid != null" >
+        I_TYPEID = #{iTypeid,jdbcType=INTEGER},
+      </if>
+      <if test="vTypename != null" >
+        V_TYPENAME = #{vTypename,jdbcType=VARCHAR},
+      </if>
+      <if test="iSubid != null" >
+        I_SUBID = #{iSubid,jdbcType=INTEGER},
+      </if>
+      <if test="iSubsort != null" >
+        I_SUBSORT = #{iSubsort,jdbcType=INTEGER},
+      </if>
+      <if test="vSubname != null" >
+        V_SUBNAME = #{vSubname,jdbcType=VARCHAR},
+      </if>
+      <if test="iLevel != null" >
+        I_LEVEL = #{iLevel,jdbcType=INTEGER},
+      </if>
+      <if test="vLevelname != null" >
+        V_LEVELNAME = #{vLevelname,jdbcType=VARCHAR},
+      </if>
+      <if test="vUrl != null" >
+        V_URL = #{vUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="vEmail != null" >
+        V_EMAIL = #{vEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="vPhone != null" >
+        V_PHONE = #{vPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="vAddress != null" >
+        V_ADDRESS = #{vAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="vCovering != null" >
+        V_COVERING = #{vCovering,jdbcType=VARCHAR},
+      </if>
+      <if test="vSchoolhouse != null" >
+        V_SCHOOLHOUSE = #{vSchoolhouse,jdbcType=VARCHAR},
+      </if>
+      <if test="vAsset != null" >
+        V_ASSET = #{vAsset,jdbcType=VARCHAR},
+      </if>
+      <if test="vInstrument != null" >
+        V_INSTRUMENT = #{vInstrument,jdbcType=VARCHAR},
+      </if>
+      <if test="vLibrary != null" >
+        V_LIBRARY = #{vLibrary,jdbcType=VARCHAR},
+      </if>
+      <if test="vMajor != null" >
+        V_MAJOR = #{vMajor,jdbcType=VARCHAR},
+      </if>
+      <if test="vStudents != null" >
+        V_STUDENTS = #{vStudents,jdbcType=VARCHAR},
+      </if>
+      <if test="vTeachers != null" >
+        V_TEACHERS = #{vTeachers,jdbcType=VARCHAR},
+      </if>
+      <if test="vHistory != null" >
+        V_HISTORY = #{vHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="vFaculty != null" >
+        V_FACULTY = #{vFaculty,jdbcType=VARCHAR},
+      </if>
+      <if test="vCooperation != null" >
+        V_COOPERATION = #{vCooperation,jdbcType=VARCHAR},
+      </if>
+      <if test="vFeature != null" >
+        V_FEATURE = #{vFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="iRanking != null" >
+        I_RANKING = #{iRanking,jdbcType=INTEGER},
+      </if>
+      <if test="iStatus != null" >
+        I_STATUS = #{iStatus,jdbcType=INTEGER},
+      </if>
+      <if test="tCreatetime != null" >
+        T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bCreator != null" >
+        B_CREATOR = #{bCreator,jdbcType=BIGINT},
+      </if>
+      <if test="tModifytime != null" >
+        T_MODIFYTIME = #{tModifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bModifier != null" >
+        B_MODIFIER = #{bModifier,jdbcType=BIGINT},
+      </if>
+      <if test="tStrength != null" >
+        T_STRENGTH = #{tStrength,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="vSummary != null" >
+        V_SUMMARY = #{vSummary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meatball.exuanbao.school.model.School" >
+    update T_SCHOOL
+    set V_NAME = #{vName,jdbcType=VARCHAR},
+      V_CODE = #{vCode,jdbcType=VARCHAR},
+      P_LOGO = #{pLogo,jdbcType=VARCHAR},
+      D_STIME = #{dStime,jdbcType=DATE},
+      I_PLACEID = #{iPlaceid,jdbcType=INTEGER},
+      V_PLACENAME = #{vPlacename,jdbcType=VARCHAR},
+      I_REGIONID = #{iRegionid,jdbcType=INTEGER},
+      V_REGIONNAME = #{vRegionname,jdbcType=VARCHAR},
+      I_NATUREID = #{iNatureid,jdbcType=INTEGER},
+      I_NATURENAME = #{iNaturename,jdbcType=VARCHAR},
+      I_TYPEID = #{iTypeid,jdbcType=INTEGER},
+      V_TYPENAME = #{vTypename,jdbcType=VARCHAR},
+      I_SUBID = #{iSubid,jdbcType=INTEGER},
+      I_SUBSORT = #{iSubsort,jdbcType=INTEGER},
+      V_SUBNAME = #{vSubname,jdbcType=VARCHAR},
+      I_LEVEL = #{iLevel,jdbcType=INTEGER},
+      V_LEVELNAME = #{vLevelname,jdbcType=VARCHAR},
+      V_URL = #{vUrl,jdbcType=VARCHAR},
+      V_EMAIL = #{vEmail,jdbcType=VARCHAR},
+      V_PHONE = #{vPhone,jdbcType=VARCHAR},
+      V_ADDRESS = #{vAddress,jdbcType=VARCHAR},
+      V_COVERING = #{vCovering,jdbcType=VARCHAR},
+      V_SCHOOLHOUSE = #{vSchoolhouse,jdbcType=VARCHAR},
+      V_ASSET = #{vAsset,jdbcType=VARCHAR},
+      V_INSTRUMENT = #{vInstrument,jdbcType=VARCHAR},
+      V_LIBRARY = #{vLibrary,jdbcType=VARCHAR},
+      V_MAJOR = #{vMajor,jdbcType=VARCHAR},
+      V_STUDENTS = #{vStudents,jdbcType=VARCHAR},
+      V_TEACHERS = #{vTeachers,jdbcType=VARCHAR},
+      V_HISTORY = #{vHistory,jdbcType=VARCHAR},
+      V_FACULTY = #{vFaculty,jdbcType=VARCHAR},
+      V_COOPERATION = #{vCooperation,jdbcType=VARCHAR},
+      V_FEATURE = #{vFeature,jdbcType=VARCHAR},
+      I_RANKING = #{iRanking,jdbcType=INTEGER},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      B_CREATOR = #{bCreator,jdbcType=BIGINT},
+      T_MODIFYTIME = #{tModifytime,jdbcType=TIMESTAMP},
+      B_MODIFIER = #{bModifier,jdbcType=BIGINT},
+      T_STRENGTH = #{tStrength,jdbcType=LONGVARCHAR},
+      V_SUMMARY = #{vSummary,jdbcType=LONGVARCHAR}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meatball.exuanbao.school.model.School" >
+    update T_SCHOOL
+    set V_NAME = #{vName,jdbcType=VARCHAR},
+      V_CODE = #{vCode,jdbcType=VARCHAR},
+      P_LOGO = #{pLogo,jdbcType=VARCHAR},
+      D_STIME = #{dStime,jdbcType=DATE},
+      I_PLACEID = #{iPlaceid,jdbcType=INTEGER},
+      V_PLACENAME = #{vPlacename,jdbcType=VARCHAR},
+      I_REGIONID = #{iRegionid,jdbcType=INTEGER},
+      V_REGIONNAME = #{vRegionname,jdbcType=VARCHAR},
+      I_NATUREID = #{iNatureid,jdbcType=INTEGER},
+      I_NATURENAME = #{iNaturename,jdbcType=VARCHAR},
+      I_TYPEID = #{iTypeid,jdbcType=INTEGER},
+      V_TYPENAME = #{vTypename,jdbcType=VARCHAR},
+      I_SUBID = #{iSubid,jdbcType=INTEGER},
+      I_SUBSORT = #{iSubsort,jdbcType=INTEGER},
+      V_SUBNAME = #{vSubname,jdbcType=VARCHAR},
+      I_LEVEL = #{iLevel,jdbcType=INTEGER},
+      V_LEVELNAME = #{vLevelname,jdbcType=VARCHAR},
+      V_URL = #{vUrl,jdbcType=VARCHAR},
+      V_EMAIL = #{vEmail,jdbcType=VARCHAR},
+      V_PHONE = #{vPhone,jdbcType=VARCHAR},
+      V_ADDRESS = #{vAddress,jdbcType=VARCHAR},
+      V_COVERING = #{vCovering,jdbcType=VARCHAR},
+      V_SCHOOLHOUSE = #{vSchoolhouse,jdbcType=VARCHAR},
+      V_ASSET = #{vAsset,jdbcType=VARCHAR},
+      V_INSTRUMENT = #{vInstrument,jdbcType=VARCHAR},
+      V_LIBRARY = #{vLibrary,jdbcType=VARCHAR},
+      V_MAJOR = #{vMajor,jdbcType=VARCHAR},
+      V_STUDENTS = #{vStudents,jdbcType=VARCHAR},
+      V_TEACHERS = #{vTeachers,jdbcType=VARCHAR},
+      V_HISTORY = #{vHistory,jdbcType=VARCHAR},
+      V_FACULTY = #{vFaculty,jdbcType=VARCHAR},
+      V_COOPERATION = #{vCooperation,jdbcType=VARCHAR},
+      V_FEATURE = #{vFeature,jdbcType=VARCHAR},
+      I_RANKING = #{iRanking,jdbcType=INTEGER},
+      I_STATUS = #{iStatus,jdbcType=INTEGER},
+      T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP},
+      B_CREATOR = #{bCreator,jdbcType=BIGINT},
+      T_MODIFYTIME = #{tModifytime,jdbcType=TIMESTAMP},
+      B_MODIFIER = #{bModifier,jdbcType=BIGINT}
+    where B_ID = #{bId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询集合数据 -->
+  <select id="listParams" resultMap="BaseResultMap" parameterType="com.meatball.exuanbao.school.model.School">
+    select 
+    <include refid="Base_Column_List_Query" />
+    from T_SCHOOL school
+    <where>
+    	1=1 
+      <if test="vName != null and vName != '' " >
+        and V_NAME like concat(concat('%', #{vName}), '%')  
+      </if>
+      <if test="vCode != null" >
+        and V_CODE = #{vCode,jdbcType=VARCHAR}
+      </if>
+      <if test="dStime != null" >
+        and D_STIME = #{dStime,jdbcType=DATE}
+      </if>
+      <if test="iPlaceid != null and iPlaceid != '' " >
+        and I_PLACEID = #{iPlaceid,jdbcType=INTEGER}
+      </if>
+      <if test="vPlacename != null" >
+        and V_PLACENAME like concat(concat('%', #{vPlacename}), '%')  
+      </if>
+      <if test="iRegionid != null and iPlaceid != '' " >
+        and I_REGIONID = #{iRegionid,jdbcType=INTEGER}
+      </if>
+      <if test="vRegionname != null" >
+        and V_REGIONNAME like concat(concat('%', #{vRegionname}), '%')  
+      </if>
+      <if test="iNatureid != null and iNatureid != '' " >
+        and I_NATUREID = #{iNatureid,jdbcType=INTEGER}
+      </if>
+      <if test="iNaturename != null" >
+        and I_NATURENAME like concat(concat('%', #{iNaturename}), '%')  
+      </if>
+      <if test="iTypeid != null and iTypeid != ''" >
+        and I_TYPEID = #{iTypeid,jdbcType=INTEGER}
+      </if>
+      <if test="vTypename != null" >
+        and V_TYPENAME like concat(concat('%', #{vTypename}), '%')  
+      </if>
+      <if test="iSubid != null and iSubid != '' " >
+        and I_SUBID = #{iSubid,jdbcType=INTEGER}
+      </if>
+      <if test="iSubsort != null and iSubsort != '' " >
+        and I_SUBSORT = #{iSubsort,jdbcType=INTEGER}
+      </if>
+      <if test="vSubname != null" >
+        and V_SUBNAME like concat(concat('%', #{vSubname}), '%')  
+      </if>
+      <if test="iLevel != null and iLevel != '' " >
+        and I_LEVEL = #{iLevel,jdbcType=INTEGER}
+      </if>
+      <if test="vLevelname != null" >
+        and V_LEVELNAME like concat(concat('%', #{vLevelname}), '%')  
+      </if>
+      <if test="vUrl != null" >
+        and V_URL = #{vUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="vEmail != null" >
+        and V_EMAIL like concat(concat('%', #{vEmail}), '%')  
+      </if>
+      <if test="vPhone != null" >
+        and V_PHONE like concat(concat('%', #{vPhone}), '%')  
+      </if>
+      <if test="vAddress != null" >
+        and V_ADDRESS = #{vAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="vCovering != null" >
+        and V_COVERING = #{vCovering,jdbcType=VARCHAR}
+      </if>
+      <if test="vSchoolhouse != null" >
+        and V_SCHOOLHOUSE = #{vSchoolhouse,jdbcType=VARCHAR}
+      </if>
+      <if test="vAsset != null" >
+        and V_ASSET = #{vAsset,jdbcType=VARCHAR}
+      </if>
+      <if test="vInstrument != null" >
+        and V_INSTRUMENT = #{vInstrument,jdbcType=VARCHAR}
+      </if>
+      <if test="vLibrary != null" >
+        and V_LIBRARY = #{vLibrary,jdbcType=VARCHAR}
+      </if>
+      <if test="vMajor != null" >
+        and V_MAJOR = #{vMajor,jdbcType=VARCHAR}
+      </if>
+      <if test="vStudents != null" >
+        and V_STUDENTS = #{vStudents,jdbcType=VARCHAR}
+      </if>
+      <if test="vTeachers != null" >
+        and V_TEACHERS = #{vTeachers,jdbcType=VARCHAR}
+      </if>
+      <if test="vHistory != null" >
+        and V_HISTORY = #{vHistory,jdbcType=VARCHAR}
+      </if>
+      <if test="vFaculty != null" >
+        and V_FACULTY = #{vFaculty,jdbcType=VARCHAR}
+      </if>
+      <if test="vCooperation != null" >
+        and V_COOPERATION = #{vCooperation,jdbcType=VARCHAR}
+      </if>
+      <if test="vFeature != null" >
+        and V_FEATURE = #{vFeature,jdbcType=VARCHAR}
+      </if>
+      <if test="iRanking != null" >
+        and I_RANKING = #{iRanking,jdbcType=INTEGER}
+      </if>
+      <if test="iStatus != null" >
+        and I_STATUS = #{iStatus,jdbcType=INTEGER}
+      </if>
+      <if test="tCreatetime != null" >
+        and T_CREATETIME = #{tCreatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="bCreator != null" >
+        and B_CREATOR = #{bCreator,jdbcType=BIGINT}
+      </if>
+      <if test="bModifier != null" >
+        and B_MODIFIER = #{bModifier,jdbcType=BIGINT}
+      </if>
+      <if test="tStrength != null" >
+        and T_STRENGTH = #{tStrength,jdbcType=LONGVARCHAR}
+      </if>
+      <if test="specialtyid != null" >
+      	<!-- 优势院校 -->
+        and school.B_ID in (select links.B_SCHOOLID from T_SCHOOL_SPECIALTY_SUPERIORITY_LINKS links where links.B_SPECIALTYID = #{specialtyid,jdbcType=BIGINT} )
+      </if>
+    </where>
+     order by T_MODIFYTIME desc
+  </select>
+  
+</mapper>

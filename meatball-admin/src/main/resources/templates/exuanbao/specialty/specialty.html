@@ -1,0 +1,566 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="layui-fluid">
+	<div class="layui-row">
+		<div class="layui-col-md2">
+			<ul id="specialtyTree"></ul>
+		</div>
+		<div class="layui-col-md10">
+			<table id="specialtyTable" lay-filter="specialtyTable"></table>
+		</div>
+	</div>
+</div>
+<!-- 操作 -->
+<script type="text/html" id="operationSpecialtyBar">
+  
+  {{# if(d.iCategory == 3){ }}
+		<button class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</button>
+  {{# } }}
+  {{# if(d.iCategory == 1 || d.iCategory == 2){ }}
+		<button class="layui-btn layui-btn-warm layui-btn-xs" lay-event="add">新增</button>
+  {{# } }}
+  <button class="layui-btn layui-btn-xs layui-btn-xs" lay-event="edit">编辑</button>
+  <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</button>
+</script>
+<!-- 状态操作 -->
+<script type="text/html" id="spread">
+	<input type="checkbox" id="{{d.id}}" name="spread" value="{{d.spread}}" lay-skin="switch" lay-text="展开|关闭" lay-filter="spread" {{ d.spread ? 'checked' : '' }}>
+</script>
+<!-- 图标渲染 -->
+<script type="text/html" id="specialtyIcon">
+	<i class="{{d.icon}}"></i>
+</script>
+
+<!-- 新增菜单 -->
+<script type="text/html" id="addSpecialty">
+<form class="layui-form layui-form-pane" id="specialtyForm">
+	<div class="layui-row">
+		<div class="layui-col-md6">
+			<input class="hidden-attribute" name="id" value="{{d.bId}}">
+			<input class="hidden-attribute" name="pid" value="{{d.bPid}}">
+			<input class="hidden-attribute" name="bPid" value="{{d.bId}}">
+			<input class="hidden-attribute" name="iCategory" value="{{  d.iCategory == 1 ? 2 : 3  }}">
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="vName" maxlength="20" autocomplete="off" placeholder="请输入名称" class="layui-input" lay-verify="required">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">代码</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCode" maxlength="20" autocomplete="off" placeholder="请输入名称" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">学科类型</label>
+				<div class="layui-input-block">
+				  <select name="iType" lay-filter="iType">
+					<option value="1" selected="selected">文科</option>
+					<option value="2">理科</option>
+				  </select>
+				</div>
+			  </div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业层级</label>
+				<div class="layui-input-block">
+					<select name="iLevel" lay-filter="iLevel">
+						<option value="1" selected="selected">本科</option>
+						<option value="2">专科</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">授予学位</label>
+				<div class="layui-input-block">
+					<input type="text" name="vDegree" autocomplete="off" placeholder="请输入授予学位" class="layui-input">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">修学年限</label>
+				<div class="layui-input-block">
+					<input type="text" name="iYear" autocomplete="off" placeholder="请输入修学年限" class="layui-input" >
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否热门</label>
+				<div class="layui-input-block">
+					<!--<input type="checkbox" name="iHot" lay-skin="switch" lay-text="是|否">-->
+      					<input type="radio" name="iHot" value="1" title="是">
+      					<input type="radio" name="iHot" value="2" title="否" checked>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别要求</label>
+				<div class="layui-input-block">
+					<!--<input type="checkbox" name="vGender" lay-skin="switch" lay-text="男|女">
+						<input type="radio" name="vGender" value="0" title="都适合" checked>-->
+						<input type="radio" name="vGender" value="男" title="男">
+      					<input type="radio" name="vGender" value="女" title="女" >
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业解读</label>
+				<div class="layui-input-block">
+					<input type="text" name="vAnalysis" autocomplete="off" placeholder="请输入专业解读" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">必修课程</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCourse" autocomplete="off" placeholder="请输入必修课程" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">优势院校</label>
+				<div class="layui-input-block">
+					<input type="text" name="vSchool" autocomplete="off" placeholder="请输入优势院校" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">就业方向</label>
+				<div class="layui-input-block">
+					<input type="text" name="vGraduate" autocomplete="off" placeholder="请输入就业方向" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">就职岗位</label>
+				<div class="layui-input-block">
+					<input type="text" name="vOccupation" autocomplete="off" placeholder="请输入就职岗位" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">行业趋势</label>
+				<div class="layui-input-block">
+					<input type="text" name="vEmployment" autocomplete="off" placeholder="请输入行业趋势" class="layui-input" >
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专家点评</label>
+				<div class="layui-input-block">
+					<input type="text" name="vComment" autocomplete="off" placeholder="请输入专家点评" class="layui-input" >
+				</div>
+			</div>
+			
+			<div class="hidden-attribute">
+				<button class="layui-btn submit" lay-submit="" lay-filter="add">新增</button>
+				<button class="layui-btn reset" type="reset">重置</button>
+			</div>
+		</div>
+	</div>
+</form>
+</script>
+
+<!-- 修改菜单 -->
+<script type="text/html" id="updateSpecialty">
+<form class="layui-form layui-form-pane" id="specialtyForm">
+	<div class="layui-row">
+		<div class="layui-col-md6">
+			<input class="hidden-attribute" name="bId" value="{{d.bId}}">
+			<div class="layui-form-item">
+				<label class="layui-form-label">名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="vName" maxlength="20" autocomplete="off" 
+						placeholder="请输入名称" class="layui-input" lay-verify="required" value="{{d.vName}}">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">代码</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCode" maxlength="20" autocomplete="off" placeholder="请输入名称" class="layui-input" value="{{d.vCode}}">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">学科类型</label>
+				<div class="layui-input-block">
+				  <select name="iType" lay-filter="iType">
+ 					<option value="0" {{d.iType == 0 ? 'selected' : ''}}>请选择</option>
+					<option value="1" {{d.iType == 1 ? 'selected' : ''}}>文科</option>
+					<option value="2" {{d.iType == 2 ? 'selected' : ''}}>理科</option>
+				  </select>
+				</div>
+			  </div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业层级</label>
+				<div class="layui-input-block">
+					<select name="iLevel" lay-filter="iLevel">
+						<option value="0" {{d.iLevel == 0 ? 'selected' : ''}}>请选择</option>
+						<option value="1" {{d.iLevel == 1 ? 'selected' : ''}}>本科</option>
+						<option value="2" {{d.iLevel == 2 ? 'selected' : ''}}>专科</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">授予学位</label>
+				<div class="layui-input-block">
+					<input type="text" name="vDegree" autocomplete="off" placeholder="请输入授予学位" class="layui-input" value="{{d.vDegree}}">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">修学年限</label>
+				<div class="layui-input-block">
+					<input type="text" name="iYear" autocomplete="off" placeholder="请输入修学年限" class="layui-input"  value="{{d.iYear}}">
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否热门</label>
+				<div class="layui-input-block">
+					<!--<input type="checkbox" name="iHot" lay-skin="switch" lay-text="是|否">-->
+      					<input type="radio" name="iHot" value="1" title="是" {{d.iHot == 1 ? 'checked' : ''}}>
+      					<input type="radio" name="iHot" value="2" title="否" {{d.iHot == 2 ? 'checked' : ''}}>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-form-item">
+				<label class="layui-form-label">性别要求</label>
+				<div class="layui-input-block">
+					<!--<input type="checkbox" name="vGender" lay-skin="switch" lay-text="男|女">
+						<input type="radio" name="vGender" value="0" title="都适合" {{d.iLevel == 0 ? 'checked' : ''}}>-->
+						<input type="radio" name="vGender" value="男" title="男" {{d.vGender == '男' ? 'checked' : ''}}>
+      					<input type="radio" name="vGender" value="女" title="女" {{d.vGender == '女' ? 'checked' : ''}}>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md12">
+			<div class="layui-form-item">
+				<label class="layui-form-label">专业解读</label>
+				<div class="layui-input-block">
+					<input type="text" name="vAnalysis" autocomplete="off" placeholder="请输入专业解读" class="layui-input" value="{{d.vAnalysis}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">必修课程</label>
+				<div class="layui-input-block">
+					<input type="text" name="vCourse" autocomplete="off" placeholder="请输入必修课程" class="layui-input" value="{{d.vCourse}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">优势院校</label>
+				<div class="layui-input-block">
+					<input type="text" name="vSchool" autocomplete="off" placeholder="请输入优势院校" class="layui-input" value="{{d.vSchool}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">就业方向</label>
+				<div class="layui-input-block">
+					<input type="text" name="vGraduate" autocomplete="off" placeholder="请输入就业方向" class="layui-input" value="{{d.vGraduate}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">就职岗位</label>
+				<div class="layui-input-block">
+					<input type="text" name="vOccupation" autocomplete="off" placeholder="请输入就职岗位" class="layui-input" value="{{d.vOccupation}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">行业趋势</label>
+				<div class="layui-input-block">
+					<input type="text" name="vEmployment" autocomplete="off" placeholder="请输入行业趋势" class="layui-input" value="{{d.vEmployment}}">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">专家点评</label>
+				<div class="layui-input-block">
+					<input type="text" name="vComment" autocomplete="off" placeholder="请输入专家点评" class="layui-input" value="{{d.vComment}}">
+				</div>
+			</div>
+			
+			<div class="hidden-attribute">
+				<button class="layui-btn submit" lay-submit="" lay-filter="update">编辑</button>
+				<button class="layui-btn reset" type="reset">重置</button>
+			</div>
+		</div>
+	</div>
+</form>
+</script>
+
+<!-- 详情 -->
+<script type="text/html" id="viewSpecialty">
+<table class="layui-table" style="width: 680px; margin: 5px 10px 10px 10px;">
+	<tr>
+		<td class="table-td-title">名称</td>
+		<td width="265">{{d.vName}}</td>
+		<td class="table-td-title">名称</td>
+		<td width="265">{{d.vCode}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">学科类型</td>
+		<td width="265">
+		{{# if(d.iType == 1){ }}文科{{# } }}		
+		{{# if(d.iType == 2){ }}理科{{# } }}
+		</td>
+		<td class="table-td-title">专业层级</td>
+		<td width="265">
+		{{# if(d.iType == 1){ }}文科{{# } }}		
+		{{# if(d.iType == 2){ }}理科{{# } }}
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">授予学位</td>
+		<td width="265">{{d.vDegree}}</td>
+		<td class="table-td-title">修学年限</td>
+		<td width="265">{{d.iYear}}年</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">是否热门</td>
+		<td width="265">		
+		{{# if(d.iType == 0){ }}{{# } }}		
+		{{# if(d.iType == 1){ }}是{{# } }}
+		{{# if(d.iType == 2){ }}否{{# } }}
+		</td>
+		<td class="table-td-title">性别要求</td>
+		<td width="265">
+		{{# if(d.iType == 0){ }}都适合{{# } }}		
+		{{# if(d.iType == 1){ }}男{{# } }}
+		{{# if(d.iType == 2){ }}女{{# } }}
+		</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">专业解读</td>
+		<td width="265" colspan="3" >{{d.vAnalysis}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">必修课程</td>
+		<td width="265" colspan="3">{{d.vCourse}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">优势院校</td>
+		<td width="265" colspan="3">{{d.vSchool}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title"就业方向</td>
+		<td width="265" colspan="3">{{d.vGraduate}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">就职岗位</td>
+		<td width="265" colspan="3">{{d.vOccupation}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">行业趋势</td>
+		<td width="265" colspan="3">{{d.vEmployment}}</td>
+	</tr>
+	<tr>
+		<td class="table-td-title">专家点评</td>
+		<td width="265" colspan="3">{{d.vComment}}</td>
+	</tr>
+</table>
+<br>
+</script>
+
+<!-- javascript -->
+<script type="text/javascript">
+layui.use(['form', 'tree', 'laydate', 'layedit', 'jquery', 'table'], function() {
+	var form = layui.form, 
+	ajaxType = 'POST', 
+	layer = layui.layer, 
+	tree = layui.tree, 
+	$ = layui.jquery, 
+	table = layui.table,
+	laytpl = layui.laytpl, 
+	layerIndex = 0;
+	
+	// 左侧树
+	tree({
+		elem: '#specialtyTree', //传入元素选择器
+		url: '/exuanbao/specialty/specialtyTree',
+		click: function(node) {
+			pid = node.pid;
+			table.reload('specialtyTable', {
+				where: {'bPid': node.id}
+			});
+		}
+	})
+	
+	// 绘制表格
+	table.render({
+		elem: '#specialtyTable',
+		url: '/exuanbao/specialty/listParams',
+		page: true, // 开始分页
+		cellMinWidth: 80, // 定义全局最小宽度
+		request: {
+			pageName: 'offset'
+		},
+		response: {
+		  countName: 'total', //数据总数的字段名称，默认：count
+		  dataName: 'list' //数据列表的字段名称，默认：data
+		},
+		cols: [[
+			{type: 'numbers', title: '序号'},
+			{field:'vName', title: '名称'},
+			{field:'vCode', title: '代码'},
+			//{field:'iType', title: '学科类型'},
+			{field:'vDegree', title: '授予学位'},
+			{field:'iYear', title: '修学年限'},
+			//{field:'spread', title: '是否展开', align:'center', templet: '#spread'},
+			{fixed: 'right', align:'left', title: '操作',  width: 250, toolbar: '#operationSpecialtyBar'}
+		]]
+	});
+	//监听工具条
+	table.on('tool(specialtyTable)', function(obj) {
+		var data = obj.data, 
+		$this = $(this), 
+		getView = viewSpecialty.innerHTML,
+		getAdd = addSpecialty.innerHTML, 
+		getEdit = updateSpecialty.innerHTML;
+
+		if(obj.event === 'detail') {
+			$.get('/exuanbao/specialty/info?bId=' + data.bId, function(res) {
+				laytpl(getView).render(res, function(html) {
+					popupWin($this.text(), html, false);
+				})
+			})
+		} else if(obj.event === 'add') {
+			laytpl(addSpecialty.innerHTML).render(data, function(html) {
+				popupWin($this.text(), html);
+			})
+			rendering();
+		} else if(obj.event === 'delete') {
+			layer.confirm('真的删除行么', {icon: 3}, function(index) {
+				operate('delete', {'bId': data.bId}, false, obj);
+				layer.close(index);
+			});
+		} else if(obj.event === 'edit') {
+			$.get('/exuanbao/specialty/info?bId=' + data.bId, function(res) {
+				laytpl(getEdit).render(res, function(html) {
+					popupWin($this.text(), html);
+				});
+				rendering();
+			})
+		}
+	});
+	
+	// 监听状态改变
+	form.on('switch(spread)', function(obj) {
+		operate('PUT', {'id': this.id, 'spread': obj.elem.checked}, false);
+	});
+	
+	// 监听类型改变
+	form.on('select(selectType)', function(data) {
+	// var $form = $(this).parents('form');
+		if(data.value == 0) {
+	//	$form[0].reset();
+			layer.alert('此类型下新建的菜单为顶级菜单', {icon: 6});
+		}
+	 });
+	
+	// 新增
+	form.on('submit(add)', function(data) {
+		alert(JSON.stringify(data.field))
+		operate('add', data.field, true)
+	  	return false;
+	 });
+	
+	// 更新
+	form.on('submit(update)', function(data) {
+		operate('edit', data.field, true)
+	  	return false;
+	 });
+	
+	// 用户操作
+	// type 请求类型
+	// data 参数
+	// refresh 是否刷新
+	// 删除操作时传入的当前行对象
+	function operate(type, data, refresh, delRow) {
+		var url = '/exuanbao/specialty/add';
+		if(type == 'delete') {
+			url = '/exuanbao/specialty/delete';
+		}if(type == 'edit') {
+			url = '/exuanbao/specialty/edit';
+		}
+		$.ajax({
+			url: url,
+		    type: "POST",
+		    async: true,
+		    data: data,
+		    success: function(res) {
+		    	if(res.code == 0) {
+					layer.close(layerIndex);
+					tree('specialtyTree', 'reload');
+					if(refresh) {
+		    			table.reload('specialtyTable');
+					} else if(type == 'delete') {
+						delRow.del();
+					}
+		    		if(data.resetPwd) {
+		    			layer.alert(res.message, {icon: 6});
+		    		} else {
+						layer.msg(res.message, {icon: 1});
+		    		}
+		    	} else if(res.code == 1) {
+		    		layer.msg(res.message, {icon: 4});
+		    	} else {
+		    		layer.msg(res.message, {icon: 5});
+		    	}
+		    }
+		})
+	}
+	
+	//渲染弹框
+	function popupWin(title, content, height) {
+		layerIndex = layer.open({
+			type: 1, //Page层类型
+			area: '700px',//'auto', //['700px', '480'],
+			maxWidth: 1000,
+			maxHeight: 800,
+			title: title,
+			shade: 0.6, //遮罩透明度
+			// maxmin: true, //允许全屏最小化
+			anim: 0, //0-6的动画形式，-1不开启
+			scrollbar: false, //禁用滚动
+			// shadeClose: true, // 点击遮罩是否关闭
+			content: content,
+			btn: ['<i class="layui-icon">&#xe61f;</i> 提交', '<i class="layui-icon">&#x1002;</i> 重置'],
+			yes: function(index, layero) {
+				layero.find('form .submit').trigger('click');
+				return false;
+			},
+			btn2: function(index, layero) {
+				layero.find('form .reset').trigger('click');
+				return false;
+			}
+		});
+	}
+	
+	// 动态渲染控件
+	function rendering() {
+		// 渲染select
+		form.render('select');
+		// 单选
+		form.render('radio');	
+		// 重新渲染多选框
+		form.render('checkbox');	
+	}
+})
+</script>
+</html>

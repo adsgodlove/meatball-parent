@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.meatball.exuanbao.specialty.dao.SpecialtyLinksMapper" >
+  <resultMap id="BaseResultMap" type="com.meatball.exuanbao.specialty.model.SpecialtyLinks" >
+    <result column="B_SPECIALTYID" property="bSpecialtyid" jdbcType="BIGINT" />
+    <result column="B_BROSPECIALTYID" property="bBrospecialtyid" jdbcType="BIGINT" />
+  </resultMap>
+  <insert id="insert" parameterType="com.meatball.exuanbao.specialty.model.SpecialtyLinks" >
+    insert into T_SPECIALTY_LINKS (B_SPECIALTYID, B_BROSPECIALTYID)
+    values (#{bSpecialtyid,jdbcType=BIGINT}, #{bBrospecialtyid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meatball.exuanbao.specialty.model.SpecialtyLinks" >
+    insert into T_SPECIALTY_LINKS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bSpecialtyid != null" >
+        B_SPECIALTYID,
+      </if>
+      <if test="bBrospecialtyid != null" >
+        B_BROSPECIALTYID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bSpecialtyid != null" >
+        #{bSpecialtyid,jdbcType=BIGINT},
+      </if>
+      <if test="bBrospecialtyid != null" >
+        #{bBrospecialtyid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+</mapper>
